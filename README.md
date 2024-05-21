@@ -6,8 +6,8 @@ Si vuole realizzare un'applicazione in grado di visualizzare i dati riguardanti 
 
 ## Authors
 
-- [@Yari17](https://github.com/Yari17)
-- [@pippetto17](https://github.com/pippetto17)
-- [@bellinss](https://github.com/bellinss)
+- [@Yari17](https://github.com/Yari17) Yari Antonio Bellardini
+- [@pippetto17](https://github.com/pippetto17) Filippo Maria Carletti
+- [@bellinss](https://github.com/bellinss) Matteo Bellini
 
 
