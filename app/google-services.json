@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "407431367773",
+    "project_id": "criptovalute-b1e06",
+    "storage_bucket": "criptovalute-b1e06.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:407431367773:android:c6d95dd64aa1f94c0711b4",
+        "android_client_info": {
+          "package_name": "com.example.progettomp2024"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSxScc-RUb9xCcckuQzls6ZcgzbYfg3ow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
