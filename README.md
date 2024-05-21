@@ -8,5 +8,6 @@ Si vuole realizzare un'applicazione in grado di visualizzare i dati riguardanti 
 
 - [@Yari17](https://github.com/Yari17)
 - [@pippetto17](https://github.com/pippetto17)
+- [@bellinss](https://github.com/bellinss)
 
 
