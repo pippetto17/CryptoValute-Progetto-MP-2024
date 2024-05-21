@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.progettomp2024"
+    namespace = "it.magi.stonks"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.progettomp2024"
+        applicationId = "it.magi.stonks"
         minSdk = 27
         targetSdk = 34
         versionCode = 1

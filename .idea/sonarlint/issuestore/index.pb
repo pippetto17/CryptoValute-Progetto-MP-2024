@@ -1,11 +1,23 @@
 
 9
 	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-l
-<app/src/main/java/com/example/progettomp2024/MainActivity.kt,f/9/f96d2b4a356320d0c9c855ed23e62b8456d57682
-n
->app/src/main/java/com/example/progettomp2024/ui/theme/Theme.kt,a/3/a381db76d0f25c8072673393d56087dd8ceb8c24
 @
 build.gradle.kts,d/b/dbcff70658daf80b53ce624f6adcaa529df5ed8d
 D
 app/build.gradle.kts,d/2/d2a4383452aad84a18429a5844d31330a012a9e6
+`
+0app/src/main/java/it/magi/stonks/MainActivity.kt,2/d/2de9aefecb4f97298efd35ef6563ff1d77c02a01
+H
+app/google-services.json,f/d/fd8d34b142d02ec743a8efefefd2c097961666e9
+r
+Bapp/src/androidTest/java/it/magi/stonks/ExampleInstrumentedTest.kt,a/d/adfb252f1496537d4d40cac69e17fe87bf0359f1
+f
+6app/src/main/java/it/magi/stonks/CustomAuthActivity.kt,9/d/9d0e9bf3cb0b756044845748189ae0ce2cfdefb2
+g
+7app/src/main/java/it/magi/stonks/screens/LoginScreen.kt,7/4/7460edd14002b1ad337d4b08ba2d2c5b7225c8fd
+f
+6app/src/main/java/it/magi/stonks/screens/HomeScreen.kt,4/1/4161fa54a433d167679a75a2cdbed3d9f6b61cd7
+b
+2app/src/main/java/it/magi/stonks/ui/theme/Color.kt,b/5/b503e48c13b1c76252b8b39568d5ac700721d89a
+h
+8app/src/main/java/it/magi/stonks/screens/SignUpScreen.kt,1/d/1d56b136a0aa295793c4d80be72fcc0a0557ee5f
