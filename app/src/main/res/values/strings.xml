@@ -1,3 +1,27 @@
 <resources>
-    <string name="app_name">ProgettoMP2024</string>
+    <string name="app_name">Stonks</string>
+
+    //SIGNUP SCREEN
+    <string name="signup_email_label">Email</string>
+    <string name="signup_password_label">Password</string>
+    <string name="signup_confirm_password_label">Confirm Password</string>
+
+    <string name="signup_password_error_code_1_length">Must be at least 6 characters</string>
+    <string name="signup_password_error_code_2_special_character">Must contain at least one special character</string>
+    <string name="signup_password_error_code_3_number">Must contain at least one number</string>
+    <string name="signup_password_error_code_4_uppercase">Must contain at least one uppercase letter</string>
+
+    <string name="signup_button_label">Sign Up</string>
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //LOGIN SCREEN
+    <string name="login_email_label">Email</string>
+    <string name="login_password_label">Password</string>
+    <string name="login_button_label">Login</string>
+
+    <string name="login_forgot_password_label">Forgot Password?</string>
+    <string name="login_signup_label">Don\'t have an account? Create one for free</string>
+    <string name="login_google_label">Sign in with Google</string>
+
 </resources>

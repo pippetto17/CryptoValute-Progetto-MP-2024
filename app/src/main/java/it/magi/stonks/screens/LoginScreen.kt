@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import it.magi.stonks.R
@@ -44,23 +45,23 @@ fun LoginScreen(navController: NavController) {
             .wrapContentWidth()
     ) {
         OutlinedTextField(
-            label = { Text(text = "Email") },
+            label = { Text(text = stringResource(id = R.string.login_email_label ), color = Color.White) },
             value = email,
             onValueChange = {email=it},
             colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Color.White)
         )
         OutlinedTextField(
-            label = { Text(text = "Password") },
+            label = { Text(text = stringResource(id = R.string.login_password_label), color = Color.White) },
             value = password,
             onValueChange = {password=it},
             colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Color.White)
         )
-        Button(onClick = { /*TODO*/ }) {
-            Text(text = "Login")
+        Button(onClick = {}) {
+            Text(text = stringResource(id = R.string.login_button_label))
             
         }
         TextButton(onClick = {  }) {
-            Text(text = "Non sei ancora registrato? Registrati ora")
+            Text(text = stringResource(id = R.string.login_signup_label))
             
         }
         Button(

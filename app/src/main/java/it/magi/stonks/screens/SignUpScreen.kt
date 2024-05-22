@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -27,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -70,12 +72,12 @@ fun SignUpScreen(navController: NavController) {
                 .wrapContentHeight()
                 .wrapContentWidth()
         ) {
-            CustomTextField(
+            OutlinedTextField(
                 value = email,
-                onclick = {
+                onValueChange = {
                     email = it
                 },
-                label = "Email",
+                label = {Text(stringResource(id = (R.string.signup_email_label)), color = Color.White)},
                 isError = false
             )
             OutlinedTextField(
@@ -85,10 +87,9 @@ fun SignUpScreen(navController: NavController) {
                     errors = validatePassword(password)
                 },
                 isError = errors.isNotEmpty(),
-                label = { Text("Password") },
+                label = {Text(stringResource(id = (R.string.signup_password_label)), color = Color.White) },
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,
@@ -97,8 +98,9 @@ fun SignUpScreen(navController: NavController) {
                 singleLine = true,
                 trailingIcon = {
                     IconButton(
+                        modifier = Modifier.size(25.dp),
                         onClick = { passwordVisible = !passwordVisible }
-                    ){
+                    ) {
                         Icon(
                             imageVector = if (passwordVisible)
                                 ImageVector.vectorResource(R.drawable.ic_visible)
@@ -111,20 +113,38 @@ fun SignUpScreen(navController: NavController) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(15.dp)
                     .background(Color.LightGray)
-            ){
+            ) {
                 for (error in errors) {
                     when (error) {
-                        1 -> Text(text = "Deve contenere almeno 6 caratteri", color = Color.DarkGray)
-                        2 -> Text(text = "Non contiene un carattere speciale", color = Color.DarkGray)
-                        3 -> Text(text = "Non contiene un numero", color = Color.DarkGray)
-                        4 -> Text(text = "Deve contenere almeno una lettera maiuscola", color = Color.DarkGray)
+                        1 -> Text(
+                            text = stringResource(id = R.string.signup_password_error_code_1_length),
+                            modifier = Modifier.padding(start = 10.dp),
+                            color = Color.DarkGray
+                        )
+
+                        2 -> Text(
+                            text = stringResource(id = R.string.signup_password_error_code_2_special_character),
+                            modifier = Modifier.padding(start = 10.dp),
+                            color = Color.DarkGray
+                        )
+
+                        3 -> Text(
+                            text = stringResource(id = R.string.signup_password_error_code_3_number),
+                            modifier = Modifier.padding(start = 10.dp),
+                            color = Color.DarkGray
+                        )
+
+                        4 -> Text(
+                            text = stringResource(id = R.string.signup_password_error_code_4_uppercase),
+                            modifier = Modifier.padding(start = 10.dp),
+                            color = Color.DarkGray
+                        )
                     }
                 }
             }
             OutlinedTextField(
-                label = { Text(text = "Conferma Password") },
+                label = { Text(stringResource(id = (R.string.signup_confirm_password_label)),color = Color.White) },
                 value = ConfirmPassword,
                 onValueChange = { ConfirmPassword = it },
                 colors = OutlinedTextFieldDefaults.colors(
@@ -141,7 +161,7 @@ fun SignUpScreen(navController: NavController) {
                     }
                 })
             {
-                Text(text = "Registrati")
+                Text(text = stringResource(id = R.string.signup_button_label))
 
             }
         }
