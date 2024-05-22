@@ -31,9 +31,9 @@ class MainActivity : ComponentActivity() {
             val user = Firebase.auth.currentUser
             ProgettoMP2024Theme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    if (user != null) {
+                    if (user != null&& user.isEmailVerified) {
                         // User is signed in
-                        Text(text = "sei loggato")
+                        LoginScreen()
                     } else {
                         // No user is signed in
                         SignUpScreen()

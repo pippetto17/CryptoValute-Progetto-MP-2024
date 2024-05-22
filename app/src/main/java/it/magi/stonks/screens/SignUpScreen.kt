@@ -61,7 +61,8 @@ fun SignUpScreen() {
                 onValueChange = { password = it },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White)
+                    unfocusedTextColor = Color.White
+                )
             )
             OutlinedTextField(
                 label = { Text(text = "Conferma Password") },
@@ -69,7 +70,8 @@ fun SignUpScreen() {
                 onValueChange = { ConfirmPassword = it },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White)
+                    unfocusedTextColor = Color.White
+                )
             )
             Button(onClick = { CreateNewUser(email, password, ConfirmPassword) }) {
                 Text(text = "Registrati")
@@ -82,29 +84,15 @@ fun SignUpScreen() {
 
 fun CreateNewUser(email: String, password: String, confirmPass: String) {
     val auth: FirebaseAuth = Firebase.auth
-    val actionCodeSettings = actionCodeSettings {
-        // URL you want to redirect back to. The domain (www.example.com) for this
-        // URL must be whitelisted in the Firebase Console.
-        url = "https://www.example.com/finishSignUp?cartId=1234"
-        // This must be true
-        handleCodeInApp = true
-        setIOSBundleId("com.example.ios")
-        setAndroidPackageName(
-            "it.magi.stonks",
-            true, // installIfNotAvailable
-            "8", // minimumVersion
-        )
-    }
     if (checkValidEmail(email) && password == confirmPass) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
             if (it.isSuccessful) {
                 println("Registrazione effettuata")
-                Firebase.auth.sendSignInLinkToEmail(email, actionCodeSettings)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Log.d(TAG, "Email sent.")
-                        }
+                Firebase.auth.currentUser?.sendEmailVerification()?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(TAG, "Email sent.")
                     }
+                }
             }
         }
     } else {
