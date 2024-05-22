@@ -3,20 +3,12 @@ package it.magi.stonks.screens
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -25,145 +17,116 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import it.magi.stonks.R
-import it.magi.stonks.objects.CustomTextField
+import it.magi.stonks.objects.CustomPasswordField
 import it.magi.stonks.ui.theme.LoginBgColor
 import java.util.regex.Pattern
 
 
 @Composable
 fun SignUpScreen(navController: NavController) {
-    Column {
-        var email by rememberSaveable {
-            mutableStateOf("")
-        }
-        var password by rememberSaveable {
-            mutableStateOf("")
-        }
+    var email by rememberSaveable {
+        mutableStateOf("")
+    }
+    var password by rememberSaveable {
+        mutableStateOf("")
+    }
 
-        var errors by rememberSaveable {
-            mutableStateOf(listOf<Int>())
-        }
+    var passwordErrors by rememberSaveable {
+        mutableStateOf(listOf<Int>())
+    }
 
-        var passwordVisible by rememberSaveable {
-            mutableStateOf(false)
-        }
-
-        var ConfirmPassword by rememberSaveable {
-            mutableStateOf("")
-        }
+    var confirmPass by rememberSaveable {
+        mutableStateOf("")
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = LoginBgColor),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        OutlinedTextField(
+            value = email,
+            onValueChange = {
+                email = it
+            },
+            label = {
+                Text(
+                    stringResource(id = (R.string.signup_email_label)),
+                    color = Color.White
+                )
+            },
+        )
+        CustomPasswordField(
+            value = password,
+            isError = passwordErrors.isNotEmpty(),
+            labelId = R.string.signup_password_label,
+            onValueChange = {
+                password = it
+                passwordErrors = validatePassword(password)
+            }
+        )
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .background(color = LoginBgColor)
-                .wrapContentHeight()
-                .wrapContentWidth()
+                .fillMaxWidth()
+                .background(Color.LightGray)
         ) {
-            OutlinedTextField(
-                value = email,
-                onValueChange = {
-                    email = it
-                },
-                label = {Text(stringResource(id = (R.string.signup_email_label)), color = Color.White)},
-                isError = false
-            )
-            OutlinedTextField(
-                value = password,
-                onValueChange = {
-                    password = it
-                    errors = validatePassword(password)
-                },
-                isError = errors.isNotEmpty(),
-                label = {Text(stringResource(id = (R.string.signup_password_label)), color = Color.White) },
-                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                    errorTextColor = Color.White
-                ),
-                singleLine = true,
-                trailingIcon = {
-                    IconButton(
-                        modifier = Modifier.size(25.dp),
-                        onClick = { passwordVisible = !passwordVisible }
-                    ) {
-                        Icon(
-                            imageVector = if (passwordVisible)
-                                ImageVector.vectorResource(R.drawable.ic_visible)
-                            else ImageVector.vectorResource(R.drawable.ic_not_visible),
-                            contentDescription = ""
-                        )
-                    }
-                },
-            )
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.LightGray)
-            ) {
-                for (error in errors) {
-                    when (error) {
-                        1 -> Text(
-                            text = stringResource(id = R.string.signup_password_error_code_1_length),
-                            modifier = Modifier.padding(start = 10.dp),
-                            color = Color.DarkGray
-                        )
+            for (error in passwordErrors) {
+                when (error) {
+                    1 -> Text(
+                        text = stringResource(id = R.string.signup_password_error_code_1_length),
+                        modifier = Modifier.padding(start = 10.dp),
+                        color = Color.DarkGray
+                    )
 
-                        2 -> Text(
-                            text = stringResource(id = R.string.signup_password_error_code_2_special_character),
-                            modifier = Modifier.padding(start = 10.dp),
-                            color = Color.DarkGray
-                        )
+                    2 -> Text(
+                        text = stringResource(id = R.string.signup_password_error_code_2_special_character),
+                        modifier = Modifier.padding(start = 10.dp),
+                        color = Color.DarkGray
+                    )
 
-                        3 -> Text(
-                            text = stringResource(id = R.string.signup_password_error_code_3_number),
-                            modifier = Modifier.padding(start = 10.dp),
-                            color = Color.DarkGray
-                        )
+                    3 -> Text(
+                        text = stringResource(id = R.string.signup_password_error_code_3_number),
+                        modifier = Modifier.padding(start = 10.dp),
+                        color = Color.DarkGray
+                    )
 
-                        4 -> Text(
-                            text = stringResource(id = R.string.signup_password_error_code_4_uppercase),
-                            modifier = Modifier.padding(start = 10.dp),
-                            color = Color.DarkGray
-                        )
-                    }
+                    4 -> Text(
+                        text = stringResource(id = R.string.signup_password_error_code_4_uppercase),
+                        modifier = Modifier.padding(start = 10.dp),
+                        color = Color.DarkGray
+                    )
                 }
             }
-            OutlinedTextField(
-                label = { Text(stringResource(id = (R.string.signup_confirm_password_label)),color = Color.White) },
-                value = ConfirmPassword,
-                onValueChange = { ConfirmPassword = it },
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White
-                )
-            )
-            Button(
-                onClick = {
-                    if (CreateNewUser(email, password, ConfirmPassword) == 0) {
-                        navController.navigate("login")
-                    } else {
-                        println("Errore nella creazione utente firebase")
-                    }
-                })
-            {
-                Text(text = stringResource(id = R.string.signup_button_label))
-
+        }
+        CustomPasswordField(
+            value = confirmPass,
+            labelId = R.string.signup_confirm_password_label,
+            onValueChange = {
+                confirmPass = it
             }
+        )
+        Button(
+            onClick = {
+                if (CreateNewUser(email, password, confirmPass) == 0) {
+                    navController.navigate("login")
+                } else {
+                    println("Errore nella creazione utente firebase")
+                }
+            })
+        {
+            Text(text = stringResource(id = R.string.signup_button_label))
+
         }
     }
 
