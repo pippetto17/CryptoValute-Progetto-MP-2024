@@ -24,11 +24,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import it.magi.stonks.R
 import it.magi.stonks.ui.theme.LoginBgColor
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     var email by rememberSaveable {
         mutableStateOf("")
     }
@@ -64,6 +65,7 @@ fun LoginScreen() {
         }
         Button(
             onClick = {
+                      navController.navigate("signup")
             },
             modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp),
