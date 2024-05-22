@@ -59,13 +59,17 @@ fun SignUpScreen() {
                 label = { Text(text = "Password") },
                 value = password,
                 onValueChange = { password = it },
-                colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Color.White)
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White)
             )
             OutlinedTextField(
                 label = { Text(text = "Conferma Password") },
                 value = ConfirmPassword,
                 onValueChange = { ConfirmPassword = it },
-                colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Color.White)
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White)
             )
             Button(onClick = { CreateNewUser(email, password, ConfirmPassword) }) {
                 Text(text = "Registrati")

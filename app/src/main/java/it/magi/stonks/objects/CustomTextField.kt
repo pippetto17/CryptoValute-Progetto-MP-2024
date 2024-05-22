@@ -21,6 +21,8 @@ fun CustomTextField(value: String, onclick: (filter: String) -> Unit, label: Str
         label = {
             Text(text = label,)
         },
-        colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Color.White)
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedTextColor = Color.White,
+            unfocusedTextColor = Color.White)
         )
 }
