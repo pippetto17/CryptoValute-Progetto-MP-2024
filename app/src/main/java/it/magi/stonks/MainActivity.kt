@@ -33,6 +33,7 @@ class MainActivity : ComponentActivity() {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     if (user != null) {
                         // User is signed in
+                        Text(text = "sei loggato")
                     } else {
                         // No user is signed in
                         SignUpScreen()

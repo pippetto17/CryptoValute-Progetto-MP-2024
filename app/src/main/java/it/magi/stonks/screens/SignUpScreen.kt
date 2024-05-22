@@ -20,7 +20,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.google.firebase.auth.ActionCodeSettings
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.actionCodeSettings
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.magi.stonks.objects.CustomTextField
@@ -76,10 +78,29 @@ fun SignUpScreen() {
 
 fun CreateNewUser(email: String, password: String, confirmPass: String) {
     val auth: FirebaseAuth = Firebase.auth
+    val actionCodeSettings = actionCodeSettings {
+        // URL you want to redirect back to. The domain (www.example.com) for this
+        // URL must be whitelisted in the Firebase Console.
+        url = "https://www.example.com/finishSignUp?cartId=1234"
+        // This must be true
+        handleCodeInApp = true
+        setIOSBundleId("com.example.ios")
+        setAndroidPackageName(
+            "it.magi.stonks",
+            true, // installIfNotAvailable
+            "8", // minimumVersion
+        )
+    }
     if (checkValidEmail(email) && password == confirmPass) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
             if (it.isSuccessful) {
                 println("Registrazione effettuata")
+                Firebase.auth.sendSignInLinkToEmail(email, actionCodeSettings)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d(TAG, "Email sent.")
+                        }
+                    }
             }
         }
     } else {

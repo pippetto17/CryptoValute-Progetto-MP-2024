@@ -17,7 +17,7 @@ fun CustomTextField(value: String, onclick: (filter: String) -> Unit, label: Str
     val focusManager = LocalFocusManager.current
     OutlinedTextField(
         value = value,
-        onValueChange = {},
+        onValueChange = onclick,
         label = {
             Text(text = label,)
         },
