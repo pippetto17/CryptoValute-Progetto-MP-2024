@@ -62,7 +62,16 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.runtime.ktx)
-    implementation("com.google.android.gms:play-services-auth:21.0.0")
+    implementation(libs.play.services.auth.v2100)
+
+    //credentials
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation (libs.googleid)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.mediation.test.suite)
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

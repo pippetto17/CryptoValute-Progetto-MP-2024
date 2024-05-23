@@ -2,10 +2,8 @@ package it.magi.stonks
 
 import android.app.Activity
 import android.os.Bundle
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.auth
 
 /**
  * Demonstrate Firebase Authentication using a custom minted token. For more information, see:
@@ -21,10 +19,6 @@ class CustomAuthActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // [START initialize_auth]
-        // Initialize Firebase Auth
-        auth = Firebase.auth
-        // [END initialize_auth]
     }
 
     // [START on_start_check_user]

@@ -23,7 +23,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import it.magi.stonks.R
-import java.lang.Error
 
 @Composable
 fun CustomPasswordField(value: String, isError: Boolean = false, labelId: Int, onValueChange: (String) -> Unit){
