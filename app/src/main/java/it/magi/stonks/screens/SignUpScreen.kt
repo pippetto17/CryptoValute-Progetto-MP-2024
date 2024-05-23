@@ -56,16 +56,19 @@ fun SignUpScreen(navController: NavController) {
         verticalArrangement = Arrangement.Center
     ) {
         OutlinedTextField(
-            value = email,
-            onValueChange = {
-                email = it
-            },
             label = {
                 Text(
                     stringResource(id = (R.string.signup_email_label)),
-                    color = Color.White
                 )
             },
+            value = email,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White
+            ),
+            onValueChange = {
+                email = it
+            }
         )
         CustomPasswordField(
             value = password,

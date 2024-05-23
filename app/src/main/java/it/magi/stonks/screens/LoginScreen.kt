@@ -48,13 +48,17 @@ fun LoginScreen(navController: NavController) {
             label = { Text(text = stringResource(id = R.string.login_email_label ), color = Color.White) },
             value = email,
             onValueChange = {email=it},
-            colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Color.White)
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White)
         )
         OutlinedTextField(
             label = { Text(text = stringResource(id = R.string.login_password_label), color = Color.White) },
             value = password,
             onValueChange = {password=it},
-            colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Color.White)
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White)
         )
         Button(onClick = {}) {
             Text(text = stringResource(id = R.string.login_button_label))
