@@ -68,8 +68,6 @@ dependencies {
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation (libs.googleid)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.mediation.test.suite)
 
 
     testImplementation(libs.junit)
