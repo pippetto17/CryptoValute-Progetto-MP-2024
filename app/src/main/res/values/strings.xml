@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Stonks</string>
+    <string name="default_web_client_id">407431367773-nlg80561qd2gecmiqjul5js5v4bp6ptk.apps.googleusercontent.com</string>
 
     //SIGNUP SCREEN
     <string name="signup_email_label">Email</string>

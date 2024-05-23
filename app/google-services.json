@@ -7,12 +7,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:407431367773:android:c6d95dd64aa1f94c0711b4",
+        "mobilesdk_app_id": "1:407431367773:android:1ac91589eb43bb8c0711b4",
         "android_client_info": {
           "package_name": "it.magi.stonks"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "407431367773-ns1l0jm0sn2vrn7hulrqd2eh5g74vu72.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "it.magi.stonks",
+            "certificate_hash": "3e0a3fa558ce28d7ddd5a983be55884d47ff0aae"
+          }
+        },
+        {
+          "client_id": "407431367773-nlg80561qd2gecmiqjul5js5v4bp6ptk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDSxScc-RUb9xCcckuQzls6ZcgzbYfg3ow"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "407431367773-nlg80561qd2gecmiqjul5js5v4bp6ptk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
