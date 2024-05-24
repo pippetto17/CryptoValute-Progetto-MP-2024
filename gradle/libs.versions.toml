@@ -21,6 +21,7 @@ appcompat = "1.6.1"
 playServicesAuth = "21.1.1"
 playServicesAuthVersion = "21.0.0"
 mediationTestSuite = "3.0.0"
+playServicesIdentity = "18.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -51,6 +52,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 play-services-auth-v2100 = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuthVersion" }
 mediation-test-suite = { group = "com.google.android.ads", name = "mediation-test-suite", version.ref = "mediationTestSuite" }
+play-services-identity = { module = "com.google.android.gms:play-services-identity", version.ref = "playServicesIdentity" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

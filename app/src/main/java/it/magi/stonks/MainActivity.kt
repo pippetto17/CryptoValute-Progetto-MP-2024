@@ -15,7 +15,9 @@ import it.magi.stonks.ui.theme.ProgettoMP2024Theme
 
 class MainActivity : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
-
+    override fun onStop() {
+        super.onStop()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()

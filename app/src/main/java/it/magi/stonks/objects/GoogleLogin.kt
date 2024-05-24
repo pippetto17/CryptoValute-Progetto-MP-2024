@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -47,14 +48,17 @@ import it.magi.stonks.R
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
+
 @Composable
 fun GoogleLogin() {
     var user by remember { mutableStateOf(Firebase.auth.currentUser) }
     val launcher = rememberFirebaseAuthLauncher(
         onAuthComplete = { result ->
             user = result.user
+            Log.d("GoogleAuth", "Auth Complete ${user.toString()}")
         },
         onAuthError = {
+            Log.d("GoogleAuth", "ApiException ${it.toString()}")
             user = null
         }
     )
@@ -97,7 +101,7 @@ fun GoogleLogin() {
                 Text(text = "Sign in with Google", modifier = Modifier.padding(6.dp))
             }
         } else {
-
+            Log.d("GoogleAuth", "email is verified ${user!!.isEmailVerified}")
             Text(
                 "Hi, ${user!!.displayName}!",
                 fontFamily = FontFamily.SansSerif,
@@ -110,7 +114,12 @@ fun GoogleLogin() {
             Button(
                 onClick = {
                     Firebase.auth.signOut()
+                    GoogleSignIn.getClient(
+                        context,
+                        GoogleSignInOptions.DEFAULT_SIGN_IN
+                    ).signOut()
                     user = null
+                    Log.d("GoogleAuth", "user logged out $user")
                 },
                 shape = RoundedCornerShape(15.dp),
                 modifier = Modifier
@@ -149,7 +158,6 @@ fun rememberFirebaseAuthLauncher(
         try {
             val account = task
                 .getResult(ApiException::class.java)!!
-            Log.d("GoogleAuth", "account $account")
             val credential = GoogleAuthProvider
                 .getCredential(account.idToken!!, null)
             scope.launch {
