@@ -31,6 +31,8 @@ import com.google.firebase.auth.auth
 import it.magi.stonks.R
 import it.magi.stonks.objects.CustomPasswordField
 import it.magi.stonks.ui.theme.LoginBgColor
+import it.magi.stonks.ui.theme.fontSize
+import it.magi.stonks.ui.theme.titleFont
 import java.util.regex.Pattern
 
 
@@ -65,6 +67,8 @@ fun SignUpScreen(navController: NavController) {
                     .padding(16.dp),
                 textAlign = TextAlign.Center,
                 fontStyle = FontStyle.Italic,
+                fontFamily = titleFont(),
+                fontSize = fontSize,
                 color = Color.White
             )
         }
