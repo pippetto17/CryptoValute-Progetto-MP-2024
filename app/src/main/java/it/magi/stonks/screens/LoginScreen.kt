@@ -33,6 +33,8 @@ import it.magi.stonks.R
 import it.magi.stonks.objects.GoogleLogin
 import it.magi.stonks.ui.theme.LoginBgColor
 import it.magi.stonks.ui.theme.LoginFormBgColor
+import it.magi.stonks.ui.theme.fontSize
+import it.magi.stonks.ui.theme.titleFont
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -55,6 +57,8 @@ fun LoginScreen(navController: NavController) {
                 .padding(16.dp),
             textAlign = TextAlign.Center,
             fontStyle = FontStyle.Italic,
+            fontFamily = titleFont(),
+            fontSize = fontSize,
             color = Color.White
         )
         Column(
