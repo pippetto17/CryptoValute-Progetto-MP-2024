@@ -140,7 +140,7 @@ fun SignUpScreen(navController: NavController) {
         Button(
             onClick = {
                 if (CreateNewUser(email, password, confirmPass) == 0) {
-                    navController.navigate("login")
+                    //navController.navigate("login")
                 } else {
                     println("Errore nella creazione utente firebase")
                 }
@@ -158,10 +158,13 @@ fun CreateNewUser(email: String, password: String, confirmPass: String): Int {
     if (checkValidEmail(email) && password == confirmPass) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
             if (it.isSuccessful) {
-                println("Registrazione effettuata")
+                Log.d("Signup", "User created successfully")
                 Firebase.auth.currentUser?.sendEmailVerification()?.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Log.d(TAG, "Email sent.")
+                        Log.d("Signup", "Email sent.")
+                    }
+                    else {
+                        Log.d("Signup", "Error, email not sent.")
                     }
                 }
             }
