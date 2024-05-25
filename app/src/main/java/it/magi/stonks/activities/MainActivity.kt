@@ -13,8 +13,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
-import it.magi.stonks.screens.LoginScreen
-import it.magi.stonks.screens.SignUpScreen
+import it.magi.stonks.screens.LoginViewModel
+import it.magi.stonks.screens.RegistrationViewModel
 import it.magi.stonks.ui.theme.StonksTheme
 
 class MainActivity : ComponentActivity() {
@@ -34,10 +34,10 @@ class MainActivity : ComponentActivity() {
                         startDestination = "login"
                     ) {
                         composable("login") {
-                            LoginScreen().Login(navController = navController)
+                            LoginViewModel().LoginScreen(navController = navController)
                         }
                         composable("signup") {
-                            SignUpScreen(navController)
+                            RegistrationViewModel().RegistrationScreen(navController = navController)
                         }
                     }
                 }

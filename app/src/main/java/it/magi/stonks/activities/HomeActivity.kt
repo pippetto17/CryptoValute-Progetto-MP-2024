@@ -1,4 +1,4 @@
-package it.magi.stonks
+package it.magi.stonks.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,8 +12,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import it.magi.stonks.screens.LoginScreen
-import it.magi.stonks.screens.SignUpScreen
+import it.magi.stonks.screens.LoginViewModel
+import it.magi.stonks.screens.RegistrationScreen
 import it.magi.stonks.ui.theme.StonksTheme
 
 class HomeActivity : ComponentActivity() {
@@ -32,10 +32,10 @@ class HomeActivity : ComponentActivity() {
                         startDestination = "login"
                     ) {
                         composable("login") {
-                            LoginScreen()
+                            LoginViewModel()
                         }
                         composable("signup") {
-                            SignUpScreen(navController)
+                            RegistrationScreen(navController)
                         }
                     }
                 }

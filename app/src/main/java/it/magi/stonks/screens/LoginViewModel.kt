@@ -39,9 +39,9 @@ import it.magi.stonks.objects.GoogleLogin
 import it.magi.stonks.ui.theme.fontSize
 import it.magi.stonks.ui.theme.titleFont
 
-class LoginScreen : ViewModel() {
+class LoginViewModel : ViewModel() {
     @Composable
-    fun Login(navController: NavController) {
+    fun LoginScreen(navController: NavController) {
         var auth = Firebase.auth
         val context = LocalContext.current
         var email by rememberSaveable {
@@ -146,7 +146,7 @@ class LoginScreen : ViewModel() {
         }
     }
 }
-fun Login(){
+fun LoginScreen(){
 
 }
 
