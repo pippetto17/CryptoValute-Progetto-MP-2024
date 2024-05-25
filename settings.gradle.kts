@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ProgettoMP2024"
+rootProject.name = "Stonks"
 include(":app")
  
