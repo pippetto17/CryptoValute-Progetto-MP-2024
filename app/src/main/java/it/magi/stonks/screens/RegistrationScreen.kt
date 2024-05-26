@@ -7,10 +7,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.google.firebase.Firebase
@@ -48,13 +51,14 @@ class RegistrationViewModel : ViewModel() {
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
                     Log.d("Signup", "User created successfully")
-                    Firebase.auth.currentUser?.sendEmailVerification()?.addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Log.d("Signup", "Email sent.")
-                        } else {
-                            Log.d("Signup", "Error, email not sent.")
+                    Firebase.auth.currentUser?.sendEmailVerification()
+                        ?.addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Log.d("Signup", "Email sent.")
+                            } else {
+                                Log.d("Signup", "Error, email not sent.")
+                            }
                         }
-                    }
                 }
             }
             return 0
@@ -78,7 +82,8 @@ class RegistrationViewModel : ViewModel() {
         }
 
         // Check for special character
-        val specialCharacterPattern = Pattern.compile("[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]")
+        val specialCharacterPattern =
+            Pattern.compile("[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]")
         if (!specialCharacterPattern.matcher(password).find()) {
             errors.add(2) // Error code for missing special character
         }
@@ -97,6 +102,7 @@ class RegistrationViewModel : ViewModel() {
 
         return errors
     }
+
     @Composable
     fun RegistrationScreen(navController: NavController) {
         var email by rememberSaveable {
@@ -112,6 +118,12 @@ class RegistrationViewModel : ViewModel() {
 
         var confirmPass by rememberSaveable {
             mutableStateOf("")
+        }
+        var showEmailDialog by rememberSaveable {
+            mutableStateOf(false)
+        }
+        if (showEmailDialog) {
+            EmailSentDialog(navController = navController, onDismiss = { showEmailDialog = false })
         }
         Column(
             modifier = Modifier
@@ -133,22 +145,15 @@ class RegistrationViewModel : ViewModel() {
                     color = Color.White
                 )
             }
-            OutlinedTextField(
-                label = {
-                    Text(
-                        stringResource(id = (R.string.signup_email_label)),
-                        color = Color.White
-                    )
-                },
-                value = email,
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White
-                ),
-                onValueChange = {
-                    email = it
-                }
-            )
+            OutlinedTextField(label = {
+                Text(
+                    stringResource(id = (R.string.signup_email_label)), color = Color.White
+                )
+            }, value = email, colors = OutlinedTextFieldDefaults.colors(
+                focusedTextColor = Color.White, unfocusedTextColor = Color.White
+            ), onValueChange = {
+                email = it
+            })
             CustomPasswordField(
                 value = password,
                 isError = passwordErrors.isNotEmpty(),
@@ -159,27 +164,38 @@ class RegistrationViewModel : ViewModel() {
                 },
                 passwordErrors = passwordErrors
             )
-            CustomPasswordField(
-                value = confirmPass,
+            CustomPasswordField(value = confirmPass,
                 labelId = R.string.signup_confirm_password_label,
                 onValueChange = {
                     confirmPass = it
-                }
-            )
-            Button(
-                onClick = {
-                    if (registerUser(email, password, confirmPass) == 0) {
-                        navController.navigate("login")
-                    } else {
-                        println("Errore nella creazione utente firebase")
-                    }
                 })
-            {
+            Button(onClick = {
+                if (registerUser(email, password, confirmPass) == 0) {
+                    showEmailDialog = true
+                } else {
+                    println("Errore nella creazione utente firebase")
+                }
+            }) {
                 Text(text = stringResource(id = R.string.signup_button_label))
 
             }
         }
 
+    }
+
+    @Composable
+    private fun EmailSentDialog(navController: NavController, onDismiss: () -> Unit) {
+        Dialog(onDismissRequest = onDismiss) {
+            Column {
+                Text(text = "Abbiamo inviato un'email di verifica al tuo indirizzo, segui le indicazioni al suo interno per continuare.")
+                TextButton(onClick = onDismiss) { Text(text = "Non ho ricevuto la mail")}
+                Button(onClick = {
+                    navController.navigate("login")
+                }) {
+                    Text(text = "Ho verificato la mia mail")
+                }
+            }
+        }
     }
 }
 

@@ -99,45 +99,6 @@ fun GoogleLogin() {
                 )
                 Text(text = "Sign in with Google", modifier = Modifier.padding(6.dp))
             }
-        } else {
-            Log.d("GoogleAuth", "email is verified ${user!!.isEmailVerified}")
-            Text(
-                "Hi, ${user!!.displayName}!",
-                fontFamily = FontFamily.SansSerif,
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 14.sp, color = Color.White
-            )
-
-            Spacer(modifier = Modifier.height(30.dp))
-
-            Button(
-                onClick = {
-                    Firebase.auth.signOut()
-                    GoogleSignIn.getClient(
-                        context,
-                        GoogleSignInOptions.DEFAULT_SIGN_IN
-                    ).signOut()
-                    user = null
-                    Log.d("GoogleAuth", "user logged out $user")
-                },
-                shape = RoundedCornerShape(15.dp),
-                modifier = Modifier
-                    .height(50.dp)
-                    .fillMaxSize()
-                    .padding(5.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black
-                )
-            ) {
-                Text(
-                    "Log out",
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = FontWeight.ExtraBold,
-                    fontSize = 15.sp,
-                    letterSpacing = 0.1.em
-                )
-            }
         }
     }
 }
