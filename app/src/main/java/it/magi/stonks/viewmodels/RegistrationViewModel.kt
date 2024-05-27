@@ -22,7 +22,9 @@ import androidx.navigation.NavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.database.database
 import it.magi.stonks.R
+import it.magi.stonks.objects.Utilities
 import it.magi.stonks.ui.theme.LoginBgColor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -39,6 +41,14 @@ class RegistrationViewModel : ViewModel() {
     var _confirmPassword = MutableStateFlow("")
     val confirmPassword: StateFlow<String> = _confirmPassword
 
+    var _name = MutableStateFlow("")
+    val name: StateFlow<String> = _name
+
+    var _surname = MutableStateFlow("")
+    val surname: StateFlow<String> = _surname
+
+    val database = Firebase.database
+
 
     fun registerUser(email: String, password: String, confirmPassword: String): Int {
         Log.d("Signup", "registerUser email: $email")
@@ -48,6 +58,10 @@ class RegistrationViewModel : ViewModel() {
         if (checkValidEmail(email) && password == confirmPassword) {
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
+                    Log.d("RealTimeDatabase", "Trying to register user: $email name: $_name surname: $_surname")
+                    /*val myRef = database.getReference("users").child(email)
+                    myRef.child("name").setValue(Utilities().capitalizeFirstChar(_name.value))
+                    myRef.child("surname").setValue(Utilities().capitalizeFirstChar(_name.value))*/
                     Log.d("Signup", "User created successfully")
                     Firebase.auth.currentUser?.sendEmailVerification()
                         ?.addOnCompleteListener { task ->

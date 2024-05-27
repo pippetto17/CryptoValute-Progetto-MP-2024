@@ -3,6 +3,8 @@
     <string name="default_web_client_id">407431367773-nlg80561qd2gecmiqjul5js5v4bp6ptk.apps.googleusercontent.com</string>
 
     //SIGNUP SCREEN
+    <string name="signup_name_label">Name</string>
+    <string name="signup_surname_label">Surname</string>
     <string name="signup_email_label">Email</string>
     <string name="signup_password_label">Password</string>
     <string name="signup_confirm_password_label">Confirm Password</string>

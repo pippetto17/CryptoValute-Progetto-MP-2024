@@ -22,6 +22,7 @@ playServicesAuth = "21.1.1"
 playServicesAuthVersion = "21.0.0"
 mediationTestSuite = "3.0.0"
 playServicesIdentity = "18.1.0"
+firebaseDatabase = "21.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -53,6 +54,7 @@ play-services-auth = { module = "com.google.android.gms:play-services-auth", ver
 play-services-auth-v2100 = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuthVersion" }
 mediation-test-suite = { group = "com.google.android.ads", name = "mediation-test-suite", version.ref = "mediationTestSuite" }
 play-services-identity = { module = "com.google.android.gms:play-services-identity", version.ref = "playServicesIdentity" }
+firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
