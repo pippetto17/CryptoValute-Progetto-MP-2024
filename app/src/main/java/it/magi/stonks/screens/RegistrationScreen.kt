@@ -1,8 +1,10 @@
 package it.magi.stonks.screens
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +23,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -125,74 +129,90 @@ class RegistrationViewModel : ViewModel() {
         if (showEmailDialog) {
             EmailSentDialog(navController = navController, onDismiss = { showEmailDialog = false })
         }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = LoginBgColor),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Column {
-                Text(
-                    text = stringResource(id = R.string.app_name),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    textAlign = TextAlign.Center,
-                    fontStyle = FontStyle.Italic,
-                    fontFamily = titleFont(),
-                    fontSize = fontSize,
-                    color = Color.White
-                )
-            }
-            OutlinedTextField(label = {
-                Text(
-                    stringResource(id = (R.string.signup_email_label)), color = Color.White
-                )
-            }, value = email, colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.White, unfocusedTextColor = Color.White
-            ), onValueChange = {
-                email = it
-            })
-            CustomPasswordField(
-                value = password,
-                isError = passwordErrors.isNotEmpty(),
-                labelId = R.string.signup_password_label,
-                onValueChange = {
-                    password = it
-                    passwordErrors = validatePassword(password)
-                },
-                passwordErrors = passwordErrors
+        Box(modifier = Modifier.fillMaxSize())
+        {
+            Image(
+                painter = painterResource(id = R.drawable.login_background_design),
+                contentDescription = "",
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.matchParentSize()
             )
-            CustomPasswordField(value = confirmPass,
-                labelId = R.string.signup_confirm_password_label,
-                onValueChange = {
-                    confirmPass = it
-                })
-            Button(onClick = {
-                if (registerUser(email, password, confirmPass) == 0) {
-                    showEmailDialog = true
-                } else {
-                    println("Errore nella creazione utente firebase")
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Column {
+                    Text(
+                        text = stringResource(id = R.string.app_name),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        textAlign = TextAlign.Center,
+                        fontStyle = FontStyle.Italic,
+                        fontFamily = titleFont(),
+                        fontSize = fontSize,
+                        color = Color.White
+                    )
                 }
-            }) {
-                Text(text = stringResource(id = R.string.signup_button_label))
+                OutlinedTextField(label = {
+                    Text(
+                        stringResource(id = (R.string.signup_email_label)), color = Color.White
+                    )
+                }, value = email, colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.White, unfocusedTextColor = Color.White
+                ), onValueChange = {
+                    email = it
+                })
+                CustomPasswordField(
+                    value = password,
+                    isError = passwordErrors.isNotEmpty(),
+                    labelId = R.string.signup_password_label,
+                    onValueChange = {
+                        password = it
+                        passwordErrors = validatePassword(password)
+                    },
+                    passwordErrors = passwordErrors
+                )
+                CustomPasswordField(value = confirmPass,
+                    labelId = R.string.signup_confirm_password_label,
+                    onValueChange = {
+                        confirmPass = it
+                    })
+                Button(onClick = {
+                    if (registerUser(email, password, confirmPass) == 0) {
+                        showEmailDialog = true
+                    } else {
+                        println("Errore nella creazione utente firebase")
+                    }
+                }) {
+                    Text(text = stringResource(id = R.string.signup_button_label))
 
+                }
             }
         }
-
     }
 
     @Composable
     private fun EmailSentDialog(navController: NavController, onDismiss: () -> Unit) {
         Dialog(onDismissRequest = onDismiss) {
-            Column {
-                Text(text = "Abbiamo inviato un'email di verifica al tuo indirizzo, segui le indicazioni al suo interno per continuare.")
-                TextButton(onClick = onDismiss) { Text(text = "Non ho ricevuto la mail")}
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(text = "We sent a verification email to your email address, " +
+                        "follow the directions inside to continue.",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(16.dp),
+                    color = Color.White)
+                TextButton(onClick = onDismiss) { Text(text = "I didn't received email",
+                    textAlign = TextAlign.Center)}
                 Button(onClick = {
                     navController.navigate("login")
                 }) {
-                    Text(text = "Ho verificato la mia mail")
+                    Text(text = "I verified my email",
+                        textAlign = TextAlign.Center)
                 }
             }
         }
