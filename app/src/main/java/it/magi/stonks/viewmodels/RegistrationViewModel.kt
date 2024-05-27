@@ -106,31 +106,29 @@ class RegistrationViewModel : ViewModel() {
     @Composable
     fun EmailSentDialog(navController: NavController, onDismiss: () -> Unit) {
         Dialog(onDismissRequest = { navController.navigate("login") }) {
-            Surface(modifier = Modifier.fillMaxSize(), color = LoginBgColor) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = stringResource(id = R.string.email_sent_dialog_text),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(16.dp),
+                    color = Color.White
+                )
+                TextButton(onClick = onDismiss) {
                     Text(
-                        text = stringResource(id = R.string.email_sent_dialog_text),
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(16.dp),
-                        color = Color.White
+                        text = stringResource(id = R.string.email_sent_dialog_send_again_text),
+                        textAlign = TextAlign.Center
                     )
-                    TextButton(onClick = onDismiss) {
-                        Text(
-                            text = stringResource(id = R.string.email_sent_dialog_send_again_text),
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                    Button(onClick = {
-                        navController.navigate("login")
-                    }) {
-                        Text(
-                            text = stringResource(id = R.string.email_sent_dialog_button_label),
-                            textAlign = TextAlign.Center
-                        )
-                    }
+                }
+                Button(onClick = {
+                    navController.navigate("login")
+                }) {
+                    Text(
+                        text = stringResource(id = R.string.email_sent_dialog_button_label),
+                        textAlign = TextAlign.Center
+                    )
                 }
             }
         }
