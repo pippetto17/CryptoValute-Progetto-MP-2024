@@ -9,13 +9,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
-import it.magi.stonks.screens.LoginViewModel
-import it.magi.stonks.screens.RegistrationViewModel
+import it.magi.stonks.screens.HomeScreen
+import it.magi.stonks.screens.RegistrationScreen
+import it.magi.stonks.viewmodels.LoginViewModel
+import it.magi.stonks.viewmodels.RegistrationViewModel
 import it.magi.stonks.ui.theme.StonksTheme
+import it.magi.stonks.viewmodels.HomeViewModel
 
 class MainActivity : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
@@ -31,13 +35,18 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         navController = navController,
                         modifier = Modifier.padding(innerPadding),
-                        startDestination = "login"
+                        startDestination = if (auth.currentUser != null) "home" else "login"
                     ) {
                         composable("login") {
                             LoginViewModel().LoginScreen(navController = navController)
                         }
                         composable("signup") {
-                            RegistrationViewModel().RegistrationScreen(navController = navController)
+                            RegistrationScreen(navController = navController,
+                                RegistrationViewModel()
+                            )
+                        }
+                        composable("home") {
+                            HomeScreen(navController = navController, HomeViewModel())
                         }
                     }
                 }

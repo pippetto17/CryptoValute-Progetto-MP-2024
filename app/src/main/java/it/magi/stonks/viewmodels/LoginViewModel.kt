@@ -1,4 +1,4 @@
-package it.magi.stonks.screens
+package it.magi.stonks.viewmodels
 
 import android.util.Log
 import android.widget.Toast
@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.magi.stonks.R
@@ -107,12 +108,15 @@ class LoginViewModel : ViewModel() {
                         )
                     )
                     Button(onClick = {
-                        if (email.isNotEmpty() && password.isNotEmpty()&& auth.currentUser?.isEmailVerified == true) {
+                        FirebaseAuth.getInstance().currentUser?.reload()
+                        Log.d("Login", "current user email is ${auth.currentUser?.email} and is verified ${auth.currentUser?.isEmailVerified}")
+                        if (email.isNotEmpty() && password.isNotEmpty() && auth.currentUser?.isEmailVerified == true) {
                             auth.signInWithEmailAndPassword(email, password)
                                 .addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
                                         val user = auth.currentUser
                                         Log.d("Login", "Login successful")
+                                        navController.navigate("home")
                                     } else {
                                         Log.d("Login", "signInWithEmail:failure", task.exception)
                                         Toast.makeText(
@@ -122,13 +126,21 @@ class LoginViewModel : ViewModel() {
                                         ).show()
                                     }
                                 }
-                        }
-                        else{
-                            Toast.makeText(
-                                context,
-                                "Please verify your email",
-                                Toast.LENGTH_SHORT,
-                            ).show()
+                        } else {
+                             if(email.isEmpty() || password.isEmpty()){
+                                 Toast.makeText(
+                                     context,
+                                     "Please fill in all fields.",
+                                     Toast.LENGTH_SHORT,
+                                 ).show()
+                             }
+                             else if(auth.currentUser?.isEmailVerified == false) {
+                                 Toast.makeText(
+                                     context,
+                                     "Please verify your email.",
+                                     Toast.LENGTH_SHORT,
+                                 ).show()
+                             }
                         }
 
                     }) {
@@ -145,9 +157,6 @@ class LoginViewModel : ViewModel() {
             }
         }
     }
-}
-fun LoginScreen(){
-
 }
 
 
