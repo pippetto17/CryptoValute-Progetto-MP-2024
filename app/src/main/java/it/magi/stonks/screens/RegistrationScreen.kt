@@ -25,7 +25,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -57,6 +56,8 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
             navController = navController,
             onDismiss = { showEmailDialog = false })
     }
+
+
     Box(modifier = Modifier.fillMaxSize())
     {
         Image(
@@ -91,7 +92,7 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
             }, value = nameState.value, colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = Color.White, unfocusedTextColor = Color.White
             ), onValueChange = {
-                if (it.isEmpty()||it.matches(formFilter)) {
+                if (it.isEmpty() || it.matches(formFilter)) {
                     viewModel._name.value = it
                 }
             })
@@ -102,7 +103,7 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
             }, value = surnameState.value, colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = Color.White, unfocusedTextColor = Color.White
             ), onValueChange = {
-                if (it.isEmpty()||it.matches(formFilter)) {
+                if (it.isEmpty() || it.matches(formFilter)) {
                     viewModel._surname.value = it
                 }
             })
@@ -137,14 +138,18 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
                         viewModel.registerUser(
                             viewModel.email.value,
                             viewModel.password.value,
-                            viewModel.confirmPassword.value
+                            viewModel.confirmPassword.value,
+                            viewModel.name.value,
+                            viewModel.surname.value
                         )
                     }"
                 )
                 if (viewModel.registerUser(
                         viewModel.email.value,
                         viewModel.password.value,
-                        viewModel.confirmPassword.value
+                        viewModel.confirmPassword.value,
+                        viewModel.name.value,
+                        viewModel.surname.value
                     ) == 0
                 ) {
                     Log.d("Signup", "Apro il dialog")

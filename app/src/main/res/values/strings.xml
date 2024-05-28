@@ -34,4 +34,8 @@
     <string name="your_web_client_id">407431367773-nlg80561qd2gecmiqjul5js5v4bp6ptk.apps.googleusercontent.com</string>
     <string name="title_activity_main">MainActivity</string>
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //DATABASE
+    <string name="database_URL">https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/</string>
+
 </resources>

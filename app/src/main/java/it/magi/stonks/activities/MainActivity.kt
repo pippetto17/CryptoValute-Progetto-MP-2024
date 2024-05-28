@@ -17,16 +17,12 @@ import com.google.firebase.auth.FirebaseAuth
 import it.magi.stonks.objects.BottomNavigationBar
 import it.magi.stonks.objects.NavigationItem
 import it.magi.stonks.screens.HomeScreen
-import it.magi.stonks.screens.LoginScreen
 import it.magi.stonks.screens.OtherScreen
-import it.magi.stonks.screens.RegistrationScreen
 import it.magi.stonks.screens.SearchScreen
 import it.magi.stonks.screens.WalletScreen
 import it.magi.stonks.ui.theme.StonksTheme
 import it.magi.stonks.viewmodels.HomeViewModel
-import it.magi.stonks.viewmodels.LoginViewModel
 import it.magi.stonks.viewmodels.OtherViewModel
-import it.magi.stonks.viewmodels.RegistrationViewModel
 import it.magi.stonks.viewmodels.SearchViewModel
 import it.magi.stonks.viewmodels.WalletViewModel
 
@@ -45,8 +41,7 @@ class MainActivity : ComponentActivity() {
                     topBar = {
                     },
                     bottomBar = {
-                        BottomAppBar(
-                        ) {
+                        BottomAppBar{
                             BottomNavigationBar(navController = navController)
                         }
                     },

@@ -17,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth
 import it.magi.stonks.screens.LoginScreen
 import it.magi.stonks.screens.RegistrationScreen
 import it.magi.stonks.ui.theme.StonksTheme
-import it.magi.stonks.viewmodels.HomeViewModel
 import it.magi.stonks.viewmodels.LoginViewModel
 import it.magi.stonks.viewmodels.RegistrationViewModel
 
@@ -26,9 +25,10 @@ class StartActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
+        auth.currentUser?.reload()
         enableEdgeToEdge()
 
-        if (auth.currentUser != null){
+        if (auth.currentUser != null&& auth.currentUser?.isEmailVerified == true){
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }

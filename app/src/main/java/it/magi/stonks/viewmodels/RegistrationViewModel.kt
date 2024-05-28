@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.ViewModel
@@ -22,6 +23,7 @@ import androidx.navigation.NavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.database
 import it.magi.stonks.R
 import it.magi.stonks.objects.Utilities
@@ -47,10 +49,14 @@ class RegistrationViewModel : ViewModel() {
     var _surname = MutableStateFlow("")
     val surname: StateFlow<String> = _surname
 
-    val database = Firebase.database
 
-
-    fun registerUser(email: String, password: String, confirmPassword: String): Int {
+    fun registerUser(
+        email: String,
+        password: String,
+        confirmPassword: String,
+        name: String,
+        surname: String
+    ): Int {
         Log.d("Signup", "registerUser email: $email")
         Log.d("Signup", "registerUser password: $password")
         Log.d("Signup", "registerUser confirmPassword: $confirmPassword")
@@ -58,10 +64,33 @@ class RegistrationViewModel : ViewModel() {
         if (checkValidEmail(email) && password == confirmPassword) {
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    Log.d("RealTimeDatabase", "Trying to register user: $email name: $_name surname: $_surname")
-                    /*val myRef = database.getReference("users").child(email)
-                    myRef.child("name").setValue(Utilities().capitalizeFirstChar(_name.value))
-                    myRef.child("surname").setValue(Utilities().capitalizeFirstChar(_name.value))*/
+                    Log.d(
+                        "RealTimeDatabase",
+                        "Trying to register user: $email name: $name surname: $surname"
+                    )
+                    try {
+                        val database =
+                            FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/")
+                        val myRef = database.getReference().child("users")
+                            .child(Utilities().convertDotsToCommas(email).lowercase())
+                        Log.d("RealTimeDatabase", "MyRef: $myRef")
+                        myRef.child("name").setValue(
+                            Utilities().convertDotsToCommas(
+                                Utilities().capitalizeFirstChar(name)
+                            )
+                        )
+                        myRef.child("surname").setValue(
+                            Utilities().convertDotsToCommas(
+                                Utilities().capitalizeFirstChar(surname)
+                            )
+                        )
+                        Log.d(
+                            "RealTimeDatabase",
+                            "User registered successfully on RealTimeDatabase"
+                        )
+                    } catch (e: Exception) {
+                        Log.d("RealTimeDatabase", "Error: ${e.message}")
+                    }
                     Log.d("Signup", "User created successfully")
                     Firebase.auth.currentUser?.sendEmailVerification()
                         ?.addOnCompleteListener { task ->
