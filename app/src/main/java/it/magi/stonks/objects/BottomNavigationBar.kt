@@ -1,6 +1,7 @@
 package it.magi.stonks.objects
 
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -34,42 +35,44 @@ fun BottomNavigationBar(navController: NavController) {
             selectedItem = index
         }
     }
-    NavigationBar(
-    ) {
-        items.forEachIndexed { index, item ->
-            NavigationBarItem(
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.Black,
-                    unselectedIconColor = Color.LightGray,
-                    unselectedTextColor = Color.LightGray,
-                ),
-                alwaysShowLabel = true,
-                icon = {
-                    Icon(
-                        item.icon,
-                        contentDescription = item.title,
-                        modifier = Modifier
-                            .size(25.dp)
-                    )
-                },
-                label = {
-                    Text(item.title)
-                },
-                selected = selectedItem == index,
-                onClick = {
-                    selectedItem = index
-                    currentRoute = item.route
-                    navController.navigate(item.route) {
-                        navController.graph.startDestinationRoute?.let { route ->
-                            popUpTo(route) {
-                                saveState = true
+    BottomAppBar {
+        NavigationBar(
+        ) {
+            items.forEachIndexed { index, item ->
+                NavigationBarItem(
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = Color.Black,
+                        unselectedIconColor = Color.LightGray,
+                        unselectedTextColor = Color.LightGray,
+                    ),
+                    alwaysShowLabel = true,
+                    icon = {
+                        Icon(
+                            item.icon,
+                            contentDescription = item.title,
+                            modifier = Modifier
+                                .size(25.dp)
+                        )
+                    },
+                    label = {
+                        Text(item.title)
+                    },
+                    selected = selectedItem == index,
+                    onClick = {
+                        selectedItem = index
+                        currentRoute = item.route
+                        navController.navigate(item.route) {
+                            navController.graph.startDestinationRoute?.let { route ->
+                                popUpTo(route) {
+                                    saveState = true
+                                }
                             }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
                     }
-                }
-            )
+                )
+            }
         }
     }
 }

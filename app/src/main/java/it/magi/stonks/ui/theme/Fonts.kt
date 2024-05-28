@@ -9,6 +9,6 @@ import androidx.compose.ui.text.font.FontFamily
 fun titleFont(): FontFamily {
     val assets = LocalContext.current.assets
     return FontFamily(
-        Font("techno_hideo_bold.ttf", assets)
+        Font("origintech.ttf", assets)
     )
 }

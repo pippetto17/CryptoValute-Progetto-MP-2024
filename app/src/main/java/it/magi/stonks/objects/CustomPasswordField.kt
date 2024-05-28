@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -70,11 +73,18 @@ fun CustomPasswordField(
                 ) {
                     Icon(
                         imageVector = if (passwordVisible)
-                            ImageVector.vectorResource(R.drawable.ic_visible)
-                        else ImageVector.vectorResource(R.drawable.ic_not_visible),
+                            ImageVector.vectorResource(R.drawable.ic_not_visible)
+                        else ImageVector.vectorResource(R.drawable.ic_visible),
                         contentDescription = ""
                     )
                 }
+            },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Lock,
+                    contentDescription = "Password",
+                    tint = Color.LightGray
+                )
             },
         )
         if (isError && value.isNotEmpty()) {

@@ -4,8 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Button
@@ -26,17 +28,22 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import it.magi.stonks.R
+<<<<<<< Updated upstream
 import it.magi.stonks.objects.APIRequests
+=======
+import it.magi.stonks.objects.CustomEmailField
+import it.magi.stonks.objects.CustomPasswordField
+>>>>>>> Stashed changes
 import it.magi.stonks.objects.Utilities
-import it.magi.stonks.ui.theme.fontSize
+import it.magi.stonks.ui.theme.TitleColor
 import it.magi.stonks.ui.theme.titleFont
+import it.magi.stonks.ui.theme.TitleFontSize
 import it.magi.stonks.viewmodels.LoginViewModel
 
 @Composable
@@ -63,49 +70,30 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                 .wrapContentHeight(Alignment.CenterVertically),
         ) {
             Text(
-                text = stringResource(id = R.string.app_name),
+                text = stringResource(id = R.string.app_name).uppercase(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
                 textAlign = TextAlign.Center,
-                fontStyle = FontStyle.Italic,
                 fontFamily = titleFont(),
-                fontSize = fontSize,
-                color = Color.White
+                fontSize = TitleFontSize,
+                color = TitleColor
             )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-
-                OutlinedTextField(
-                    label = {
-                        Text(
-                            text = stringResource(id = R.string.login_email_label),
-                            color = Color.White
-                        )
-                    },
+                CustomEmailField(
                     value = email,
+                    labelId = R.string.login_email_label,
                     onValueChange = { email = it },
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White
-                    )
                 )
-                OutlinedTextField(
-                    label = {
-                        Text(
-                            text = stringResource(id = R.string.login_password_label),
-                            color = Color.White
-                        )
-                    },
+                CustomPasswordField(
                     value = password,
+                    labelId = R.string.login_password_label,
                     onValueChange = { password = it },
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White
-                    )
                 )
+                Spacer(modifier = Modifier.height(40.dp))
                 Button(
                     onClick = {
                         viewModel.userLogin(auth, email, password, navController, context)
@@ -124,7 +112,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                     colors = ButtonDefaults.buttonColors(Color.Yellow),
                     onClick = { Utilities().testSignup() })
                 {
-                    Text(text = "TEST!!!",color = Color.Black)
+                    Text(text = "TEST!!!", color = Color.Black)
                 }
             }
         }

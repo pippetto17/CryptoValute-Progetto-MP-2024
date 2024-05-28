@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
 import it.magi.stonks.objects.BottomNavigationBar
+import it.magi.stonks.objects.CustomTopAppBar
 import it.magi.stonks.objects.NavigationItem
 import it.magi.stonks.screens.HomeScreen
 import it.magi.stonks.screens.OtherScreen
@@ -39,11 +40,10 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = {
+                             CustomTopAppBar()
                     },
                     bottomBar = {
-                        BottomAppBar{
-                            BottomNavigationBar(navController = navController)
-                        }
+                        BottomNavigationBar(navController = navController)
                     },
                 ) { innerPadding ->
                     NavHost(

@@ -30,7 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import it.magi.stonks.R
 import it.magi.stonks.objects.CustomPasswordField
-import it.magi.stonks.ui.theme.fontSize
+import it.magi.stonks.ui.theme.TitleColor
+import it.magi.stonks.ui.theme.TitleFontSize
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.viewmodels.RegistrationViewModel
 
@@ -74,15 +75,14 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
         ) {
             Column {
                 Text(
-                    text = stringResource(id = R.string.app_name),
+                    text = stringResource(id = R.string.app_name).uppercase(),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
                     textAlign = TextAlign.Center,
-                    fontStyle = FontStyle.Italic,
                     fontFamily = titleFont(),
-                    fontSize = fontSize,
-                    color = Color.White
+                    fontSize = TitleFontSize,
+                    color = TitleColor
                 )
             }
             OutlinedTextField(label = {
