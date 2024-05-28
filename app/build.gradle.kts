@@ -72,6 +72,11 @@ dependencies {
     implementation (libs.googleid)
     implementation(libs.firebase.database)
 
+    //api calls
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+
+    implementation (libs.volley)
 
 
 

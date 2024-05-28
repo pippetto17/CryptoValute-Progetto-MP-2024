@@ -33,6 +33,7 @@ import androidx.navigation.NavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import it.magi.stonks.R
+import it.magi.stonks.objects.APIRequests
 import it.magi.stonks.objects.Utilities
 import it.magi.stonks.ui.theme.fontSize
 import it.magi.stonks.ui.theme.titleFont
@@ -42,6 +43,7 @@ import it.magi.stonks.viewmodels.LoginViewModel
 fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
     val auth = Firebase.auth
     val context = LocalContext.current
+    val apiKey= stringResource(id = R.string.api_key)
     var email by rememberSaveable {
         mutableStateOf("")
     }

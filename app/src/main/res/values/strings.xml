@@ -38,4 +38,8 @@
     //DATABASE
     <string name="database_URL">https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/</string>
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //API
+    <string name="api_key">CG-Xag5m7fAKyT7rBF6biSrs1GF</string>
+
 </resources>
