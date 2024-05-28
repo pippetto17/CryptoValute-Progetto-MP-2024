@@ -42,7 +42,7 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
     val surnameState = viewModel.surname.collectAsState()
     val emailState = viewModel.email.collectAsState()
 
-    val formFilter = "^[a-zA-Z]+$".toRegex()
+    val formFilter = "^[a-zA-Z\\s]+$".toRegex()
 
     val passwordState = viewModel.password.collectAsState()
     val confirmPasswordState = viewModel.confirmPassword.collectAsState()

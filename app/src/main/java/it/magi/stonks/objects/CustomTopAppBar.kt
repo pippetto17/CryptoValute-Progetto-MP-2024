@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import it.magi.stonks.R
 import it.magi.stonks.ui.theme.BgColor
+import it.magi.stonks.ui.theme.DarkBgColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,7 +27,7 @@ fun CustomTopAppBar() {
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = BgColor,
+            containerColor = DarkBgColor,
             titleContentColor = Color.White
         )
     )

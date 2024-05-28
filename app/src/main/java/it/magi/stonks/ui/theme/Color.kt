@@ -12,6 +12,7 @@ val Pink40 = Color(0xFF7D5260)
 
 //LoginPage(DarkTheme)
 val BgColor = Color(0xFF1D203F)
+val DarkBgColor = Color(0xFF0B101C)
 val LoginFormBgColor= Color(0xFF121427)
 val LoginBgColor2 = Color(0xFF000026)
 val TitleColor = Color(0xFFC8FF00)

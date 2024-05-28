@@ -152,6 +152,10 @@ class LoginViewModel : ViewModel() {
             }
         }
     }
+    fun retrieveCredentials(auth: FirebaseAuth,email: String) {
+        auth.sendPasswordResetEmail(email)
+        Log.d("Login", "Password reset email sent to $email")
+    }
 
     @Composable
     fun rememberFirebaseAuthLauncher(

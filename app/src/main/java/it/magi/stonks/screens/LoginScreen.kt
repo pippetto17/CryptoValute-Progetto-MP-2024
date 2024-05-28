@@ -34,6 +34,7 @@ import androidx.navigation.NavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import it.magi.stonks.R
+import it.magi.stonks.objects.APIRequests
 import it.magi.stonks.objects.CustomEmailField
 import it.magi.stonks.objects.CustomPasswordField
 import it.magi.stonks.objects.Utilities
@@ -55,7 +56,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
     }
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
-            painter = painterResource(id = R.drawable.login_background_design),
+            painter = painterResource(id = R.drawable.login_background_design2),
             contentDescription = "",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.matchParentSize()
@@ -89,6 +90,9 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                     labelId = R.string.login_password_label,
                     onValueChange = { password = it },
                 )
+                TextButton(onClick = {viewModel.retrieveCredentials(auth,email)}) {
+                    Text(text = stringResource(id = R.string.login_forgot_password_label), color = Color.White)
+                }
                 Spacer(modifier = Modifier.height(40.dp))
                 Button(
                     onClick = {
@@ -109,6 +113,12 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                     onClick = { Utilities().testSignup() })
                 {
                     Text(text = "TEST!!!", color = Color.Black)
+                }
+                Button(
+                    colors = ButtonDefaults.buttonColors(Color.Yellow),
+                    onClick = { APIRequests().filterCoins(context,apiKey,"eur") })
+                {
+                    Text(text = "API TEST!!!", color = Color.Black)
                 }
             }
         }
