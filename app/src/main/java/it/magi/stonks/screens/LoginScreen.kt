@@ -34,12 +34,8 @@ import androidx.navigation.NavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import it.magi.stonks.R
-<<<<<<< Updated upstream
-import it.magi.stonks.objects.APIRequests
-=======
 import it.magi.stonks.objects.CustomEmailField
 import it.magi.stonks.objects.CustomPasswordField
->>>>>>> Stashed changes
 import it.magi.stonks.objects.Utilities
 import it.magi.stonks.ui.theme.TitleColor
 import it.magi.stonks.ui.theme.titleFont
