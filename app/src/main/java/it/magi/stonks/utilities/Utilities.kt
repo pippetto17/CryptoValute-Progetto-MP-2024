@@ -1,4 +1,4 @@
-package it.magi.stonks.objects
+package it.magi.stonks.utilities
 
 import it.magi.stonks.viewmodels.RegistrationViewModel
 

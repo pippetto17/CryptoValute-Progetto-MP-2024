@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -14,9 +13,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
-import it.magi.stonks.objects.BottomNavigationBar
-import it.magi.stonks.objects.CustomTopAppBar
-import it.magi.stonks.objects.NavigationItem
+import it.magi.stonks.composables.CustomBottomNavBar
+import it.magi.stonks.composables.CustomTopAppBar
+import it.magi.stonks.navigation.NavigationItem
 import it.magi.stonks.screens.HomeScreen
 import it.magi.stonks.screens.OtherScreen
 import it.magi.stonks.screens.SearchScreen
@@ -44,7 +43,7 @@ class MainActivity : ComponentActivity() {
                              CustomTopAppBar()
                     },
                     bottomBar = {
-                        BottomNavigationBar(navController = navController)
+                        CustomBottomNavBar(navController = navController)
                     },
                 ) { innerPadding ->
                     NavHost(

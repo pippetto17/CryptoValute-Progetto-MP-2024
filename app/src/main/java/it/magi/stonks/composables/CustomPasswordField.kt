@@ -1,13 +1,13 @@
-package it.magi.stonks.objects
+package it.magi.stonks.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -48,6 +48,7 @@ fun CustomPasswordField(
             modifier = Modifier
                 .align(alignment = androidx.compose.ui.Alignment.CenterHorizontally),
             value = value,
+            shape = RoundedCornerShape(15.dp),
             onValueChange = onValueChange,
             label = {
                 Text(

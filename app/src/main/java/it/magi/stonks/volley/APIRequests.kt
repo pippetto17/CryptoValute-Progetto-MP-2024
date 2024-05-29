@@ -1,4 +1,4 @@
-package it.magi.stonks.objects
+package it.magi.stonks.volley
 
 import android.content.Context
 import android.util.Log
@@ -6,6 +6,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
+import it.magi.stonks.utilities.Utilities
 
 
 class APIRequests {

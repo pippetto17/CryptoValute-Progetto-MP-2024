@@ -1,6 +1,7 @@
 package it.magi.stonks.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,11 +10,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -30,15 +31,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import it.magi.stonks.R
-import it.magi.stonks.objects.APIRequests
-import it.magi.stonks.objects.CustomEmailField
-import it.magi.stonks.objects.CustomPasswordField
-import it.magi.stonks.objects.Utilities
-import it.magi.stonks.ui.theme.TitleColor
+import it.magi.stonks.volley.APIRequests
+import it.magi.stonks.composables.CustomEmailField
+import it.magi.stonks.composables.CustomPasswordField
+import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.ui.theme.TitleFontSize
 import it.magi.stonks.viewmodels.LoginViewModel
@@ -47,7 +48,7 @@ import it.magi.stonks.viewmodels.LoginViewModel
 fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
     val auth = Firebase.auth
     val context = LocalContext.current
-    val apiKey= stringResource(id = R.string.api_key)
+    val apiKey = stringResource(id = R.string.api_key)
     var email by rememberSaveable {
         mutableStateOf("")
     }
@@ -63,9 +64,16 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
         )
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .wrapContentHeight(Alignment.CenterVertically),
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
+            Image(
+                painter = painterResource(R.drawable.app_logo),
+                contentDescription = "",
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.size(150.dp)
+            )
             Text(
                 text = stringResource(id = R.string.app_name).uppercase(),
                 modifier = Modifier
@@ -74,11 +82,15 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                 textAlign = TextAlign.Center,
                 fontFamily = titleFont(),
                 fontSize = TitleFontSize,
-                color = TitleColor
+                color = Color(0xff00CCB1)
             )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .wrapContentWidth(
+                        unbounded = true,
+                    )
             ) {
                 CustomEmailField(
                     value = email,
@@ -90,10 +102,14 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                     labelId = R.string.login_password_label,
                     onValueChange = { password = it },
                 )
-                TextButton(onClick = {viewModel.retrieveCredentials(auth,email)}) {
-                    Text(text = stringResource(id = R.string.login_forgot_password_label), color = Color.White)
+                TextButton(onClick = { viewModel.retrieveCredentials(auth, email) }) {
+                    Text(
+                        text = stringResource(id = R.string.login_forgot_password_label),
+                        color = Color.Gray,
+                        fontSize = 12.sp,
+                    )
                 }
-                Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 Button(
                     onClick = {
                         viewModel.userLogin(auth, email, password, navController, context)
@@ -116,7 +132,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                 }
                 Button(
                     colors = ButtonDefaults.buttonColors(Color.Yellow),
-                    onClick = { APIRequests().filterCoins(context,apiKey,"eur") })
+                    onClick = { APIRequests().filterCoins(context, apiKey, "eur") })
                 {
                     Text(text = "API TEST!!!", color = Color.Black)
                 }

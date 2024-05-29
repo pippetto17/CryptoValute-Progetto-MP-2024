@@ -24,12 +24,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import it.magi.stonks.R
-import it.magi.stonks.objects.CustomPasswordField
+import it.magi.stonks.composables.CustomPasswordField
 import it.magi.stonks.ui.theme.TitleColor
 import it.magi.stonks.ui.theme.TitleFontSize
 import it.magi.stonks.ui.theme.titleFont
