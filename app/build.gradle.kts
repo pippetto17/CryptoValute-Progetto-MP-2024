@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.play.services.auth.v2100)
     implementation("androidx.core:core-splashscreen:1.0.0")
     implementation ("com.airbnb.android:lottie-compose:6.4.0")
+    implementation ("com.github.skydoves:cloudy:0.1.2")
 
     //credentials
     implementation(libs.androidx.credentials)
@@ -77,7 +78,6 @@ dependencies {
     implementation (libs.converter.gson)
 
     implementation (libs.volley)
-    implementation(libs.androidx.ui.desktop)
 
 
 

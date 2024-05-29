@@ -15,6 +15,7 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,7 +45,7 @@ fun CustomPasswordField(
     }
 
     Column {
-        OutlinedTextField(
+        TextField(
             modifier = Modifier
                 .align(alignment = androidx.compose.ui.Alignment.CenterHorizontally),
             value = value,
@@ -61,7 +62,10 @@ fun CustomPasswordField(
             colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = Color.White,
                 unfocusedTextColor = Color.White,
-                errorTextColor = Color.White
+                errorTextColor = Color.White,
+                focusedBorderColor = Color.Transparent,
+                unfocusedBorderColor = Color.Transparent,
+                errorBorderColor = Color.Transparent
             ),
             singleLine = true,
             trailingIcon = {

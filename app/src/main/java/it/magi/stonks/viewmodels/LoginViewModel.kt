@@ -1,5 +1,6 @@
 package it.magi.stonks.viewmodels
 
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
@@ -152,9 +153,16 @@ class LoginViewModel : ViewModel() {
             }
         }
     }
-    fun retrieveCredentials(auth: FirebaseAuth,email: String) {
-        auth.sendPasswordResetEmail(email)
-        Log.d("Login", "Password reset email sent to $email")
+    fun retrieveCredentials(auth: FirebaseAuth,email: String, context: Context) {
+        if (email.isNotEmpty()) {
+            auth.sendPasswordResetEmail(email)
+        }else{
+            Toast.makeText(
+                context,
+                "Please enter your email.",
+                Toast.LENGTH_SHORT,
+            ).show()
+        }
     }
 
     @Composable

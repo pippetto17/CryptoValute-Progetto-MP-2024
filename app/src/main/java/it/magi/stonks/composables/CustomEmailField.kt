@@ -10,6 +10,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +26,7 @@ fun CustomEmailField(
     onValueChange: (String) -> Unit,
 ) {
     Column {
-        OutlinedTextField(
+        TextField(
             modifier = Modifier
                 .align(alignment = Alignment.CenterHorizontally),
             value = value,
@@ -41,7 +42,10 @@ fun CustomEmailField(
             colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = Color.White,
                 unfocusedTextColor = Color.White,
-                errorTextColor = Color.White
+                errorTextColor = Color.White,
+                focusedBorderColor = Color.Transparent,
+                unfocusedBorderColor = Color.Transparent,
+                errorBorderColor = Color.Transparent
             ),
             singleLine = true,
             leadingIcon = {
