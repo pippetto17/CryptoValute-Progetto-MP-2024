@@ -66,6 +66,11 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.0")
     implementation ("com.airbnb.android:lottie-compose:6.4.0")
 
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0")
+    implementation ("androidx.lifecycle:lifecycle-runtime-compose:2.6.0")
+    implementation ("androidx.navigation:navigation-compose:2.5.3")
+    implementation ("io.coil-kt:coil-compose:2.2.2")
+
     //credentials
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
