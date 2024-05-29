@@ -1,7 +1,6 @@
 package it.magi.stonks.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -36,12 +34,12 @@ import androidx.navigation.NavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import it.magi.stonks.R
-import it.magi.stonks.volley.APIRequests
 import it.magi.stonks.composables.CustomEmailField
 import it.magi.stonks.composables.CustomPasswordField
 import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.ui.theme.TitleFontSize
+import it.magi.stonks.viewmodels.HomeViewModel
 import it.magi.stonks.viewmodels.LoginViewModel
 
 @Composable
@@ -132,7 +130,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                 }
                 Button(
                     colors = ButtonDefaults.buttonColors(Color.Yellow),
-                    onClick = { APIRequests().filterCoins(context, apiKey, "eur") })
+                    onClick = { HomeViewModel().filterCoins(context, apiKey, "eur") })
                 {
                     Text(text = "API TEST!!!", color = Color.Black)
                 }

@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
                         startDestination = NavigationItem.Home.route
                     ) {
                         composable(NavigationItem.Home.route) {
-                            HomeScreen(navController = navController, viewModel = HomeViewModel())
+                            HomeScreen(navController = navController, viewModel = HomeViewModel(application))
                         }
                         composable(NavigationItem.Wallet.route) {
                             WalletScreen(
