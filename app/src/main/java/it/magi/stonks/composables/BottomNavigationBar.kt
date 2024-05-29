@@ -1,4 +1,4 @@
-package it.magi.stonks.objects
+package it.magi.stonks.composables
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.BottomAppBar
@@ -14,10 +14,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import it.magi.stonks.navigation.NavigationItem
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {

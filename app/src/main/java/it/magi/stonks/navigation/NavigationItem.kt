@@ -1,4 +1,4 @@
-package it.magi.stonks.objects
+package it.magi.stonks.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert

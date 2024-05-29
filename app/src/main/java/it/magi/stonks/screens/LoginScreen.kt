@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -34,10 +32,10 @@ import androidx.navigation.NavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import it.magi.stonks.R
-import it.magi.stonks.objects.APIRequests
-import it.magi.stonks.objects.CustomEmailField
-import it.magi.stonks.objects.CustomPasswordField
-import it.magi.stonks.objects.Utilities
+import it.magi.stonks.volley.APIRequests
+import it.magi.stonks.composables.CustomEmailField
+import it.magi.stonks.composables.CustomPasswordField
+import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.ui.theme.TitleColor
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.ui.theme.TitleFontSize

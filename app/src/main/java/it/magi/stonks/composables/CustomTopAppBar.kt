@@ -1,4 +1,4 @@
-package it.magi.stonks.objects
+package it.magi.stonks.composables
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -11,7 +11,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import it.magi.stonks.R
-import it.magi.stonks.ui.theme.BgColor
 import it.magi.stonks.ui.theme.DarkBgColor
 
 @OptIn(ExperimentalMaterial3Api::class)
