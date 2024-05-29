@@ -1,4 +1,4 @@
-package it.magi.stonks.composables
+package it.magi.stonks.objects
 
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults

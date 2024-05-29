@@ -1,4 +1,4 @@
-package it.magi.stonks.volley
+package it.magi.stonks.objects
 
 import android.content.Context
 import android.util.Log
@@ -6,11 +6,20 @@ import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
-import it.magi.stonks.utilities.Utilities
 
 
 class APIRequests {
+    fun getPing(context: Context, apiKey: String) {
+        val url = "https://api.coingecko.com/api/v3/ping?x_cg_demo_api_key=${apiKey}"
+        val queue = Volley.newRequestQueue(context)
 
+        val stringRequest = StringRequest(Request.Method.GET, url,
+            { response ->
+                Log.d("API", "Request Successful, response: $response")
+            },
+            { error -> Log.d("API", "Request Error $error") })
+        queue.add(stringRequest)
+    }
 
     fun getCoinsSimpleList(context: Context, apiKey: String) {
         val url = "https://api.coingecko.com/api/v3/coins/list?x_cg_demo_api_key=${apiKey}"
@@ -47,7 +56,7 @@ class APIRequests {
         ids: String = "",
         categories: String = "",
         order: String = ""
-    )  {
+    ) {
         val queue = Volley.newRequestQueue(context)
         val baseUrl =
             "https://api.coingecko.com/api/v3/coins/markets?x_cg_demo_api_key=$apiKey&vs_currency=$currency"
