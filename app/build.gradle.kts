@@ -63,9 +63,9 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.play.services.auth.v2100)
-    implementation("androidx.core:core-splashscreen:1.0.0")
-    implementation ("com.airbnb.android:lottie-compose:6.4.0")
-    implementation ("com.github.skydoves:cloudy:0.1.2")
+    implementation(libs.androidx.core.splashscreen)
+    implementation (libs.lottie.compose)
+    implementation (libs.cloudy)
 
     //credentials
     implementation(libs.androidx.credentials)
@@ -76,6 +76,8 @@ dependencies {
     //api calls
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
+
+
 
     implementation (libs.volley)
 

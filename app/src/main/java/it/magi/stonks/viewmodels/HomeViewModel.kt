@@ -14,46 +14,16 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonPrimitive
+import com.google.gson.reflect.TypeToken
 import it.magi.stonks.R
 import it.magi.stonks.activities.StartActivity
 import it.magi.stonks.models.Coin
 import it.magi.stonks.utilities.Utilities
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
-    private val data: MutableLiveData<List<Coin>> by lazy {
-        MutableLiveData<List<Coin>>().also {
-            filterCoins(application, R.string.api_key.toString(), "usd" )
-        }
-    }
-
-    private val date: MutableLiveData<String> by lazy {
-        MutableLiveData<String>("")
-    }
-
-    private val current: MutableLiveData<Coin> by lazy {
-        MutableLiveData<Coin>()
-    }
-
-
-    fun setDate(d: String) {
-        date.value = d
-        if(data.value != null) {
-            for (c in data.value!!) {
-                if (c.data.substring(0..9) == date.value) {
-                    current.value = c
-                }
-            }
-        }
-    }
-
-    fun getData(): LiveData<List<Coin>> {
-        return data
-    }
-
-    fun getLast(): MutableLiveData<Coin> {
-        return current
-    }
-
+    var coinsList = MutableLiveData<List<Coin>>()
     fun getPing(context: Context, apiKey: String) {
         val url = "https://api.coingecko.com/api/v3/ping?x_cg_demo_api_key=${apiKey}"
         val queue = Volley.newRequestQueue(context)
@@ -123,11 +93,19 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
         val stringRequest = StringRequest(Request.Method.GET, url,
             { response ->
-                Log.d("API", "filterCoins Request Successful, response: $response")
+                Log.d("API", "filterCoins Request Successful, response: $response ")
+                Log.d("API", "response type: ${response}")
+                val gson = Gson()
+                val coinListType = object : TypeToken<List<Coin>>() {}.type
+
+                val coinList = gson.fromJson<List<Coin>>(response, coinListType)
+                Log.d("API", "coinList: $coinList")
+
             },
             { error -> Log.d("API", "filterCoins Request Error $error") })
         queue.add(stringRequest)
     }
+
     fun logOut(context: Context) {
         var auth = FirebaseAuth.getInstance()
         auth.signOut()
