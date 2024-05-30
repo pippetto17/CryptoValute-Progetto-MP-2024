@@ -44,6 +44,9 @@ class RegistrationViewModel : ViewModel() {
     var _surname = MutableStateFlow("")
     val surname: StateFlow<String> = _surname
 
+    var _currency = MutableStateFlow("")
+    val currency: StateFlow<String> = _currency
+
 
     fun registerUser(
         email: String,
