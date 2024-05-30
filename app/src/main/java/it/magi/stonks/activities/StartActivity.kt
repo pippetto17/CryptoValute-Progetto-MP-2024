@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
 import it.magi.stonks.screens.LoginScreen
+import it.magi.stonks.screens.RegPreference
 import it.magi.stonks.screens.RegistrationScreen
 import it.magi.stonks.ui.theme.StonksTheme
 import it.magi.stonks.viewmodels.LoginViewModel
@@ -52,6 +53,12 @@ class StartActivity : ComponentActivity() {
                             LoginScreen(
                                 navController = navController,
                                 viewModel = LoginViewModel()
+                            )
+                        }
+                        composable("registration2") {
+                            RegPreference(
+                                navController = navController,
+                                viewModel = RegistrationViewModel()
                             )
                         }
                     }

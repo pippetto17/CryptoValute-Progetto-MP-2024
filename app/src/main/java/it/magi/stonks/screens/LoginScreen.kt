@@ -136,7 +136,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
 
             viewModel.GoogleLogin()
 
-            TextButton(onClick = { navController.navigate("registration") }) {
+            TextButton(onClick = { navController.navigate("registration2") }) {
                 Text(text = stringResource(id = R.string.login_signup_label))
 
             }
