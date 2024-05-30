@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -72,6 +73,12 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            Image(
+                painter = painterResource(R.drawable.app_logo),
+                contentDescription = "",
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.size(120.dp)
+            )
             Column {
                 Text(
                     text = stringResource(id = R.string.app_name).uppercase(),

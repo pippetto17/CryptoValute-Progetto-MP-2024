@@ -40,6 +40,7 @@ import com.google.firebase.auth.auth
 import it.magi.stonks.R
 import it.magi.stonks.composables.CustomEmailField
 import it.magi.stonks.composables.CustomPasswordField
+import it.magi.stonks.ui.theme.TitleColor
 import it.magi.stonks.ui.theme.TitleFontSize
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.utilities.Utilities
@@ -85,7 +86,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                 textAlign = TextAlign.Center,
                 fontFamily = titleFont(),
                 fontSize = TitleFontSize,
-                color = Color(0xFF00E5AC)
+                color = TitleColor
             )
 
             Card(
