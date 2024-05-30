@@ -63,9 +63,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.play.services.auth.v2100)
-    implementation(libs.androidx.core.splashscreen)
-    implementation (libs.lottie.compose)
-    implementation (libs.cloudy)
+    implementation("io.coil-kt:coil-compose:2.6.0")
 
     //credentials
     implementation(libs.androidx.credentials)
@@ -80,6 +78,7 @@ dependencies {
 
 
     implementation (libs.volley)
+    implementation(libs.androidx.runtime.livedata)
 
 
 
