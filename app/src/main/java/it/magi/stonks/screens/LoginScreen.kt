@@ -1,6 +1,7 @@
 package it.magi.stonks.screens
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -148,7 +149,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
             Button(
                 colors = ButtonDefaults.buttonColors(Color.Yellow),
                 onClick = {
-                    HomeViewModel(application = application).filterCoins(
+                    HomeViewModel(application).filterCoins(
                         context,
                         apiKey,
                         "eur"
@@ -157,7 +158,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
             {
                 Text(text = "API TEST!!!", color = Color.Black)
             }
-                
+
         }
     }
 }

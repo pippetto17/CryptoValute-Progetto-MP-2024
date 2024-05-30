@@ -24,31 +24,6 @@ import it.magi.stonks.utilities.Utilities
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
     var coinsList = MutableLiveData<List<Coin>>()
-    fun getPing(context: Context, apiKey: String) {
-        val url = "https://api.coingecko.com/api/v3/ping?x_cg_demo_api_key=${apiKey}"
-        val queue = Volley.newRequestQueue(context)
-
-        val stringRequest = StringRequest(
-            Request.Method.GET, url,
-            { response ->
-                Log.d("API", "Request Successful, response: $response")
-            },
-            { error -> Log.d("API", "Request Error $error") })
-        queue.add(stringRequest)
-    }
-
-    fun getCoinsSimpleList(context: Context, apiKey: String) {
-        val url = "https://api.coingecko.com/api/v3/coins/list?x_cg_demo_api_key=${apiKey}"
-        val queue = Volley.newRequestQueue(context)
-
-        val stringRequest = StringRequest(Request.Method.GET, url,
-            { response ->
-                Log.d("API", "get Coins Simple List Request Successful, response: $response")
-            },
-            { error -> Log.d("API", "get Coins Simple List Request Error $error") })
-        queue.add(stringRequest)
-    }
-
     fun getAllCoinsWithMarketData(context: Context, apiKey: String, currency: String) {
         val url =
             "https://api.coingecko.com/api/v3/coins/markets?vs_currency=$currency?x_cg_demo_api_key=${apiKey}"
@@ -72,7 +47,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         ids: String = "",
         categories: String = "",
         order: String = ""
-    ) {
+    ): List<Coin>? {
         val queue = Volley.newRequestQueue(context)
         val baseUrl =
             "https://api.coingecko.com/api/v3/coins/markets?x_cg_demo_api_key=$apiKey&vs_currency=$currency"
@@ -98,12 +73,15 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 val gson = Gson()
                 val coinListType = object : TypeToken<List<Coin>>() {}.type
 
-                val coinList = gson.fromJson<List<Coin>>(response, coinListType)
-                Log.d("API", "coinList: $coinList")
+                val value = gson.fromJson<List<Coin>>(response, coinListType)
+                coinsList.value = value
+                Log.d("API", "value: ${coinsList.value}")
 
             },
             { error -> Log.d("API", "filterCoins Request Error $error") })
         queue.add(stringRequest)
+        Log.d("API", "returning coinsList: ${coinsList.value}")
+        return coinsList.value
     }
 
     fun logOut(context: Context) {
