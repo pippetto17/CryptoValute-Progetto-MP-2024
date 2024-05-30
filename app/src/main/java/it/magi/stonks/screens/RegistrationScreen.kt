@@ -61,7 +61,7 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
     Box(modifier = Modifier.fillMaxSize())
     {
         Image(
-            painter = painterResource(id = R.drawable.login_background_design),
+            painter = painterResource(id = R.drawable.login_background_design2),
             contentDescription = "",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.matchParentSize()
