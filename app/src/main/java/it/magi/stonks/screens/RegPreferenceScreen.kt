@@ -149,7 +149,6 @@ fun RegPreference(navController: NavController, viewModel: RegistrationViewModel
             })
             DropDown()
             Button(
-                colors = ButtonDefaults.buttonColors(Color.Yellow),
                 onClick = { navController.navigate("registration") })
             {
                 Text(text = "Next", color = Color.Black)

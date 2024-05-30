@@ -38,11 +38,7 @@ import it.magi.stonks.viewmodels.RegistrationViewModel
 
 @Composable
 fun RegistrationScreen(navController: NavController, viewModel: RegistrationViewModel) {
-    val nameState = viewModel.name.collectAsState()
-    val surnameState = viewModel.surname.collectAsState()
     val emailState = viewModel.email.collectAsState()
-
-    val formFilter = "^[a-zA-Z\\s]+$".toRegex()
 
     val passwordState = viewModel.password.collectAsState()
     val confirmPasswordState = viewModel.confirmPassword.collectAsState()
@@ -91,28 +87,6 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
                     color = TitleColor
                 )
             }
-            OutlinedTextField(label = {
-                Text(
-                    stringResource(id = (R.string.signup_name_label)), color = Color.White
-                )
-            }, value = nameState.value, colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.White, unfocusedTextColor = Color.White
-            ), onValueChange = {
-                if (it.isEmpty() || it.matches(formFilter)) {
-                    viewModel._name.value = it
-                }
-            })
-            OutlinedTextField(label = {
-                Text(
-                    stringResource(id = (R.string.signup_surname_label)), color = Color.White
-                )
-            }, value = surnameState.value, colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.White, unfocusedTextColor = Color.White
-            ), onValueChange = {
-                if (it.isEmpty() || it.matches(formFilter)) {
-                    viewModel._surname.value = it
-                }
-            })
             OutlinedTextField(label = {
                 Text(
                     stringResource(id = (R.string.signup_email_label)), color = Color.White
@@ -166,6 +140,11 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
             }) {
                 Text(text = stringResource(id = R.string.signup_button_label))
 
+            }
+            Button(
+                onClick = { navController.navigate("registration2") })
+            {
+                Text(text = "Previous", color = Color.Black)
             }
         }
     }
