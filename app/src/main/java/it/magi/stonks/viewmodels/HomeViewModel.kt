@@ -23,11 +23,17 @@ import it.magi.stonks.models.Coin
 import it.magi.stonks.utilities.Utilities
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
-    var coinsList = MutableLiveData<List<Coin>>()
+    private val requestQueue = Volley.newRequestQueue(application)
+
+    private var coinsList = MutableLiveData<List<Coin>>()
+
+    fun getCoinsList(): LiveData<List<Coin>> {
+        return coinsList
+    }
+
     fun getAllCoinsWithMarketData(context: Context, apiKey: String, currency: String) {
         val url =
             "https://api.coingecko.com/api/v3/coins/markets?vs_currency=$currency?x_cg_demo_api_key=${apiKey}"
-        val queue = Volley.newRequestQueue(context)
 
         val stringRequest = StringRequest(Request.Method.GET, url,
             { response ->
@@ -37,7 +43,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 )
             },
             { error -> Log.d("API", "get all coins with market data Request Error $error") })
-        queue.add(stringRequest)
+        requestQueue.add(stringRequest)
     }
 
     fun filterCoins(
@@ -47,8 +53,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         ids: String = "",
         categories: String = "",
         order: String = ""
-    ): List<Coin>? {
-        val queue = Volley.newRequestQueue(context)
+    ){
         val baseUrl =
             "https://api.coingecko.com/api/v3/coins/markets?x_cg_demo_api_key=$apiKey&vs_currency=$currency"
         val idsCasting = Utilities().removeSpacesAndConvertToLowerCase(ids)
@@ -79,9 +84,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
             },
             { error -> Log.d("API", "filterCoins Request Error $error") })
-        queue.add(stringRequest)
+        requestQueue.add(stringRequest)
         Log.d("API", "returning coinsList: ${coinsList.value}")
-        return coinsList.value
     }
 
     fun logOut(context: Context) {

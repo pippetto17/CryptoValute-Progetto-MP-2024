@@ -46,7 +46,7 @@ class StartActivity : ComponentActivity() {
                         composable("registration") {
                             RegistrationScreen(
                                 navController = navController,
-                                viewModel = RegistrationViewModel()
+                                viewModel = RegistrationViewModel(application)
                             )
                         }
                         composable("login") {
@@ -58,7 +58,7 @@ class StartActivity : ComponentActivity() {
                         composable("registration2") {
                             RegPreference(
                                 navController = navController,
-                                viewModel = RegistrationViewModel()
+                                viewModel = RegistrationViewModel(application)
                             )
                         }
                     }

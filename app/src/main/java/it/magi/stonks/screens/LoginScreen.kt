@@ -142,7 +142,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
             }
             Button(
                 colors = ButtonDefaults.buttonColors(Color.Yellow),
-                onClick = { Utilities().testSignup() })
+                onClick = { Utilities().testSignup(application) })
             {
                 Text(text = "TEST!!!", color = Color.Black)
             }

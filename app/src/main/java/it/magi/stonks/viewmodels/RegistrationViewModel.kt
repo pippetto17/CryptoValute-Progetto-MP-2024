@@ -1,5 +1,7 @@
 package it.magi.stonks.viewmodels
 
+import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,36 +17,45 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
+import com.android.volley.Request
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import it.magi.stonks.R
 import it.magi.stonks.utilities.Utilities
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.regex.Pattern
 
-class RegistrationViewModel : ViewModel() {
+class RegistrationViewModel(application: Application) : AndroidViewModel(application) {
+    private val requestQueue = Volley.newRequestQueue(application)
 
-    var _email = MutableStateFlow("")
+    private var currencyList = MutableLiveData<List<String>>()
+
+     var _email = MutableStateFlow("")
     val email: StateFlow<String> = _email
 
-    var _password = MutableStateFlow("")
+     var _password = MutableStateFlow("")
     val password: StateFlow<String> = _password
 
-    var _confirmPassword = MutableStateFlow("")
+     var _confirmPassword = MutableStateFlow("")
     val confirmPassword: StateFlow<String> = _confirmPassword
 
-    var _name = MutableStateFlow("")
+     var _name = MutableStateFlow("")
     val name: StateFlow<String> = _name
 
-    var _surname = MutableStateFlow("")
+     var _surname = MutableStateFlow("")
     val surname: StateFlow<String> = _surname
 
-    var _currency = MutableStateFlow("")
+     var _currency = MutableStateFlow("")
     val currency: StateFlow<String> = _currency
 
 
@@ -142,6 +153,29 @@ class RegistrationViewModel : ViewModel() {
 
 
         return errors
+    }
+
+    fun getSupportedCurrencies(context: Context, apiKey: String) {
+        val url =
+            "https://api.coingecko.com/api/v3/simple/supported_vs_currencies?x_cg_demo_api_key=${apiKey}"
+
+        val stringRequest = StringRequest(
+            Request.Method.GET, url,
+            { response ->
+                Log.d(
+                    "API",
+                    "get all supported currency Request Successful, response: $response"
+
+                )
+                val gson = Gson()
+                val currencyListType = object : TypeToken<List<String>>() {}.type
+
+                val value = gson.fromJson<List<String>>(response, currencyListType)
+                currencyList.value = value
+                Log.d("API", "value: ${currencyList.value}")
+            },
+            { error -> Log.d("API", "get all supported currency Request Error $error") })
+        requestQueue.add(stringRequest)
     }
 
     @Composable

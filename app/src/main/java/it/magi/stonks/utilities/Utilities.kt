@@ -1,8 +1,13 @@
 package it.magi.stonks.utilities
 
+
+import android.app.Application
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import it.magi.stonks.viewmodels.RegistrationViewModel
 
 class Utilities {
+
     fun capitalizeFirstChar(str: String): String {
         return str.replaceFirstChar { it.uppercase() }
     }
@@ -24,7 +29,8 @@ class Utilities {
     }
 
 
-    fun testSignup(){
-        RegistrationViewModel().registerUser("test@gmail.com","Abc123,","Abc123,","TestName","TestSurname")
+
+    fun testSignup(application: Application){
+        RegistrationViewModel(application).registerUser("test@gmail.com","Abc123,","Abc123,","TestName","TestSurname")
     }
 }
