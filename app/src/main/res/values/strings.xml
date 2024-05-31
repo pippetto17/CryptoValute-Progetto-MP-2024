@@ -13,6 +13,7 @@
     <string name="signup_password_error_code_2_special_character">Must contain at least one special character</string>
     <string name="signup_password_error_code_3_number">Must contain at least one number</string>
     <string name="signup_password_error_code_4_uppercase">Must contain at least one uppercase letter</string>
+    <string name="signup_select_currency">Choose your currency </string>
 
     <string name="signup_button_label">Sign Up</string>
 

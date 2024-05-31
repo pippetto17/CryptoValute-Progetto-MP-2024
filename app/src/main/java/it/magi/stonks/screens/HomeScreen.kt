@@ -15,11 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import it.magi.stonks.R
 import it.magi.stonks.composables.CoinItem
-<<<<<<< Updated upstream
-=======
 import it.magi.stonks.composables.FilterBar
 import it.magi.stonks.models.Coin
->>>>>>> Stashed changes
 import it.magi.stonks.viewmodels.HomeViewModel
 
 @Composable

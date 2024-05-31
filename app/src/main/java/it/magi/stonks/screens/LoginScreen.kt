@@ -41,11 +41,8 @@ import com.google.firebase.auth.auth
 import it.magi.stonks.R
 import it.magi.stonks.composables.CustomEmailField
 import it.magi.stonks.composables.CustomPasswordField
-<<<<<<< Updated upstream
 import it.magi.stonks.composables.GoogleLoginButton
-=======
 import it.magi.stonks.ui.theme.FormContainerColor
->>>>>>> Stashed changes
 import it.magi.stonks.ui.theme.TitleColor
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.ui.theme.title_font_size
@@ -91,13 +88,8 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                     .padding(16.dp),
                 textAlign = TextAlign.Center,
                 fontFamily = titleFont(),
-<<<<<<< Updated upstream
                 fontSize = title_font_size,
                 color = TitleColor
-=======
-                fontSize = TitleFontSize,
-                color = Color.White
->>>>>>> Stashed changes
             )
 
             Card(

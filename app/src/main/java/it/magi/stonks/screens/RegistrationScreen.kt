@@ -1,12 +1,15 @@
 package it.magi.stonks.screens
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,6 +21,8 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -40,87 +45,35 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import it.magi.stonks.R
 import it.magi.stonks.composables.CustomPasswordField
+import it.magi.stonks.composables.DropDown
 import it.magi.stonks.ui.theme.TitleColor
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.ui.theme.title_font_size
 import it.magi.stonks.viewmodels.RegistrationViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DropDown() {
-    val list = listOf("EUR", "USD", "GBP", "JPY")
-
-    var isExpanded by remember {
-        mutableStateOf(false)
-    }
-
-    var selectedText by remember { mutableStateOf(list[0]) }
-
-    Column (
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        ExposedDropdownMenuBox(
-            expanded = isExpanded,
-            onExpandedChange = {isExpanded = !isExpanded}
-        ) {
-            TextField(
-                modifier = Modifier
-                    .border(0.5.dp, Color.White, RoundedCornerShape(4.dp))
-                    .menuAnchor(),
-                value = selectedText,
-                onValueChange = {},
-                readOnly = true,
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color.Transparent,
-                    unfocusedBorderColor = Color.Transparent,
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                ),
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)}
-            )
-            ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = false }) {
-                list.forEachIndexed{ index, text ->
-                    DropdownMenuItem(
-                        text = { Text(text = text) },
-                        onClick = {
-                            selectedText = list[index]
-                            isExpanded = false
-                        },
-                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                    )
-                }
-            }
-        }
-        Spacer(modifier = Modifier.height(5.dp))
-        Text(text = "Currently selected: $selectedText")
-    }
-}
 
 @Composable
 fun RegistrationScreen(navController: NavController, viewModel: RegistrationViewModel) {
+    val screenState = viewModel.screen.collectAsState()
+    when (screenState.value) {
+        1 -> {
+            RegistrationScreen1(navController, viewModel)
+        }
+
+        2 -> {
+            RegistrationScreen2(navController, viewModel)
+        }
+    }
+
+
+}
+
+@Composable
+fun RegistrationScreen1(navController: NavController, viewModel: RegistrationViewModel) {
     val nameState = viewModel.name.collectAsState()
     val surnameState = viewModel.surname.collectAsState()
-    val currentCurrencyState = viewModel.currentCurrency.collectAsState()
-
     val formFilter = "^[a-zA-Z\\s]+$".toRegex()
-    val emailState = viewModel.email.collectAsState()
 
-    val passwordState = viewModel.password.collectAsState()
-    val confirmPasswordState = viewModel.confirmPassword.collectAsState()
-    var passwordErrors by rememberSaveable {
-        mutableStateOf(listOf<Int>())
-    }
-    var showEmailDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
-    if (showEmailDialog) {
-        viewModel.EmailSentDialog(
-            navController = navController,
-            onDismiss = { showEmailDialog = false })
-    }
 
 
     Box(modifier = Modifier.fillMaxSize())
@@ -179,7 +132,53 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
             })
             Spacer(modifier = Modifier.height(9.dp))
             DropDown()
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.fillMaxHeight(0.85f))
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                IconButton(
+                    onClick = { viewModel._screen.value = 2 },
+                ) {
+
+                    Icon(
+                        tint = Color.White,
+                        painter = painterResource(id = R.drawable.ic_arrow_right),
+                        contentDescription = "",
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun RegistrationScreen2(navController: NavController, viewModel: RegistrationViewModel) {
+    val emailState = viewModel.email.collectAsState()
+
+    val passwordState = viewModel.password.collectAsState()
+    val confirmPasswordState = viewModel.confirmPassword.collectAsState()
+    var passwordErrors by rememberSaveable {
+        mutableStateOf(listOf<Int>())
+    }
+    var showEmailDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+    if (showEmailDialog) {
+        viewModel.EmailSentDialog(
+            navController = navController,
+            onDismiss = { showEmailDialog = false })
+    }
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = R.drawable.login_background_design2),
+            contentDescription = "",
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier.matchParentSize()
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
             OutlinedTextField(label = {
                 Text(
                     stringResource(id = (R.string.signup_email_label)), color = Color.White
@@ -235,6 +234,19 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
             }) {
                 Text(text = stringResource(id = R.string.signup_button_label))
 
+            }
+            Spacer(modifier = Modifier.fillMaxHeight(0.85f))
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                IconButton(
+                    onClick = { viewModel._screen.value = 1 },
+                ) {
+
+                    Icon(
+                        tint = Color.White,
+                        painter = painterResource(id = R.drawable.ic_arrow_left),
+                        contentDescription = "",
+                    )
+                }
             }
         }
     }
