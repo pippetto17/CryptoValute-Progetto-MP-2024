@@ -137,7 +137,6 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
             )
             LoginDivisor(isForm = false)
             GoogleLoginButton()
-<<<<<<< Updated upstream
             Spacer(modifier = Modifier.height(50.dp))
             SignButton(
                 onclick = { navController.navigate("registration") },
@@ -147,7 +146,6 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                     contentColor = DarkBgColor
                 ),
             )
-=======
 
             TextButton(onClick = {
                 RegistrationViewModel(application).getSupportedCurrencies(context,apiKey)
@@ -155,7 +153,6 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                 Text(text = stringResource(id = R.string.login_signup_label))
 
             }
->>>>>>> Stashed changes
 
         }
     }
