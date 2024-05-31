@@ -1,6 +1,8 @@
 package it.magi.stonks.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,14 +34,24 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
             .fillMaxSize()
             .wrapContentWidth()
     ) {
-        Button(onClick = {
-            viewModel.filterCoins(
-                context,
-                apiKey = apiKey,
-                currency = currency
-            )
-        }) {
-            Text(text = "Click me")
+        Row (
+            modifier = Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ){
+            Button(onClick = {
+                viewModel.filterCoins(
+                    context,
+                    apiKey = apiKey,
+                    currency = currency
+                )
+            }) {
+                Text(text = "Show coins")
+            }
+            Button(onClick = {
+                viewModel.logOut(context)
+            }) {
+                Text(text = "logout")
+            }
         }
         LazyColumn {
             items(coins.value ?: emptyList()) { coin ->

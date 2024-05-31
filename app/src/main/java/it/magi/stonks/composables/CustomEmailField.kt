@@ -2,6 +2,7 @@ package it.magi.stonks.composables
 
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -21,41 +22,37 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun CustomEmailField(
+    modifier: Modifier = Modifier,
     value: String,
     labelId: Int,
     onValueChange: (String) -> Unit,
 ) {
-    Column {
-        TextField(
-            modifier = Modifier
-                .align(alignment = Alignment.CenterHorizontally),
-            value = value,
-            shape = RoundedCornerShape(15.dp),
-            onValueChange = onValueChange,
-            label = {
-                Text(
-                    stringResource(id = labelId),
-                    color = Color.White
-                )
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White,
-                errorTextColor = Color.White,
-                focusedBorderColor = Color.Transparent,
-                unfocusedBorderColor = Color.Transparent,
-                errorBorderColor = Color.Transparent
-            ),
-            singleLine = true,
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Email,
-                    contentDescription = "Email",
-                    tint = Color.LightGray
-                )
-            },
-        )
-
-    }
+    TextField(
+        value = value,
+        shape = RoundedCornerShape(15.dp),
+        onValueChange = onValueChange,
+        label = {
+            Text(
+                stringResource(id = labelId),
+                color = Color.White
+            )
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedTextColor = Color.White,
+            unfocusedTextColor = Color.White,
+            errorTextColor = Color.White,
+            focusedBorderColor = Color.Transparent,
+            unfocusedBorderColor = Color.Transparent,
+            errorBorderColor = Color.Transparent
+        ),
+        singleLine = true,
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Email,
+                contentDescription = "Email",
+                tint = Color.LightGray
+            )
+        },
+    )
 }

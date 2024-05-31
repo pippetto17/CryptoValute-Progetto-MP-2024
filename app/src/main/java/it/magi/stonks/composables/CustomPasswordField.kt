@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -34,6 +35,7 @@ import it.magi.stonks.R
 
 @Composable
 fun CustomPasswordField(
+    modifier: Modifier = Modifier,
     value: String,
     isError: Boolean = false,
     labelId: Int,
@@ -44,10 +46,12 @@ fun CustomPasswordField(
         mutableStateOf(false)
     }
 
-    Column {
+    Column (
+        modifier = modifier.wrapContentWidth()
+    ){
         TextField(
             modifier = Modifier
-                .align(alignment = androidx.compose.ui.Alignment.CenterHorizontally),
+                .fillMaxWidth(),
             value = value,
             shape = RoundedCornerShape(15.dp),
             onValueChange = onValueChange,

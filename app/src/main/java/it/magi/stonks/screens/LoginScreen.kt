@@ -1,9 +1,7 @@
 package it.magi.stonks.screens
 
 import android.app.Application
-import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -42,12 +39,14 @@ import it.magi.stonks.R
 import it.magi.stonks.composables.CustomEmailField
 import it.magi.stonks.composables.CustomPasswordField
 import it.magi.stonks.composables.GoogleLoginButton
+import it.magi.stonks.composables.SignButton
+import it.magi.stonks.composables.LoginDivisor
+import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.TitleColor
+import it.magi.stonks.ui.theme.googleLoginLabelFont
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.ui.theme.title_font_size
-import it.magi.stonks.utilities.Utilities
-import it.magi.stonks.viewmodels.HomeViewModel
 import it.magi.stonks.viewmodels.LoginViewModel
 
 @Composable
@@ -87,28 +86,31 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                     .fillMaxWidth()
                     .padding(16.dp),
                 textAlign = TextAlign.Center,
-                fontFamily = titleFont(),
+                fontFamily = googleLoginLabelFont() ,
                 fontSize = title_font_size,
-                color = TitleColor
+                color = Color.White
             )
-
             Card(
                 shape = RoundedCornerShape(15.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = FormContainerColor,
                 ),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 15.dp
-                )
-            ) {
-                Column {
+                modifier = Modifier
+                    .padding(40.dp)
+                    .fillMaxWidth()
+            ){
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     CustomEmailField(
+                        modifier = Modifier.fillMaxWidth(),
                         value = email,
                         labelId = R.string.login_email_label,
                         onValueChange = { email = it },
                     )
-                    Box(modifier = Modifier.background(Color.Gray, RoundedCornerShape(50.dp)))
+                    LoginDivisor()
                     CustomPasswordField(
+                        modifier = Modifier.fillMaxWidth(),
                         value = password,
                         labelId = R.string.login_password_label,
                         onValueChange = { password = it },
@@ -120,45 +122,29 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                     ) {
                         Text(
                             text = stringResource(id = R.string.login_forgot_password_label),
-                            color = Color.Gray,
+                            color = TitleColor,
                             fontSize = 12.sp,
                         )
                     }
                 }
             }
-
-            Spacer(modifier = Modifier.height(20.dp))
-            Button(
-                onClick = {
+            SignButton(
+                onclick = {
                     viewModel.userLogin(auth, email, password, navController, context)
-                }
-            ) {
-                Text(text = stringResource(id = R.string.login_button_label))
-            }
+                },
+                text = stringResource(id = R.string.login_button_label)
+            )
+            LoginDivisor(isForm = false)
             GoogleLoginButton()
-
-            TextButton(onClick = { navController.navigate("registration") }) {
-                Text(text = stringResource(id = R.string.login_signup_label))
-
-            }
-            Button(
-                colors = ButtonDefaults.buttonColors(Color.Yellow),
-                onClick = { Utilities().testSignup(application) })
-            {
-                Text(text = "TEST!!!", color = Color.Black)
-            }
-            Button(
-                colors = ButtonDefaults.buttonColors(Color.Yellow),
-                onClick = {
-                    HomeViewModel(application).filterCoins(
-                        context,
-                        apiKey,
-                        "eur"
-                    )
-                })
-            {
-                Text(text = "API TEST!!!", color = Color.Black)
-            }
+            Spacer(modifier = Modifier.height(50.dp))
+            SignButton(
+                onclick = { navController.navigate("registration") },
+                text = "Sign up for free",
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFF2458E),
+                    contentColor = DarkBgColor
+                ),
+            )
 
         }
     }
