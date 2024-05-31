@@ -55,8 +55,8 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
      var _surname = MutableStateFlow("")
     val surname: StateFlow<String> = _surname
 
-     var _currency = MutableStateFlow("")
-    val currency: StateFlow<String> = _currency
+     var _currentCurrency = MutableStateFlow("")
+    val currentCurrency: StateFlow<String> = _currentCurrency
 
 
     fun registerUser(
@@ -64,7 +64,8 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         password: String,
         confirmPassword: String,
         name: String,
-        surname: String
+        surname: String,
+        currentCurrency: String
     ): Int {
         Log.d("Signup", "registerUser email: $email")
         Log.d("Signup", "registerUser password: $password")

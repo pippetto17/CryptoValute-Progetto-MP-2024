@@ -31,6 +31,6 @@ class Utilities {
 
 
     fun testSignup(application: Application){
-        RegistrationViewModel(application).registerUser("test@gmail.com","Abc123,","Abc123,","TestName","TestSurname")
+        RegistrationViewModel(application).registerUser("test@gmail.com","Abc123,","Abc123,","TestName","TestSurname","EUR")
     }
 }
