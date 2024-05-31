@@ -41,8 +41,8 @@ import androidx.navigation.NavController
 import it.magi.stonks.R
 import it.magi.stonks.composables.CustomPasswordField
 import it.magi.stonks.ui.theme.TitleColor
-import it.magi.stonks.ui.theme.TitleFontSize
 import it.magi.stonks.ui.theme.titleFont
+import it.magi.stonks.ui.theme.title_font_size
 import it.magi.stonks.viewmodels.RegistrationViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -151,7 +151,7 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
                         .padding(16.dp),
                     textAlign = TextAlign.Center,
                     fontFamily = titleFont(),
-                    fontSize = TitleFontSize,
+                    fontSize = title_font_size,
                     color = TitleColor
                 )
             }

@@ -46,6 +46,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.magi.stonks.R
 import it.magi.stonks.activities.MainActivity
+import it.magi.stonks.ui.theme.googleLoginLabelFont
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -66,7 +67,6 @@ class LoginViewModel : ViewModel() {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        val user = auth.currentUser
                         Log.d("Login", "Login successful")
                         startActivity(
                             context,
@@ -99,64 +99,10 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    @Composable
-    fun GoogleLogin() {
-        var user by remember { mutableStateOf(Firebase.auth.currentUser) }
-        val launcher = rememberFirebaseAuthLauncher(
-            onAuthComplete = { result ->
-                user = result.user
-                Log.d("GoogleAuth", "Auth Complete ${user.toString()}")
-            },
-            onAuthError = {
-                Log.d("GoogleAuth", "ApiException ${it.toString()}")
-                user = null
-            }
-        )
-        val token = stringResource(id = R.string.default_web_client_id)
-        val context = LocalContext.current
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            if (user == null) {
-                Spacer(modifier = Modifier.height(35.dp))
-                Button(
-                    onClick = {
-                        val gso =
-                            GoogleSignInOptions
-                                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                                .requestIdToken(token)
-                                .requestEmail()
-                                .build()
-                        val googleSignInClient = GoogleSignIn
-                            .getClient(context, gso)
-                        launcher
-                            .launch(googleSignInClient.signInIntent)
-
-                    },
-                    modifier = Modifier
-                        .padding(start = 16.dp, end = 16.dp),
-                    shape = RoundedCornerShape(6.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Black,
-                        contentColor = Color.White
-                    )
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_google_logo),
-                        contentDescription = "",
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Text(text = "Sign in with Google", modifier = Modifier.padding(6.dp))
-                }
-            }
-        }
-    }
-    fun retrieveCredentials(auth: FirebaseAuth,email: String, context: Context) {
+    fun retrieveCredentials(auth: FirebaseAuth, email: String, context: Context) {
         if (email.isNotEmpty()) {
             auth.sendPasswordResetEmail(email)
-        }else{
+        } else {
             Toast.makeText(
                 context,
                 "Please enter your email.",

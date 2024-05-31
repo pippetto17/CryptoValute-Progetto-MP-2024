@@ -41,9 +41,10 @@ import com.google.firebase.auth.auth
 import it.magi.stonks.R
 import it.magi.stonks.composables.CustomEmailField
 import it.magi.stonks.composables.CustomPasswordField
+import it.magi.stonks.composables.GoogleLoginButton
 import it.magi.stonks.ui.theme.TitleColor
-import it.magi.stonks.ui.theme.TitleFontSize
 import it.magi.stonks.ui.theme.titleFont
+import it.magi.stonks.ui.theme.title_font_size
 import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.HomeViewModel
 import it.magi.stonks.viewmodels.LoginViewModel
@@ -86,7 +87,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                     .padding(16.dp),
                 textAlign = TextAlign.Center,
                 fontFamily = titleFont(),
-                fontSize = TitleFontSize,
+                fontSize = title_font_size,
                 color = TitleColor
             )
 
@@ -133,8 +134,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
             ) {
                 Text(text = stringResource(id = R.string.login_button_label))
             }
-
-            viewModel.GoogleLogin()
+            GoogleLoginButton()
 
             TextButton(onClick = { navController.navigate("registration") }) {
                 Text(text = stringResource(id = R.string.login_signup_label))

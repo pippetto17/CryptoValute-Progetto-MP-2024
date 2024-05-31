@@ -30,7 +30,7 @@
 
     <string name="login_forgot_password_label">Forgot Password?</string>
     <string name="login_signup_label">Don\'t have an account? Create one for free</string>
-    <string name="login_google_label">Sign in with Google</string>
+    <string name="login_google_label">Google</string>
     <string name="your_web_client_id">407431367773-nlg80561qd2gecmiqjul5js5v4bp6ptk.apps.googleusercontent.com</string>
     <string name="title_activity_main">MainActivity</string>
 

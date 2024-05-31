@@ -12,3 +12,11 @@ fun titleFont(): FontFamily {
         Font("origintech.ttf", assets)
     )
 }
+
+@Composable
+fun googleLoginLabelFont():FontFamily{
+    val assets = LocalContext.current.assets
+    return FontFamily(
+        Font("SonicSurge.ttf", assets)
+    )
+}
