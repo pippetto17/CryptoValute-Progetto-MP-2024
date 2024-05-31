@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import com.android.volley.Request
@@ -34,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import it.magi.stonks.R
+import it.magi.stonks.models.Coin
 import it.magi.stonks.utilities.Utilities
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -43,6 +45,9 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
     private val requestQueue = Volley.newRequestQueue(application)
 
     private var currencyList = MutableLiveData<List<String>>()
+    fun getCurrencyList(): LiveData<List<String>> {
+        return currencyList
+    }
 
      var _email = MutableStateFlow("")
     val email: StateFlow<String> = _email

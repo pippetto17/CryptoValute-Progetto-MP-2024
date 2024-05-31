@@ -30,6 +30,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -38,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -55,9 +57,10 @@ import it.magi.stonks.viewmodels.RegistrationViewModel
 @Composable
 fun RegistrationScreen(navController: NavController, viewModel: RegistrationViewModel) {
     val screenState = viewModel.screen.collectAsState()
+
     when (screenState.value) {
         1 -> {
-            RegistrationScreen1(navController, viewModel)
+            RegistrationScreen1(viewModel)
         }
 
         2 -> {
@@ -69,12 +72,16 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
 }
 
 @Composable
-fun RegistrationScreen1(navController: NavController, viewModel: RegistrationViewModel) {
+fun RegistrationScreen1(viewModel: RegistrationViewModel) {
     val nameState = viewModel.name.collectAsState()
     val surnameState = viewModel.surname.collectAsState()
     val formFilter = "^[a-zA-Z\\s]+$".toRegex()
 
-
+    val context = LocalContext.current
+    val apiKey = stringResource(R.string.api_key)
+    viewModel.getSupportedCurrencies(context,apiKey)
+    val currencyListState = viewModel.getCurrencyList().observeAsState()
+    val currencyList = currencyListState.value
 
     Box(modifier = Modifier.fillMaxSize())
     {
@@ -131,7 +138,9 @@ fun RegistrationScreen1(navController: NavController, viewModel: RegistrationVie
                 }
             })
             Spacer(modifier = Modifier.height(9.dp))
-            DropDown()
+            if (currencyList != null) {
+                DropDown(currencyList)
+            }
             Spacer(modifier = Modifier.fillMaxHeight(0.85f))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                 IconButton(

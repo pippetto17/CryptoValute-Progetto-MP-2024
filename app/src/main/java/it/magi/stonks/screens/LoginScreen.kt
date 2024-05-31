@@ -48,6 +48,7 @@ import it.magi.stonks.ui.theme.googleLoginLabelFont
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.ui.theme.title_font_size
 import it.magi.stonks.viewmodels.LoginViewModel
+import it.magi.stonks.viewmodels.RegistrationViewModel
 
 @Composable
 fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
@@ -136,6 +137,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
             )
             LoginDivisor(isForm = false)
             GoogleLoginButton()
+<<<<<<< Updated upstream
             Spacer(modifier = Modifier.height(50.dp))
             SignButton(
                 onclick = { navController.navigate("registration") },
@@ -145,6 +147,15 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                     contentColor = DarkBgColor
                 ),
             )
+=======
+
+            TextButton(onClick = {
+                RegistrationViewModel(application).getSupportedCurrencies(context,apiKey)
+                navController.navigate("registration") }) {
+                Text(text = stringResource(id = R.string.login_signup_label))
+
+            }
+>>>>>>> Stashed changes
 
         }
     }
