@@ -21,15 +21,13 @@ import it.magi.stonks.R
 fun LoginDivisor(modifier: Modifier = Modifier, isForm: Boolean = true) {
     if (isForm) {
         Box(
-            Modifier
+            modifier = modifier
                 .height(1.dp)
-                .background(Color.LightGray)
-                .padding(10.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(0.95f)
         )
     } else {
         Row(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .padding(
                     start = 40.dp,

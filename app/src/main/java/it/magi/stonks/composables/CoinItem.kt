@@ -21,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import it.magi.stonks.R
+import it.magi.stonks.utilities.Utilities
 
 @Composable
 fun CoinItem(
@@ -34,7 +35,7 @@ fun CoinItem(
         Modifier
             .fillMaxWidth()
             .padding(5.dp)
-            .clickable{},
+            .clickable {},
     ) {
         Row(
             modifier = Modifier
@@ -50,7 +51,7 @@ fun CoinItem(
                 modifier = Modifier.size(50.dp)
             )
             Text(text = name)
-            Text(text = price + if (currency == "usd") "$" else "€")
+            Text(text = Utilities().convertDotsToCommas(price) + if (currency == "usd") "$" else "€")
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(
                     painterResource(R.drawable.ic_add_to_wallet),

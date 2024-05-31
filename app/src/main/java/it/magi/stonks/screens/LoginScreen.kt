@@ -2,6 +2,7 @@ package it.magi.stonks.screens
 
 import android.app.Application
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -54,8 +55,6 @@ import it.magi.stonks.viewmodels.RegistrationViewModel
 fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
     val auth = Firebase.auth
     val context = LocalContext.current
-    val application: Application = LocalContext.current.applicationContext as Application
-    val apiKey = stringResource(id = R.string.api_key)
     var email by rememberSaveable {
         mutableStateOf("")
     }
@@ -109,7 +108,11 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                         labelId = R.string.login_email_label,
                         onValueChange = { email = it },
                     )
-                    LoginDivisor()
+                    LoginDivisor(
+                        Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .background(Color(0xFF364261))
+                    )
                     CustomPasswordField(
                         modifier = Modifier.fillMaxWidth(),
                         value = password,
