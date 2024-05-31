@@ -14,9 +14,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import it.magi.stonks.navigation.ImageVectorIcon
 import it.magi.stonks.navigation.NavigationItem
+import it.magi.stonks.navigation.ResourceIcon
+import it.magi.stonks.ui.theme.DarkBgColor
+import it.magi.stonks.ui.theme.navigationIndicatorColor
 
 @Composable
 fun CustomBottomNavBar(navController: NavController) {
@@ -34,24 +39,42 @@ fun CustomBottomNavBar(navController: NavController) {
             selectedItem = index
         }
     }
-    BottomAppBar {
+    BottomAppBar(
+        containerColor = DarkBgColor,
+    ) {
         NavigationBar(
+            containerColor = DarkBgColor,
         ) {
             items.forEachIndexed { index, item ->
                 NavigationBarItem(
                     colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = Color.Black,
+                        selectedIconColor = DarkBgColor,
                         unselectedIconColor = Color.LightGray,
                         unselectedTextColor = Color.LightGray,
+                        selectedTextColor = navigationIndicatorColor,
+                        indicatorColor = navigationIndicatorColor
                     ),
                     alwaysShowLabel = true,
                     icon = {
-                        Icon(
-                            item.icon,
-                            contentDescription = item.title,
-                            modifier = Modifier
-                                .size(25.dp)
-                        )
+                        when (item.icon) {
+                            is ImageVectorIcon -> {
+                                Icon(
+                                    imageVector = item.icon.imageVector,
+                                    contentDescription = item.title,
+                                    modifier = Modifier
+                                        .size(25.dp)
+                                )
+                            }
+
+                            is ResourceIcon -> {
+                                Icon(
+                                    painterResource(item.icon.resourceId),
+                                    contentDescription = item.title,
+                                    modifier = Modifier
+                                        .size(25.dp)
+                                )
+                            }
+                        }
                     },
                     label = {
                         Text(item.title)

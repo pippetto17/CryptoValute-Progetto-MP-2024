@@ -1,5 +1,6 @@
 package it.magi.stonks.activities
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,6 +21,7 @@ import it.magi.stonks.screens.HomeScreen
 import it.magi.stonks.screens.OtherScreen
 import it.magi.stonks.screens.SearchScreen
 import it.magi.stonks.screens.WalletScreen
+import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.StonksTheme
 import it.magi.stonks.viewmodels.HomeViewModel
 import it.magi.stonks.viewmodels.OtherViewModel
@@ -45,6 +47,7 @@ class MainActivity : ComponentActivity() {
                     bottomBar = {
                         CustomBottomNavBar(navController = navController)
                     },
+                    containerColor = FormContainerColor
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,

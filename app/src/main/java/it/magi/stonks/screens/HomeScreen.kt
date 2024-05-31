@@ -15,6 +15,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import it.magi.stonks.R
 import it.magi.stonks.composables.CoinItem
+<<<<<<< Updated upstream
+=======
+import it.magi.stonks.composables.FilterBar
+import it.magi.stonks.models.Coin
+>>>>>>> Stashed changes
 import it.magi.stonks.viewmodels.HomeViewModel
 
 @Composable
@@ -23,6 +28,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
     val context = LocalContext.current
     val coins = viewModel.getCoinsList().observeAsState()
     val apiKey = stringResource(R.string.api_key)
+    val currency = "eur"
 
     Column(
         modifier = Modifier
@@ -33,19 +39,18 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
             viewModel.filterCoins(
                 context,
                 apiKey = apiKey,
-                currency = "usd"
+                currency = currency
             )
         }) {
             Text(text = "Click me")
         }
-
         LazyColumn {
             items(coins.value ?: emptyList()) { coin ->
                 CoinItem(
                     imageURI = coin.image,
                     name = coin.name ?: "Unknown",
-                    symbol = coin.symbol ?: "Unknown",
                     price = coin.current_price.toString(),
+                    currency = currency,
                 )
             }
         }
