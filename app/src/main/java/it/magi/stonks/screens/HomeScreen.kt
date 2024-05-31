@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -34,24 +35,14 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
             .fillMaxSize()
             .wrapContentWidth()
     ) {
-        Row (
-            modifier = Modifier.fillMaxSize(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ){
-            Button(onClick = {
-                viewModel.filterCoins(
-                    context,
-                    apiKey = apiKey,
-                    currency = currency
-                )
-            }) {
-                Text(text = "Show coins")
-            }
-            Button(onClick = {
-                viewModel.logOut(context)
-            }) {
-                Text(text = "logout")
-            }
+        Button(onClick = {
+            viewModel.filterCoins(
+                context,
+                apiKey = apiKey,
+                currency = currency
+            )
+        }) {
+            Text(text = "Show coins")
         }
         LazyColumn {
             items(coins.value ?: emptyList()) { coin ->

@@ -87,15 +87,4 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         requestQueue.add(stringRequest)
         Log.d("API", "returning coinsList: ${coinsList.value}")
     }
-
-    fun logOut(context: Context) {
-        var auth = FirebaseAuth.getInstance()
-        auth.signOut()
-        auth.currentUser?.reload()
-        startActivity(
-            context,
-            Intent(context, StartActivity::class.java),
-            null
-        )
-    }
 }

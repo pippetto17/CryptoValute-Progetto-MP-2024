@@ -147,13 +147,6 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                 ),
             )
 
-            TextButton(onClick = {
-                RegistrationViewModel(application).getSupportedCurrencies(context,apiKey)
-                navController.navigate("registration") }) {
-                Text(text = stringResource(id = R.string.login_signup_label))
-
-            }
-
         }
     }
 }
