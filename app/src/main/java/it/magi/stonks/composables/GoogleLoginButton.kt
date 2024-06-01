@@ -23,8 +23,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import it.magi.stonks.R
-import it.magi.stonks.ui.theme.googleLoginLabelFont
 import it.magi.stonks.ui.theme.login_google_button_size
+import it.magi.stonks.ui.theme.titleFont
 
 @Composable
 fun GoogleLoginButton() {
@@ -53,7 +53,7 @@ fun GoogleLoginButton() {
             )
             Text(
                 text = stringResource(id = R.string.login_google_label),
-                fontFamily = googleLoginLabelFont(),
+                fontFamily = titleFont(),
                 fontSize = login_google_button_size
             )
         }

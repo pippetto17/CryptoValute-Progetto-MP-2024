@@ -46,7 +46,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import it.magi.stonks.R
 import it.magi.stonks.activities.MainActivity
-import it.magi.stonks.ui.theme.googleLoginLabelFont
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 

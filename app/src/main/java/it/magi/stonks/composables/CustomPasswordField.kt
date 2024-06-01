@@ -31,7 +31,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import it.magi.stonks.R
+import it.magi.stonks.ui.theme.titleFont
 
 @Composable
 fun CustomPasswordField(
@@ -46,9 +48,9 @@ fun CustomPasswordField(
         mutableStateOf(false)
     }
 
-    Column (
+    Column(
         modifier = modifier.wrapContentWidth()
-    ){
+    ) {
         TextField(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -58,7 +60,9 @@ fun CustomPasswordField(
             label = {
                 Text(
                     stringResource(id = labelId),
-                    color = Color.White
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontFamily = titleFont()
                 )
             },
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -90,9 +94,10 @@ fun CustomPasswordField(
             },
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Default.Lock,
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_password),
                     contentDescription = "Password",
-                    tint = Color.LightGray
+                    tint = Color.White,
+                    modifier = Modifier.size(30.dp),
                 )
             },
         )

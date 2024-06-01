@@ -4,19 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun titleFont(): FontFamily {
     val assets = LocalContext.current.assets
     return FontFamily(
-        Font("origintech.ttf", assets)
-    )
-}
-
-@Composable
-fun googleLoginLabelFont():FontFamily{
-    val assets = LocalContext.current.assets
-    return FontFamily(
-        Font("SonicSurge.ttf", assets)
+        Font("Heavitas.ttf", assets)
     )
 }

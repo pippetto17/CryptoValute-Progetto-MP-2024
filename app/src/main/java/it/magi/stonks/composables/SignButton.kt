@@ -16,7 +16,8 @@ import androidx.compose.ui.unit.sp
 import it.magi.stonks.R
 import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.TitleColor
-import it.magi.stonks.ui.theme.googleLoginLabelFont
+import it.magi.stonks.ui.theme.sign_button_size
+import it.magi.stonks.ui.theme.titleFont
 
 @Composable
 fun SignButton(
@@ -42,8 +43,8 @@ fun SignButton(
     ) {
         Text(
             text = text.uppercase(),
-            fontSize = 35.sp,
-            fontFamily = googleLoginLabelFont()
+            fontSize = sign_button_size,
+            fontFamily = titleFont()
         )
     }
 }

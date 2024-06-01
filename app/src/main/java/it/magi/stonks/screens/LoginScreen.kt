@@ -45,7 +45,6 @@ import it.magi.stonks.composables.LoginDivisor
 import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.TitleColor
-import it.magi.stonks.ui.theme.googleLoginLabelFont
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.ui.theme.title_font_size
 import it.magi.stonks.viewmodels.LoginViewModel
@@ -82,11 +81,9 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
             )
             Text(
                 text = stringResource(id = R.string.app_name).uppercase(),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
+                modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
-                fontFamily = googleLoginLabelFont() ,
+                fontFamily = titleFont(),
                 fontSize = title_font_size,
                 color = Color.White
             )
@@ -96,22 +93,18 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                     containerColor = FormContainerColor,
                 ),
                 modifier = Modifier
-                    .padding(40.dp)
+                    .padding(start = 40.dp, end = 40.dp, top = 20.dp, bottom =40.dp)
                     .fillMaxWidth()
-            ){
+            ) {
                 Column(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     CustomEmailField(
                         modifier = Modifier.fillMaxWidth(),
                         value = email,
-                        labelId = R.string.login_email_label,
                         onValueChange = { email = it },
                     )
                     LoginDivisor(
-                        Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .background(Color(0xFF364261))
                     )
                     CustomPasswordField(
                         modifier = Modifier.fillMaxWidth(),
@@ -127,7 +120,8 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                         Text(
                             text = stringResource(id = R.string.login_forgot_password_label),
                             color = TitleColor,
-                            fontSize = 12.sp,
+                            fontSize = 14.sp,
+                            fontFamily = titleFont()
                         )
                     }
                 }
@@ -140,7 +134,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
             )
             LoginDivisor(isForm = false)
             GoogleLoginButton()
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(40.dp))
             SignButton(
                 onclick = { navController.navigate("registration") },
                 text = "Sign up for free",
