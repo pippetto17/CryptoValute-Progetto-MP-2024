@@ -21,11 +21,17 @@ import it.magi.stonks.R
 import it.magi.stonks.activities.StartActivity
 import it.magi.stonks.models.Coin
 import it.magi.stonks.utilities.Utilities
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val requestQueue = Volley.newRequestQueue(application)
 
     private var coinsList = MutableLiveData<List<Coin>>()
+
+    var _filter = MutableStateFlow("")
+    val filter: StateFlow<String> = _filter
 
     fun getCoinsList(): LiveData<List<Coin>> {
         return coinsList
