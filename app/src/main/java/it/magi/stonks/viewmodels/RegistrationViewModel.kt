@@ -10,15 +10,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-<<<<<<< Updated upstream
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-=======
->>>>>>> Stashed changes
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,13 +32,10 @@ import androidx.navigation.NavController
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-<<<<<<< Updated upstream
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
-=======
->>>>>>> Stashed changes
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.google.firebase.Firebase
@@ -191,7 +185,6 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         return errors
     }
 
-
     fun getSupportedCurrencies(apiKey: String) {
         val url =
             "https://api.coingecko.com/api/v3/simple/supported_vs_currencies?x_cg_demo_api_key=${apiKey}"
@@ -222,66 +215,4 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         editor.putString("currency", string.lowercase())
         editor.apply()
     }
-
-<<<<<<< Updated upstream
-    @Composable
-    fun EmailSentDialog(navController: NavController, onDismiss: () -> Unit) {
-        Dialog(onDismissRequest = { navController.navigate("login") }) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = stringResource(id = R.string.email_sent_dialog_text),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(16.dp),
-                    color = Color.White
-                )
-                TextButton(onClick = onDismiss) {
-                    Text(
-                        text = stringResource(id = R.string.email_sent_dialog_send_again_text),
-                        textAlign = TextAlign.Center
-                    )
-                }
-                Button(onClick = {
-                    navController.navigate("login")
-                }) {
-                    Text(
-                        text = stringResource(id = R.string.email_sent_dialog_button_label),
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
-        }
-    }
-=======
-    private fun handleSignIn(
-        response: GetCredentialResponse,
-        onLoginSuccess: (String) -> Unit,
-        onError: (Exception) -> Unit
-    ) {
-        val credential = response.credential
-        if (credential is CustomCredential) {
-            if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
-                try {
-                    val googleIdTokenCredential =
-                        GoogleIdTokenCredential.createFrom(credential.data)
-                    val idToken = googleIdTokenCredential.idToken
-                    onLoginSuccess(idToken)
-                } catch (e: GoogleIdTokenParsingException) {
-                    onError(e)
-                }
-            } else {
-                onError(Exception("Unexpected credential type"))
-            }
-        } else {
-            onError(Exception("Unexpected credential type"))
-        }
-    }
-
-    enum class LoginState {
-        Idle,
-        Login
-    }
->>>>>>> Stashed changes
 }
