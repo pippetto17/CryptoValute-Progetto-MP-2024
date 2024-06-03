@@ -101,32 +101,33 @@ fun CustomPasswordField(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.LightGray)
+                    .background(Color(0x33FF1100), shape = RoundedCornerShape(10.dp))
+                    .padding(start = 10.dp, end = 10.dp)
             ) {
                 for (error in passwordErrors) {
                     when (error) {
                         1 -> Text(
                             text = stringResource(id = R.string.signup_password_error_code_1_length),
                             modifier = Modifier.padding(start = 10.dp),
-                            color = Color.DarkGray
+                            color = Color(0xA6FF1100)
                         )
 
                         2 -> Text(
                             text = stringResource(id = R.string.signup_password_error_code_2_special_character),
                             modifier = Modifier.padding(start = 10.dp),
-                            color = Color.DarkGray
+                            color = Color(0xD5FF1100)
                         )
 
                         3 -> Text(
                             text = stringResource(id = R.string.signup_password_error_code_3_number),
                             modifier = Modifier.padding(start = 10.dp),
-                            color = Color.DarkGray
+                            color = Color(0xD5FF1100)
                         )
 
                         4 -> Text(
                             text = stringResource(id = R.string.signup_password_error_code_4_uppercase),
                             modifier = Modifier.padding(start = 10.dp),
-                            color = Color.DarkGray
+                            color = Color(0xD5FF1100)
                         )
                     }
                 }
