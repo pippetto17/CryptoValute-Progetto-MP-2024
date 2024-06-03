@@ -2,16 +2,12 @@ package it.magi.stonks.utilities
 
 
 import android.app.Application
-<<<<<<< Updated upstream
 import android.content.Context
 import android.util.Log
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-=======
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import it.magi.stonks.composables.ConfirmEmailDialog
->>>>>>> Stashed changes
 import it.magi.stonks.viewmodels.RegistrationViewModel
 
 class Utilities {
@@ -35,13 +31,6 @@ class Utilities {
         // Convert to lowercase
         return noExtraSpaces.lowercase()
     }
-<<<<<<< Updated upstream
-
-
-
-
-=======
->>>>>>> Stashed changes
     fun testSignup(application: Application){
         RegistrationViewModel(application).registerUser("test@gmail.com","Abc123,","Abc123,","TestName","TestSurname","EUR")
 

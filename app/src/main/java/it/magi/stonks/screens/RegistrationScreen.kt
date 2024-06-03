@@ -232,7 +232,6 @@ fun SecondRegistrationScreen(navController: NavController, viewModel: Registrati
                     viewModel._confirmPassword.value = it
                 })
             Button(onClick = {
-<<<<<<< Updated upstream
                 Log.d(
                     "Signup",
                     "registerUser value: ${
@@ -246,8 +245,6 @@ fun SecondRegistrationScreen(navController: NavController, viewModel: Registrati
                         )
                     }"
                 )
-=======
->>>>>>> Stashed changes
                 if (viewModel.registerUser(
                         viewModel.email.value,
                         viewModel.password.value,

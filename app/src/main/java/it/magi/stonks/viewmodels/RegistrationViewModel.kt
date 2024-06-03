@@ -79,13 +79,10 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
     var _surname = MutableStateFlow("")
     val surname: StateFlow<String> = _surname
 
-<<<<<<< Updated upstream
      var _selectedCurrency = MutableStateFlow("BTC")
     val selectedCurrency: StateFlow<String> = _selectedCurrency
-=======
     var _currentCurrency = MutableStateFlow("")
     val currentCurrency: StateFlow<String> = _currentCurrency
->>>>>>> Stashed changes
 
     var _screen = MutableStateFlow(1)
     val screen: MutableStateFlow<Int> = _screen
@@ -220,7 +217,6 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         editor.putString("currency", string.lowercase())
         editor.apply()
     }
-<<<<<<< Updated upstream
 
     private fun handleSignIn(
         response: GetCredentialResponse,
@@ -280,6 +276,4 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
             }
         }
     }
-=======
->>>>>>> Stashed changes
 }
