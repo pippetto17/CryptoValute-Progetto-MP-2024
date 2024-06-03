@@ -31,7 +31,7 @@ class LoginViewModel : ViewModel() {
         password: String,
         navController: NavController,
         context: android.content.Context
-    ) {
+    ): Int {
         auth.currentUser?.reload()
         Log.d(
             "Login",
@@ -56,6 +56,7 @@ class LoginViewModel : ViewModel() {
                         ).show()
                     }
                 }
+            return 1
         } else {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(
@@ -63,14 +64,12 @@ class LoginViewModel : ViewModel() {
                     "Please fill in all fields.",
                     Toast.LENGTH_SHORT,
                 ).show()
+                return 1
             } else if (auth.currentUser?.isEmailVerified == false) {
-                Toast.makeText(
-                    context,
-                    "Please verify your email.",
-                    Toast.LENGTH_SHORT,
-                ).show()
+                return 0
             }
         }
+        return 1
     }
 
     fun retrieveCredentials(auth: FirebaseAuth, email: String, context: Context) {

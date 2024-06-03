@@ -45,6 +45,7 @@ import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.TitleColor
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.ui.theme.title_font_size
+import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.LoginViewModel
 
 @Composable
@@ -57,6 +58,17 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
     var password by rememberSaveable {
         mutableStateOf("")
     }
+
+    var showEmailDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+    if (showEmailDialog) {
+        Utilities().EmailSentDialog(
+            navController = navController,
+            onDismiss = { showEmailDialog = false }
+        )
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.login_background_design2),
@@ -126,7 +138,9 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
             }
             SignButton(
                 onclick = {
-                    viewModel.userLogin(auth, email, password, navController, context)
+                    if (viewModel.userLogin(auth, email, password, navController, context) == 0) {
+                        showEmailDialog = true
+                    }
                 },
                 text = stringResource(id = R.string.login_button_label)
             )

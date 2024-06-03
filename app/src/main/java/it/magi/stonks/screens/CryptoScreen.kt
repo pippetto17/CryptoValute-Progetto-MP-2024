@@ -35,7 +35,6 @@ fun CryptoScreen(viewModel: HomeViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .wrapContentWidth(Alignment.Start)
     ) {
         FilterBar(viewModel)
         LazyColumn {

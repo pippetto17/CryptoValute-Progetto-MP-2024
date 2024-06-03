@@ -50,6 +50,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import it.magi.stonks.R
+import it.magi.stonks.composables.ConfirmEmailDialog
 import it.magi.stonks.utilities.Utilities
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -63,28 +64,31 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         return currencyList
     }
 
-     var _email = MutableStateFlow("")
+    var _email = MutableStateFlow("")
     val email: StateFlow<String> = _email
 
-     var _password = MutableStateFlow("")
+    var _password = MutableStateFlow("")
     val password: StateFlow<String> = _password
 
-     var _confirmPassword = MutableStateFlow("")
+    var _confirmPassword = MutableStateFlow("")
     val confirmPassword: StateFlow<String> = _confirmPassword
 
-     var _name = MutableStateFlow("")
+    var _name = MutableStateFlow("")
     val name: StateFlow<String> = _name
 
-     var _surname = MutableStateFlow("")
+    var _surname = MutableStateFlow("")
     val surname: StateFlow<String> = _surname
 
+<<<<<<< Updated upstream
      var _selectedCurrency = MutableStateFlow("BTC")
     val selectedCurrency: StateFlow<String> = _selectedCurrency
+=======
+    var _currentCurrency = MutableStateFlow("")
+    val currentCurrency: StateFlow<String> = _currentCurrency
+>>>>>>> Stashed changes
 
     var _screen = MutableStateFlow(1)
     val screen: MutableStateFlow<Int> = _screen
-
-
 
 
     fun registerUser(
@@ -208,12 +212,15 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
             { error -> Log.d("API", "get all supported currency Request Error $error") })
         requestQueue.add(stringRequest)
     }
-    fun SaveCurrencyPreference(string: String){
-        val sharedPreferences = getApplication<Application>().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+    fun SaveCurrencyPreference(string: String) {
+        val sharedPreferences =
+            getApplication<Application>().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("currency", string.lowercase())
         editor.apply()
     }
+<<<<<<< Updated upstream
 
     private fun handleSignIn(
         response: GetCredentialResponse,
@@ -273,4 +280,6 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
             }
         }
     }
+=======
+>>>>>>> Stashed changes
 }

@@ -47,6 +47,7 @@ import it.magi.stonks.composables.SignButton
 import it.magi.stonks.composables.SignDivisor
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.titleFont
+import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.RegistrationViewModel
 
 
@@ -188,9 +189,10 @@ fun SecondRegistrationScreen(navController: NavController, viewModel: Registrati
         mutableStateOf(false)
     }
     if (showEmailDialog) {
-        viewModel.EmailSentDialog(
+        Utilities().EmailSentDialog(
             navController = navController,
-            onDismiss = { showEmailDialog = false })
+            onDismiss = { showEmailDialog = false }
+        )
     }
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -230,6 +232,7 @@ fun SecondRegistrationScreen(navController: NavController, viewModel: Registrati
                     viewModel._confirmPassword.value = it
                 })
             Button(onClick = {
+<<<<<<< Updated upstream
                 Log.d(
                     "Signup",
                     "registerUser value: ${
@@ -243,6 +246,8 @@ fun SecondRegistrationScreen(navController: NavController, viewModel: Registrati
                         )
                     }"
                 )
+=======
+>>>>>>> Stashed changes
                 if (viewModel.registerUser(
                         viewModel.email.value,
                         viewModel.password.value,
