@@ -18,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,6 +42,7 @@ import com.android.volley.toolbox.Volley
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.google.firebase.Firebase
@@ -52,11 +54,15 @@ import com.google.gson.reflect.TypeToken
 import it.magi.stonks.R
 import it.magi.stonks.composables.ConfirmEmailDialog
 import it.magi.stonks.utilities.Utilities
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.regex.Pattern
 
+
 class RegistrationViewModel(application: Application) : AndroidViewModel(application) {
+
+
     private val requestQueue = Volley.newRequestQueue(application)
 
     private var currencyList = MutableLiveData<List<String>>()
@@ -79,7 +85,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
     var _surname = MutableStateFlow("")
     val surname: StateFlow<String> = _surname
 
-     var _selectedCurrency = MutableStateFlow("BTC")
+    var _selectedCurrency = MutableStateFlow("BTC")
     val selectedCurrency: StateFlow<String> = _selectedCurrency
     var _currentCurrency = MutableStateFlow("")
     val currentCurrency: StateFlow<String> = _currentCurrency
@@ -187,6 +193,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         return errors
     }
 
+
     fun getSupportedCurrencies(apiKey: String) {
         val url =
             "https://api.coingecko.com/api/v3/simple/supported_vs_currencies?x_cg_demo_api_key=${apiKey}"
@@ -216,34 +223,6 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         val editor = sharedPreferences.edit()
         editor.putString("currency", string.lowercase())
         editor.apply()
-    }
-
-    private fun handleSignIn(
-        response: GetCredentialResponse,
-        onLoginSuccess: (String) -> Unit,
-        onError: (Exception) -> Unit
-    ) {
-        val credential = response.credential
-        if (credential is CustomCredential) {
-            if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
-                try {
-                    val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
-                    val idToken = googleIdTokenCredential.idToken
-                    onLoginSuccess(idToken)
-                } catch (e: GoogleIdTokenParsingException) {
-                    onError(e)
-                }
-            } else {
-                onError(Exception("Unexpected credential type"))
-            }
-        } else {
-            onError(Exception("Unexpected credential type"))
-        }
-    }
-
-    enum class LoginState {
-        Idle,
-        Login
     }
 
     @Composable

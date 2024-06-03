@@ -49,7 +49,7 @@ import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.LoginViewModel
 
 @Composable
-fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
+fun LoginScreen(navController: NavController, viewModel: LoginViewModel,onSignInClick:()->Unit) {
     val auth = Firebase.auth
     val context = LocalContext.current
     var email by rememberSaveable {
@@ -145,7 +145,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                 text = stringResource(id = R.string.login_button_label)
             )
             SignDivisor(isForm = false)
-            GoogleLoginButton()
+            GoogleLoginButton({onSignInClick()})
             Spacer(modifier = Modifier.height(40.dp))
             SignButton(
                 onclick = { navController.navigate("registration") },

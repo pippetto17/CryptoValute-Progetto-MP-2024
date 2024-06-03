@@ -26,7 +26,7 @@ import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.utilities.Utilities
 
 @Composable
-fun GoogleLoginButton() {
+fun GoogleLoginButton(onclick: () -> Unit) {
     val application=LocalContext.current.applicationContext as Application
     Button(
         modifier = Modifier
@@ -34,7 +34,7 @@ fun GoogleLoginButton() {
             .padding(start = 40.dp, end = 40.dp)
             .height(60.dp),
         onClick = {
-                  Utilities().testSignup(application = application)
+                  onclick()
         },
         shape = RoundedCornerShape(15.dp),
         colors = ButtonDefaults.buttonColors(

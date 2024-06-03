@@ -9,9 +9,10 @@ import it.magi.stonks.activities.StartActivity
 
 class OtherViewModel: ViewModel() {
     fun logOut(context: Context) {
-        var auth = FirebaseAuth.getInstance()
+        val auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
         auth.signOut()
-        auth.currentUser?.reload()
+
         ContextCompat.startActivity(
             context,
             Intent(context, StartActivity::class.java),
