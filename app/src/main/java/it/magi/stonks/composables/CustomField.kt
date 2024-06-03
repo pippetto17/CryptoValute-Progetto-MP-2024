@@ -1,7 +1,6 @@
 package it.magi.stonks.composables
 
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -16,7 +15,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import it.magi.stonks.R
 import it.magi.stonks.ui.theme.titleFont
 
 @Composable

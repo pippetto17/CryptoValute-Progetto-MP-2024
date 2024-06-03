@@ -10,10 +10,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import it.magi.stonks.ui.theme.DarkBgColor
-import it.magi.stonks.ui.theme.TitleColor
+import it.magi.stonks.ui.theme.SignInColor
 import it.magi.stonks.ui.theme.sign_button_size
 import it.magi.stonks.ui.theme.titleFont
 
@@ -26,7 +27,7 @@ fun SignButton(
     onclick: () -> Unit,
     text: String,
     colors: ButtonColors = ButtonDefaults.buttonColors(
-        containerColor = TitleColor,
+        containerColor = SignInColor,
         contentColor = DarkBgColor
     ),
     textSize: TextUnit = sign_button_size
@@ -43,7 +44,8 @@ fun SignButton(
         Text(
             text = text.uppercase(),
             fontSize = textSize,
-            fontFamily = titleFont()
+            fontFamily = titleFont(),
+            textAlign = TextAlign.Center
         )
     }
 }

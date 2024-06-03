@@ -42,7 +42,8 @@ import it.magi.stonks.composables.SignButton
 import it.magi.stonks.composables.SignDivisor
 import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.FormContainerColor
-import it.magi.stonks.ui.theme.TitleColor
+import it.magi.stonks.ui.theme.SignUpButtonsColor
+import it.magi.stonks.ui.theme.SignInColor
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.ui.theme.title_font_size
 import it.magi.stonks.utilities.Utilities
@@ -65,7 +66,9 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel,onSignIn
     if (showEmailDialog) {
         Utilities().EmailSentDialog(
             navController = navController,
-            onDismiss = { showEmailDialog = false }
+            onDismiss = { showEmailDialog = false },
+            onConfirmButton = { showEmailDialog = false },
+            onDismissButton = { showEmailDialog = false }
         )
     }
 
@@ -129,7 +132,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel,onSignIn
                     ) {
                         Text(
                             text = stringResource(id = R.string.login_forgot_password_label),
-                            color = TitleColor,
+                            color = SignInColor,
                             fontSize = 14.sp,
                             fontFamily = titleFont()
                         )
@@ -151,7 +154,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel,onSignIn
                 onclick = { navController.navigate("registration") },
                 text = "Sign up for free",
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFF2458E),
+                    containerColor = SignUpButtonsColor,
                     contentColor = DarkBgColor
                 ),
             )

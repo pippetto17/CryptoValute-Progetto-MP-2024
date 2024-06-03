@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import it.magi.stonks.ui.theme.DarkBgColor
-import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.viewmodels.HomeViewModel
 
 @Composable

@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -39,13 +41,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import it.magi.stonks.R
+import it.magi.stonks.composables.CustomEmailField
 import it.magi.stonks.composables.CustomField
 import it.magi.stonks.composables.CustomPasswordField
 import it.magi.stonks.composables.DropDown
 import it.magi.stonks.composables.SignButton
 import it.magi.stonks.composables.SignDivisor
 import it.magi.stonks.ui.theme.FormContainerColor
+import it.magi.stonks.ui.theme.SignUpButtonsColor
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.RegistrationViewModel
@@ -92,7 +97,7 @@ fun FirstRegistrationScreen(navController: NavController, viewModel: Registratio
             modifier = Modifier
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Card(
                 shape = RoundedCornerShape(15.dp),
@@ -100,7 +105,7 @@ fun FirstRegistrationScreen(navController: NavController, viewModel: Registratio
                     containerColor = FormContainerColor,
                 ),
                 modifier = Modifier
-                    .padding(start = 40.dp, end = 40.dp, top = 20.dp, bottom = 40.dp)
+                    .padding(40.dp)
                     .fillMaxWidth()
             ) {
                 Column(
@@ -119,13 +124,22 @@ fun FirstRegistrationScreen(navController: NavController, viewModel: Registratio
                     )
                     Text(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 30.dp),
+                            .fillMaxWidth(),
                         text = stringResource(id = R.string.signup_label),
                         textAlign = TextAlign.Center,
                         fontFamily = titleFont(),
                         fontSize = 30.sp,
-                        color = Color.White
+                        color = Color.White,
+                    )
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 20.dp, bottom = 20.dp),
+                        text = stringResource(R.string.signup_subtitle_1),
+                        textAlign = TextAlign.Center,
+                        fontFamily = titleFont(),
+                        fontSize = 20.sp,
+                        color = Color.White,
                     )
                     CustomField(
                         value = nameState.value,
@@ -149,14 +163,17 @@ fun FirstRegistrationScreen(navController: NavController, viewModel: Registratio
                         }
                     )
                     SignDivisor()
-                    DropDown(viewModel,currencyList)
+                    DropDown(viewModel, currencyList)
                 }
             }
             Row(
-                Modifier.fillMaxWidth(),
+                Modifier
+                    .fillMaxWidth()
+                    .height(60.dp),
             ) {
                 SignButton(
                     modifier = Modifier
+                        .fillMaxHeight()
                         .weight(1f)
                         .padding(start = 40.dp, end = 10.dp),
                     onclick = { navController.popBackStack() },
@@ -165,11 +182,13 @@ fun FirstRegistrationScreen(navController: NavController, viewModel: Registratio
                 )
                 SignButton(
                     modifier = Modifier
+                        .fillMaxHeight()
                         .weight(1f)
                         .padding(start = 10.dp, end = 40.dp),
-                    onclick = { viewModel._screen.value = 2},
-                    text = stringResource(R.string.signup_back_to_login),
-                    textSize = 15.sp
+                    onclick = { viewModel._screen.value = 2 },
+                    text = stringResource(R.string.next_screen_button_label),
+                    textSize = 15.sp,
+                    colors = ButtonDefaults.buttonColors(containerColor = SignUpButtonsColor)
                 )
             }
         }
@@ -191,10 +210,28 @@ fun SecondRegistrationScreen(navController: NavController, viewModel: Registrati
     if (showEmailDialog) {
         Utilities().EmailSentDialog(
             navController = navController,
-            onDismiss = { showEmailDialog = false }
+            onDismiss = {
+                showEmailDialog = false
+                navController.navigate("login"){
+                    popUpTo(0)
+                }
+            },
+            onConfirmButton = {
+                showEmailDialog = false
+                navController.navigate("login"){
+                    popUpTo(0)
+                }
+            },
+            onDismissButton = {
+                showEmailDialog = false
+                navController.navigate("login"){
+                    popUpTo(0)
+                }
+            }
         )
     }
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize())
+    {
         Image(
             painter = painterResource(id = R.drawable.login_background_design2),
             contentDescription = "",
@@ -205,76 +242,121 @@ fun SecondRegistrationScreen(navController: NavController, viewModel: Registrati
             modifier = Modifier
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            OutlinedTextField(label = {
-                Text(
-                    stringResource(id = (R.string.signup_email_label)), color = Color.White
-                )
-            }, value = emailState.value, colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.White, unfocusedTextColor = Color.White
-            ), onValueChange = {
-                viewModel._email.value = it
-            })
-            CustomPasswordField(
-                value = passwordState.value,
-                isError = passwordErrors.isNotEmpty(),
-                labelId = R.string.signup_password_label,
-                onValueChange = {
-                    viewModel._password.value = it
-                    passwordErrors = viewModel.validatePassword(it)
-                },
-                passwordErrors = passwordErrors
-            )
-            CustomPasswordField(value = confirmPasswordState.value,
-                labelId = R.string.signup_confirm_password_label,
-                onValueChange = {
-                    viewModel._confirmPassword.value = it
-                })
-            Button(onClick = {
-                Log.d(
-                    "Signup",
-                    "registerUser value: ${
-                        viewModel.registerUser(
-                            viewModel.email.value,
-                            viewModel.password.value,
-                            viewModel.confirmPassword.value,
-                            viewModel.name.value,
-                            viewModel.surname.value,
-                            viewModel.selectedCurrency.value
-                        )
-                    }"
-                )
-                if (viewModel.registerUser(
-                        viewModel.email.value,
-                        viewModel.password.value,
-                        viewModel.confirmPassword.value,
-                        viewModel.name.value,
-                        viewModel.surname.value,
-                        viewModel.selectedCurrency.value
-                    ) == 0
+            Card(
+                shape = RoundedCornerShape(15.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = FormContainerColor,
+                ),
+                modifier = Modifier
+                    .padding(40.dp)
+                    .fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Log.d("Signup", "Apro il dialog")
-                    showEmailDialog = true
-                } else {
-                    println("Errore nella creazione utente firebase")
-                }
-            }) {
-                Text(text = stringResource(id = R.string.signup_label))
-
-            }
-            Spacer(modifier = Modifier.fillMaxHeight(0.85f))
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                IconButton(
-                    onClick = { viewModel._screen.value = 1 },
-                ) {
-
-                    Icon(
-                        tint = Color.White,
-                        painter = painterResource(id = R.drawable.ic_arrow_left),
+                    Image(
+                        modifier = Modifier
+                            .size(35.dp)
+                            .fillMaxWidth(),
+                        painter = painterResource(R.drawable.app_logo),
                         contentDescription = "",
+                        contentScale = ContentScale.FillBounds,
+                    )
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        text = stringResource(id = R.string.signup_label),
+                        textAlign = TextAlign.Center,
+                        fontFamily = titleFont(),
+                        fontSize = 30.sp,
+                        color = Color.White,
+                    )
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 20.dp, bottom = 20.dp),
+                        text = stringResource(R.string.signup_subtitle_2),
+                        textAlign = TextAlign.Center,
+                        fontFamily = titleFont(),
+                        fontSize = 20.sp,
+                        color = Color.White,
+                    )
+                    CustomEmailField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = emailState.value,
+                        onValueChange = {
+                            viewModel._email.value = it
+                        }
+                    )
+                    SignDivisor()
+                    CustomPasswordField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = passwordState.value,
+                        isError = passwordErrors.isNotEmpty(),
+                        labelId = R.string.signup_password_label,
+                        onValueChange = {
+                            viewModel._password.value = it
+                            passwordErrors = viewModel.validatePassword(it)
+                        },
+                        passwordErrors = passwordErrors
+                    )
+                    SignDivisor()
+                    CustomPasswordField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = confirmPasswordState.value,
+                        labelId = R.string.signup_confirm_password_label,
+                        onValueChange = {
+                            viewModel._confirmPassword.value = it
+                        }
                     )
                 }
+            }
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .height(60.dp),
+            ) {
+                SignButton(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f)
+                        .padding(start = 40.dp, end = 10.dp),
+                    onclick = { viewModel._screen.value = 1 },
+                    text = stringResource(R.string.signup_previous),
+                    textSize = 15.sp
+                )
+                SignButton(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f)
+                        .padding(end = 40.dp, start = 10.dp),
+                    onclick = {
+                        if (viewModel.registerUser(
+                                viewModel.email.value,
+                                viewModel.password.value,
+                                viewModel.confirmPassword.value,
+                                viewModel.name.value,
+                                viewModel.surname.value,
+                                viewModel.selectedCurrency.value
+                            ) == 0
+                        ) {
+                            Log.d("Signup", "Apro il dialog")
+                            showEmailDialog = true
+                        } else {
+                            println("Errore nella creazione utente firebase")
+                        }
+                    },
+                    text = stringResource(R.string.signup_label),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = SignUpButtonsColor
+                    ),
+                    textSize = 15.sp
+                )
             }
         }
     }

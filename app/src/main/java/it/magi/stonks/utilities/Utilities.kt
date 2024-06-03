@@ -2,9 +2,6 @@ package it.magi.stonks.utilities
 
 
 import android.app.Application
-import android.content.Context
-import android.util.Log
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import it.magi.stonks.composables.ConfirmEmailDialog
@@ -41,11 +38,16 @@ class Utilities {
 
     }
     @Composable
-    fun EmailSentDialog(navController: NavController, onDismiss: () -> Unit) {
+    fun EmailSentDialog(
+        navController: NavController,
+        onDismiss: () -> Unit,
+        onDismissButton: () -> Unit,
+        onConfirmButton: () -> Unit
+    ){
         ConfirmEmailDialog(
             onDismissRequest = onDismiss,
-            onDismissButton = { navController.navigate("login") },
-            onConfirmButton = { navController.navigate("login") }
+            onDismissButton = onDismissButton,
+            onConfirmButton = onConfirmButton
         )
     }
 }

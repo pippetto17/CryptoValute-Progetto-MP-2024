@@ -1,12 +1,8 @@
 package it.magi.stonks.viewmodels
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.credentials.CredentialManager
 import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -14,12 +10,15 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+<<<<<<< Updated upstream
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+=======
+>>>>>>> Stashed changes
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,10 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.credentials.CustomCredential
-import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
-import androidx.credentials.exceptions.GetCredentialException
-import androidx.credentials.provider.getCreateCredentialCredentialResponse
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -39,10 +35,13 @@ import androidx.navigation.NavController
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+<<<<<<< Updated upstream
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+=======
+>>>>>>> Stashed changes
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.google.firebase.Firebase
@@ -52,7 +51,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import it.magi.stonks.R
-import it.magi.stonks.composables.ConfirmEmailDialog
 import it.magi.stonks.utilities.Utilities
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -225,6 +223,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         editor.apply()
     }
 
+<<<<<<< Updated upstream
     @Composable
     fun EmailSentDialog(navController: NavController, onDismiss: () -> Unit) {
         Dialog(onDismissRequest = { navController.navigate("login") }) {
@@ -255,4 +254,34 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
             }
         }
     }
+=======
+    private fun handleSignIn(
+        response: GetCredentialResponse,
+        onLoginSuccess: (String) -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        val credential = response.credential
+        if (credential is CustomCredential) {
+            if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+                try {
+                    val googleIdTokenCredential =
+                        GoogleIdTokenCredential.createFrom(credential.data)
+                    val idToken = googleIdTokenCredential.idToken
+                    onLoginSuccess(idToken)
+                } catch (e: GoogleIdTokenParsingException) {
+                    onError(e)
+                }
+            } else {
+                onError(Exception("Unexpected credential type"))
+            }
+        } else {
+            onError(Exception("Unexpected credential type"))
+        }
+    }
+
+    enum class LoginState {
+        Idle,
+        Login
+    }
+>>>>>>> Stashed changes
 }

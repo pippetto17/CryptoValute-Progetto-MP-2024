@@ -1,10 +1,14 @@
 package it.magi.stonks.activities
 
 import android.content.Intent
+<<<<<<< Updated upstream
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+=======
+import android.os.Bundle
+>>>>>>> Stashed changes
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -20,10 +24,14 @@ import androidx.credentials.GetCredentialRequest
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+<<<<<<< Updated upstream
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+=======
+import com.google.firebase.auth.FirebaseAuth
+>>>>>>> Stashed changes
 import it.magi.stonks.screens.LoginScreen
 import it.magi.stonks.screens.RegistrationScreen
 import it.magi.stonks.ui.theme.StonksTheme
