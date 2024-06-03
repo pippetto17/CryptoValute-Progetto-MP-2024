@@ -14,6 +14,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,10 +25,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import it.magi.stonks.R
+import it.magi.stonks.viewmodels.RegistrationViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDown(currencyList: List<String>) {
+fun DropDown(viewModel: RegistrationViewModel, currencyList: List<String>) {
     Log.d("currencyList", "DropDown: "+currencyList.toString())
 
 
@@ -36,6 +38,7 @@ fun DropDown(currencyList: List<String>) {
     }
 
     var selectedText by remember { mutableStateOf(currencyList[0]) }
+    val currencyState = viewModel.selectedCurrency.collectAsState()
 
     Column (
         modifier = Modifier
@@ -52,8 +55,10 @@ fun DropDown(currencyList: List<String>) {
                     .border(0.5.dp, Color.White, RoundedCornerShape(4.dp))
                     .menuAnchor(),
                 label = { Text(text = stringResource(R.string.signup_select_currency)) },
-                value = selectedText,
-                onValueChange = {},
+                value = currencyState.value.uppercase(),
+                onValueChange = {
+                                viewModel._selectedCurrency.value = selectedText
+                },
                 readOnly = true,
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color.Transparent,
@@ -71,7 +76,7 @@ fun DropDown(currencyList: List<String>) {
                     DropdownMenuItem(
                         text = { Text(text = text.uppercase()) },
                         onClick = {
-                            selectedText = currencyList[index]
+                            viewModel._selectedCurrency.value = currencyList[index]
                             isExpanded = false
                         },
                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding

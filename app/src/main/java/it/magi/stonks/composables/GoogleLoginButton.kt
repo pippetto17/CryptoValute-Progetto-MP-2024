@@ -1,5 +1,6 @@
 package it.magi.stonks.composables
 
+import android.app.Application
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -15,21 +16,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import it.magi.stonks.R
 import it.magi.stonks.ui.theme.login_google_button_size
 import it.magi.stonks.ui.theme.titleFont
+import it.magi.stonks.utilities.Utilities
 
 @Composable
 fun GoogleLoginButton() {
+    val application=LocalContext.current.applicationContext as Application
     Button(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 40.dp, end = 40.dp)
             .height(60.dp),
-        onClick = {},
+        onClick = {
+                  Utilities().testSignup(application = application)
+        },
         shape = RoundedCornerShape(15.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Black,

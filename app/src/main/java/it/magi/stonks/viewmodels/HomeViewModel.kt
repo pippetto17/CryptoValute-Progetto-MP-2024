@@ -23,9 +23,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private var coinsList = MutableLiveData<List<Coin>>()
 
-
     private var nftList = MutableLiveData<List<NFT>>()
+
     private var nftData = MutableLiveData<NFTData>()
+
 
     var _screen = MutableStateFlow(1)
     val screen: MutableStateFlow<Int> = _screen
@@ -84,19 +85,11 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         Log.d("API", "returning coinsList: ${coinsList.value}")
     }
 
-    fun GetCurrencyPreference():String{
-        val sharedPreferences = getApplication<Application>().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val savedCurrency = sharedPreferences.getString("currency", null) // Get the value, with null as the default
-
-        if (savedCurrency != null) {
-            // Use the saved currency value
-            Log.d("Shared Preferences", "savedCurrency: $savedCurrency")
-            return savedCurrency
-        } else {
-            // Handle the case where no currency is saved
-            Log.d("Shared Preferences", "No currency saved")
-            return "null"
-        }
+    fun GetCurrencyPreference(application: Application):String{
+        val sharedPreferences = application.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val result=sharedPreferences.getString("currency","null")
+        Log.d("SharedPreferences","shared: $result")
+        return result.toString()
     }
 
     fun getNFts(

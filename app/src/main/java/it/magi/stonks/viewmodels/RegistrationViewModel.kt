@@ -1,8 +1,12 @@
 package it.magi.stonks.viewmodels
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.credentials.CredentialManager
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -10,6 +14,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,6 +26,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetCredentialResponse
+import androidx.credentials.exceptions.GetCredentialException
+import androidx.credentials.provider.getCreateCredentialCredentialResponse
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,6 +38,11 @@ import androidx.navigation.NavController
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -59,8 +78,8 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
      var _surname = MutableStateFlow("")
     val surname: StateFlow<String> = _surname
 
-     var _currentCurrency = MutableStateFlow("")
-    val currentCurrency: StateFlow<String> = _currentCurrency
+     var _selectedCurrency = MutableStateFlow("BTC")
+    val selectedCurrency: StateFlow<String> = _selectedCurrency
 
     var _screen = MutableStateFlow(1)
     val screen: MutableStateFlow<Int> = _screen
@@ -167,7 +186,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         return errors
     }
 
-    fun getSupportedCurrencies(context: Context, apiKey: String) {
+    fun getSupportedCurrencies(apiKey: String) {
         val url =
             "https://api.coingecko.com/api/v3/simple/supported_vs_currencies?x_cg_demo_api_key=${apiKey}"
 
@@ -192,8 +211,36 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
     fun SaveCurrencyPreference(string: String){
         val sharedPreferences = getApplication<Application>().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putString("currency", string)
+        editor.putString("currency", string.lowercase())
         editor.apply()
+    }
+
+    private fun handleSignIn(
+        response: GetCredentialResponse,
+        onLoginSuccess: (String) -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        val credential = response.credential
+        if (credential is CustomCredential) {
+            if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+                try {
+                    val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+                    val idToken = googleIdTokenCredential.idToken
+                    onLoginSuccess(idToken)
+                } catch (e: GoogleIdTokenParsingException) {
+                    onError(e)
+                }
+            } else {
+                onError(Exception("Unexpected credential type"))
+            }
+        } else {
+            onError(Exception("Unexpected credential type"))
+        }
+    }
+
+    enum class LoginState {
+        Idle,
+        Login
     }
 
     @Composable

@@ -2,6 +2,10 @@ package it.magi.stonks.utilities
 
 
 import android.app.Application
+import android.content.Context
+import android.util.Log
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import it.magi.stonks.viewmodels.RegistrationViewModel
 
 class Utilities {
@@ -28,7 +32,14 @@ class Utilities {
 
 
 
+
     fun testSignup(application: Application){
         RegistrationViewModel(application).registerUser("test@gmail.com","Abc123,","Abc123,","TestName","TestSurname","EUR")
+
+
+    }
+
+    fun testSharedPreferences(application: Application){
+
     }
 }

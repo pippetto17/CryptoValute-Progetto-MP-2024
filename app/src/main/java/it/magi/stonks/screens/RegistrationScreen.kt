@@ -75,7 +75,7 @@ fun FirstRegistrationScreen(navController: NavController, viewModel: Registratio
 
     val context = LocalContext.current
     val apiKey = stringResource(R.string.api_key)
-    viewModel.getSupportedCurrencies(context, apiKey)
+    viewModel.getSupportedCurrencies(apiKey)
     val currencyListState = viewModel.getCurrencyList().observeAsState()
     val currencyList = currencyListState.value ?: listOf("EUR", "USD")
 
@@ -148,7 +148,7 @@ fun FirstRegistrationScreen(navController: NavController, viewModel: Registratio
                         }
                     )
                     SignDivisor()
-                    DropDown(currencyList)
+                    DropDown(viewModel,currencyList)
                 }
             }
             Row(
@@ -239,7 +239,7 @@ fun SecondRegistrationScreen(navController: NavController, viewModel: Registrati
                             viewModel.confirmPassword.value,
                             viewModel.name.value,
                             viewModel.surname.value,
-                            viewModel.currentCurrency.value
+                            viewModel.selectedCurrency.value
                         )
                     }"
                 )
@@ -249,7 +249,7 @@ fun SecondRegistrationScreen(navController: NavController, viewModel: Registrati
                         viewModel.confirmPassword.value,
                         viewModel.name.value,
                         viewModel.surname.value,
-                        viewModel.currentCurrency.value
+                        viewModel.selectedCurrency.value
                     ) == 0
                 ) {
                     Log.d("Signup", "Apro il dialog")
