@@ -24,6 +24,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
@@ -79,7 +80,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         confirmPassword: String,
         name: String,
         surname: String,
-        currentCurrency: String
+        currencyPreference: String
     ): Int {
         Log.d("Signup", "registerUser email: $email")
         Log.d("Signup", "registerUser password: $password")
@@ -112,6 +113,8 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
                             "RealTimeDatabase",
                             "User registered successfully on RealTimeDatabase"
                         )
+                        SaveCurrencyPreference(currencyPreference)
+                        Log.d("Shared Preferences", "currencyPreference: $currencyPreference")
                     } catch (e: Exception) {
                         Log.d("RealTimeDatabase", "Error: ${e.message}")
                     }
@@ -191,6 +194,12 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
             },
             { error -> Log.d("API", "get all supported currency Request Error $error") })
         requestQueue.add(stringRequest)
+    }
+    fun SaveCurrencyPreference(string: String){
+        val sharedPreferences = getApplication<Application>().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("currency", string)
+        editor.apply()
     }
 
     @Composable

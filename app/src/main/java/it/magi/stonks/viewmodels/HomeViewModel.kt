@@ -93,4 +93,39 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         requestQueue.add(stringRequest)
         Log.d("API", "returning coinsList: ${coinsList.value}")
     }
+
+    fun GetCurrencyPreference():String{
+        val sharedPreferences = getApplication<Application>().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val savedCurrency = sharedPreferences.getString("currency", null) // Get the value, with null as the default
+
+// Now you can use the savedCurrency variable
+        if (savedCurrency != null) {
+            // Use the saved currency value
+            Log.d("Shared Preferences", "savedCurrency: $savedCurrency")
+            return savedCurrency
+        } else {
+            // Handle the case where no currency is saved
+            Log.d("Shared Preferences", "No currency saved")
+            return "null"
+        }
+    }
+
+    fun getTrendingsList(apiKey: String,){
+        val url="https://api.coingecko.com/api/v3/search/trending?x_cg_demo_api_key=$apiKey"
+        val stringRequest = StringRequest(Request.Method.GET, url,
+            { response ->
+                Log.d("API", "Trending list Request Successful, response: $response ")
+                Log.d("API", "response type: ${response}")
+                val gson = Gson()
+                val coinListType = object : TypeToken<List<Coin>>() {}.type
+
+                val value = gson.fromJson<List<Coin>>(response, coinListType)
+                coinsList.value = value
+                Log.d("API", "value: ${coinsList.value}")
+
+            },
+            { error -> Log.d("API", "Trending List Request Error $error") })
+        requestQueue.add(stringRequest)
+        Log.d("API", "returning trendingList: ${coinsList.value}")
+    }
 }
