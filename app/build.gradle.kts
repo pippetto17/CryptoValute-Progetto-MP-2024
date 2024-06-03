@@ -79,6 +79,7 @@ dependencies {
 
     implementation (libs.volley)
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.benchmark.macro)
 
 
 

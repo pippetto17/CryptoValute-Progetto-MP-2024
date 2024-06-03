@@ -1,5 +1,6 @@
 package it.magi.stonks.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -22,9 +23,14 @@ import it.magi.stonks.viewmodels.HomeViewModel
 fun CryptoScreen(viewModel: HomeViewModel) {
 
     val context = LocalContext.current
-    val coins = viewModel.getCoinsList().observeAsState()
     val apiKey = stringResource(R.string.api_key)
-    val currency = "eur"
+    val currency ="usd"
+    Log.d("CryptoScreen", "currency preference: $currency")
+    viewModel.filterCoins(
+        context,
+        apiKey = apiKey,
+        currency = currency)
+    val coins = viewModel.getCoinsList().observeAsState()
 
     Column(
         modifier = Modifier
@@ -32,15 +38,6 @@ fun CryptoScreen(viewModel: HomeViewModel) {
             .wrapContentWidth(Alignment.Start)
     ) {
         FilterBar(viewModel)
-        Button(onClick = {
-            viewModel.filterCoins(
-                context,
-                apiKey = apiKey,
-                currency = currency
-            )
-        }) {
-            Text(text = "Show coins")
-        }
         LazyColumn {
             items(coins.value ?: emptyList()) { coin ->
                 CoinItem(

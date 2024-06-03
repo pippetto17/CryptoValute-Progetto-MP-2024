@@ -34,6 +34,7 @@ retrofit = "2.6.2"
 volley = "1.2.1"
 uiDesktop = "1.6.7"
 runtimeLivedata = "1.6.7"
+benchmarkMacro = "1.2.4"
 
 [libraries]
 androidx-appsearch-local-storage = { module = "androidx.appsearch:appsearch-local-storage", version.ref = "appsearchLocalStorage" }
@@ -77,6 +78,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 volley = { module = "com.android.volley:volley", version.ref = "volley" }
 androidx-ui-desktop = { group = "androidx.compose.ui", name = "ui-desktop", version.ref = "uiDesktop" }
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
+androidx-benchmark-macro = { group = "androidx.benchmark", name = "benchmark-macro", version.ref = "benchmarkMacro" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
