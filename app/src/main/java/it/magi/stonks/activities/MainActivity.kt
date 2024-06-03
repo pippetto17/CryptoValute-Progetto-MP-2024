@@ -1,6 +1,5 @@
 package it.magi.stonks.activities
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,13 +18,11 @@ import it.magi.stonks.composables.CustomTopAppBar
 import it.magi.stonks.navigation.NavigationItem
 import it.magi.stonks.screens.HomeScreen
 import it.magi.stonks.screens.OtherScreen
-import it.magi.stonks.screens.SearchScreen
 import it.magi.stonks.screens.WalletScreen
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.StonksTheme
 import it.magi.stonks.viewmodels.HomeViewModel
 import it.magi.stonks.viewmodels.OtherViewModel
-import it.magi.stonks.viewmodels.SearchViewModel
 import it.magi.stonks.viewmodels.WalletViewModel
 
 class MainActivity : ComponentActivity() {
@@ -55,18 +52,12 @@ class MainActivity : ComponentActivity() {
                         startDestination = NavigationItem.Home.route
                     ) {
                         composable(NavigationItem.Home.route) {
-                            HomeScreen(navController = navController, viewModel = HomeViewModel(application))
+                            HomeScreen(navController,viewModel = HomeViewModel(application))
                         }
                         composable(NavigationItem.Wallet.route) {
                             WalletScreen(
                                 navController = navController,
                                 viewModel = WalletViewModel()
-                            )
-                        }
-                        composable(NavigationItem.Search.route) {
-                            SearchScreen(
-                                navController = navController,
-                                viewModel = SearchViewModel()
                             )
                         }
                         composable(NavigationItem.Other.route) {

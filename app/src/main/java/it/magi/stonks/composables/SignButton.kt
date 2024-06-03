@@ -10,11 +10,12 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+<<<<<<< Updated upstream
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.TextUnit
+=======
+>>>>>>> Stashed changes
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import it.magi.stonks.R
 import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.TitleColor
 import it.magi.stonks.ui.theme.sign_button_size

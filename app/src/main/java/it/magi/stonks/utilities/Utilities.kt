@@ -2,8 +2,6 @@ package it.magi.stonks.utilities
 
 
 import android.app.Application
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import it.magi.stonks.viewmodels.RegistrationViewModel
 
 class Utilities {

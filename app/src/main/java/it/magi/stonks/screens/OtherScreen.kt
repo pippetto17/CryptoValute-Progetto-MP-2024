@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import it.magi.stonks.viewmodels.HomeViewModel
 import it.magi.stonks.viewmodels.OtherViewModel
 
 @Composable
