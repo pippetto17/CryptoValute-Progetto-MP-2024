@@ -1,20 +1,13 @@
 package it.magi.stonks.composables
 
-
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -27,9 +20,11 @@ import it.magi.stonks.R
 import it.magi.stonks.ui.theme.titleFont
 
 @Composable
-fun CustomEmailField(
+fun CustomField(
     modifier: Modifier = Modifier,
     value: String,
+    labelID: Int,
+    drawableID: Int,
     onValueChange: (String) -> Unit,
 ) {
     TextField(
@@ -38,13 +33,13 @@ fun CustomEmailField(
         onValueChange = onValueChange,
         label = {
             Text(
-                stringResource(R.string.login_email_label),
+                stringResource(labelID),
                 color = Color.White,
                 fontSize = 18.sp,
                 fontFamily = titleFont()
             )
         },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         colors = OutlinedTextFieldDefaults.colors(
             focusedTextColor = Color.White,
             unfocusedTextColor = Color.White,
@@ -56,8 +51,8 @@ fun CustomEmailField(
         singleLine = true,
         leadingIcon = {
             Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_email),
-                contentDescription = stringResource(R.string.login_email_label),
+                imageVector = ImageVector.vectorResource(drawableID),
+                contentDescription = stringResource(labelID),
                 tint = Color.White,
                 modifier = Modifier.size(25.dp)
             )

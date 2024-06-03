@@ -1,8 +1,6 @@
 package it.magi.stonks.screens
 
-import android.app.Application
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,14 +39,13 @@ import it.magi.stonks.composables.CustomEmailField
 import it.magi.stonks.composables.CustomPasswordField
 import it.magi.stonks.composables.GoogleLoginButton
 import it.magi.stonks.composables.SignButton
-import it.magi.stonks.composables.LoginDivisor
+import it.magi.stonks.composables.SignDivisor
 import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.TitleColor
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.ui.theme.title_font_size
 import it.magi.stonks.viewmodels.LoginViewModel
-import it.magi.stonks.viewmodels.RegistrationViewModel
 
 @Composable
 fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
@@ -93,19 +90,20 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                     containerColor = FormContainerColor,
                 ),
                 modifier = Modifier
-                    .padding(start = 40.dp, end = 40.dp, top = 20.dp, bottom =40.dp)
+                    .padding(start = 40.dp, end = 40.dp, top = 20.dp, bottom = 40.dp)
                     .fillMaxWidth()
             ) {
                 Column(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
                 ) {
                     CustomEmailField(
                         modifier = Modifier.fillMaxWidth(),
                         value = email,
                         onValueChange = { email = it },
                     )
-                    LoginDivisor(
-                    )
+                    SignDivisor()
                     CustomPasswordField(
                         modifier = Modifier.fillMaxWidth(),
                         value = password,
@@ -132,7 +130,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
                 },
                 text = stringResource(id = R.string.login_button_label)
             )
-            LoginDivisor(isForm = false)
+            SignDivisor(isForm = false)
             GoogleLoginButton()
             Spacer(modifier = Modifier.height(40.dp))
             SignButton(

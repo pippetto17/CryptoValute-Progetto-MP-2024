@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -35,13 +37,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import it.magi.stonks.R
+import it.magi.stonks.composables.CustomField
 import it.magi.stonks.composables.CustomPasswordField
 import it.magi.stonks.composables.DropDown
-import it.magi.stonks.ui.theme.TitleColor
+import it.magi.stonks.composables.SignButton
+import it.magi.stonks.composables.SignDivisor
+import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.titleFont
-import it.magi.stonks.ui.theme.title_font_size
 import it.magi.stonks.viewmodels.RegistrationViewModel
 
 
@@ -51,7 +56,7 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
 
     when (screenState.value) {
         1 -> {
-            FirstRegistrationScreen(viewModel)
+            FirstRegistrationScreen(navController, viewModel)
         }
 
         2 -> {
@@ -63,16 +68,16 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
 }
 
 @Composable
-fun FirstRegistrationScreen(viewModel: RegistrationViewModel) {
+fun FirstRegistrationScreen(navController: NavController, viewModel: RegistrationViewModel) {
     val nameState = viewModel.name.collectAsState()
     val surnameState = viewModel.surname.collectAsState()
     val formFilter = "^[a-zA-Z\\s]+$".toRegex()
 
     val context = LocalContext.current
     val apiKey = stringResource(R.string.api_key)
-    viewModel.getSupportedCurrencies(context,apiKey)
+    viewModel.getSupportedCurrencies(context, apiKey)
     val currencyListState = viewModel.getCurrencyList().observeAsState()
-    val currencyList = currencyListState.value
+    val currencyList = currencyListState.value ?: listOf("EUR", "USD")
 
     Box(modifier = Modifier.fillMaxSize())
     {
@@ -88,62 +93,83 @@ fun FirstRegistrationScreen(viewModel: RegistrationViewModel) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Image(
-                painter = painterResource(R.drawable.app_logo),
-                contentDescription = "",
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier.size(120.dp)
-            )
-            Column {
-                Text(
-                    text = stringResource(id = R.string.app_name).uppercase(),
+            Card(
+                shape = RoundedCornerShape(15.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = FormContainerColor,
+                ),
+                modifier = Modifier
+                    .padding(start = 40.dp, end = 40.dp, top = 20.dp, bottom = 40.dp)
+                    .fillMaxWidth()
+            ) {
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
-                    textAlign = TextAlign.Center,
-                    fontFamily = titleFont(),
-                    fontSize = title_font_size,
-                    color = TitleColor
-                )
-            }
-            OutlinedTextField(label = {
-                Text(
-                    stringResource(id = (R.string.signup_name_label)), color = Color.White
-                )
-            }, value = nameState.value, colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.White, unfocusedTextColor = Color.White
-            ), onValueChange = {
-                if (it.isEmpty() || it.matches(formFilter)) {
-                    viewModel._name.value = it
-                }
-            })
-            OutlinedTextField(label = {
-                Text(
-                    stringResource(id = (R.string.signup_surname_label)), color = Color.White
-                )
-            }, value = surnameState.value, colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.White, unfocusedTextColor = Color.White
-            ), onValueChange = {
-                if (it.isEmpty() || it.matches(formFilter)) {
-                    viewModel._surname.value = it
-                }
-            })
-            Spacer(modifier = Modifier.height(9.dp))
-            if (currencyList != null) {
-                DropDown(currencyList)
-            }
-            Spacer(modifier = Modifier.fillMaxHeight(0.85f))
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                IconButton(
-                    onClick = { viewModel._screen.value = 2 },
+                        .padding(10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-
-                    Icon(
-                        tint = Color.White,
-                        painter = painterResource(id = R.drawable.ic_arrow_right),
+                    Image(
+                        modifier = Modifier
+                            .size(35.dp)
+                            .fillMaxWidth(),
+                        painter = painterResource(R.drawable.app_logo),
                         contentDescription = "",
+                        contentScale = ContentScale.FillBounds,
                     )
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 30.dp),
+                        text = stringResource(id = R.string.signup_label),
+                        textAlign = TextAlign.Center,
+                        fontFamily = titleFont(),
+                        fontSize = 30.sp,
+                        color = Color.White
+                    )
+                    CustomField(
+                        value = nameState.value,
+                        labelID = R.string.signup_name_label,
+                        drawableID = R.drawable.ic_user_info,
+                        onValueChange = {
+                            if (it.isEmpty() || it.matches(formFilter)) {
+                                viewModel._name.value = it
+                            }
+                        }
+                    )
+                    SignDivisor()
+                    CustomField(
+                        value = surnameState.value,
+                        labelID = R.string.signup_surname_label,
+                        drawableID = R.drawable.ic_user_info,
+                        onValueChange = {
+                            if (it.isEmpty() || it.matches(formFilter)) {
+                                viewModel._surname.value = it
+                            }
+                        }
+                    )
+                    SignDivisor()
+                    DropDown(currencyList)
                 }
+            }
+            Row(
+                Modifier.fillMaxWidth(),
+            ) {
+                SignButton(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 40.dp, end = 10.dp),
+                    onclick = { navController.popBackStack() },
+                    text = stringResource(R.string.signup_back_to_login),
+                    textSize = 15.sp
+                )
+                SignButton(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 10.dp, end = 40.dp),
+                    onclick = { viewModel._screen.value = 2},
+                    text = stringResource(R.string.signup_back_to_login),
+                    textSize = 15.sp
+                )
             }
         }
     }
@@ -232,7 +258,7 @@ fun SecondRegistrationScreen(navController: NavController, viewModel: Registrati
                     println("Errore nella creazione utente firebase")
                 }
             }) {
-                Text(text = stringResource(id = R.string.signup_button_label))
+                Text(text = stringResource(id = R.string.signup_label))
 
             }
             Spacer(modifier = Modifier.fillMaxHeight(0.85f))

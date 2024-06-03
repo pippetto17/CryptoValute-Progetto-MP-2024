@@ -55,7 +55,6 @@ fun CustomPasswordField(
             modifier = Modifier
                 .fillMaxWidth(),
             value = value,
-            shape = RoundedCornerShape(15.dp),
             onValueChange = onValueChange,
             label = {
                 Text(
