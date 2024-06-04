@@ -39,24 +39,15 @@ fun CryptoScreen(viewModel: HomeViewModel) {
     ) {
         LazyColumn {
             items(coins.value ?: emptyList()) { coin ->
-                Column {
-                    CoinItem(
-                        imageURI = coin.image,
-                        name = coin.name ?: "Unknown",
-                        price = coin.current_price.toString(),
-                        currency = currency
-                    )
-                    PerformanceChart(
-                        modifier = Modifier.fillMaxWidth().height(100.dp),
-                        list = if (coin.sparkline_in_7d?.price != null) {
-                            coin.sparkline_in_7d.price
-                        } else {
-                            Log.d("PerformanceChart", "No data for ${coin.name} sparkline")
-                            emptyList()
-                        }
-                    )
-                }
+                CoinItem(
+                    imageURI = coin.image,
+                    name = coin.name ?: "Unknown",
+                    price = coin.current_price.toString(),
+                    currency = currency,
+                    sparkLine = coin.sparkline_in_7d
+                )
             }
+
         }
     }
 }

@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,9 +31,10 @@ fun CoinItem(
     name: String,
     price: String,
     currency: String,
+    sparkLine: SparkLine?
 ) {
     Card(
-        Modifier
+        modifier
             .fillMaxWidth()
             .padding(5.dp)
             .clickable {},
@@ -51,7 +54,10 @@ fun CoinItem(
             )
             Text(text = name)
             Text(text = Utilities().convertDotsToCommas(price) + if (currency == "usd") "$" else "€")
-
+            PerformanceChart(
+                list = sparkLine?.price ?: emptyList(),
+                modifier = Modifier.width(60.dp).height(30.dp)
+            )
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(
                     painterResource(R.drawable.ic_add_to_wallet),
