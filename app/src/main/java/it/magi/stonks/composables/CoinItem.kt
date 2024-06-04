@@ -3,6 +3,7 @@ package it.magi.stonks.composables
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,13 +33,15 @@ fun CoinItem(
     name: String,
     price: String,
     currency: String,
-    sparkLine: SparkLine?
+    sparkLine: SparkLine?,
+    onClick: () -> Unit,
+    onAddClick: () -> Unit
 ) {
     Card(
         modifier
             .fillMaxWidth()
             .padding(5.dp)
-            .clickable {},
+            .clickable { onClick() },
     ) {
         Row(
             modifier = Modifier
@@ -54,11 +58,7 @@ fun CoinItem(
             )
             Text(text = name)
             Text(text = Utilities().convertDotsToCommas(price) + if (currency == "usd") "$" else "€")
-            PerformanceChart(
-                list = sparkLine?.price ?: emptyList(),
-                modifier = Modifier.width(60.dp).height(30.dp)
-            )
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = onAddClick) {
                 Icon(
                     painterResource(R.drawable.ic_add_to_wallet),
                     contentDescription = ""

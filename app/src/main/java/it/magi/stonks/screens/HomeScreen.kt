@@ -45,7 +45,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
         }
         when (tabState) {
             0 -> {
-                CryptoScreen(viewModel)
+                CryptoListScreen(viewModel)
             }
 
             1 -> {
