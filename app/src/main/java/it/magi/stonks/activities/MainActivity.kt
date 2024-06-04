@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = {
-                        CustomTopAppBar()
+                        CustomTopAppBar(viewModel = HomeViewModel(application))
                     },
                     bottomBar = {
                         CustomBottomNavBar(navController = navController)

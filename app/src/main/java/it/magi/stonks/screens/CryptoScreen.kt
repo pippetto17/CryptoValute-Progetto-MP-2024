@@ -37,7 +37,6 @@ fun CryptoScreen(viewModel: HomeViewModel) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        FilterBar(viewModel)
         LazyColumn {
             items(coins.value ?: emptyList()) { coin ->
                 Column {

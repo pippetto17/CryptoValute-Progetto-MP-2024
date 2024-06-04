@@ -34,7 +34,6 @@ fun NFTScreen(viewModel: HomeViewModel) {
             .fillMaxSize()
             .wrapContentWidth(Alignment.Start)
     ) {
-        FilterBar(viewModel)
         LazyColumn {
             items(coins.value ?: emptyList()) { coin ->
                 NFTItem(

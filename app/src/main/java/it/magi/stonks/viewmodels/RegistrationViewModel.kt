@@ -117,6 +117,46 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         }
     }
 
+    fun googleRegisterUser(
+        name: String,
+        surname: String,
+        currencyPreference: String,
+        auth: FirebaseAuth
+    ) {
+        val email = auth.currentUser?.email
+
+        if (email != null) {
+            try {
+                val database =
+                    FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/")
+                val myRef = database.getReference().child("users")
+                    .child(Utilities().convertDotsToCommas(email).lowercase())
+                Log.d("RealTimeDatabase", "MyRef: $myRef")
+                myRef.child("name").setValue(
+                    Utilities().convertDotsToCommas(
+                        Utilities().capitalizeFirstChar(name)
+                    )
+                )
+                myRef.child("surname").setValue(
+                    Utilities().convertDotsToCommas(
+                        Utilities().capitalizeFirstChar(surname)
+                    )
+                )
+                Log.d(
+                    "RealTimeDatabase",
+                    "User registered successfully on RealTimeDatabase"
+                )
+                SaveCurrencyPreference(currencyPreference)
+                Log.d("Shared Preferences", "currencyPreference: $currencyPreference")
+            } catch (e: Exception) {
+                Log.d("RealTimeDatabase", "Error: ${e.message}")
+            }
+            Log.d("Signup", "User created successfully")
+        } else {
+            Log.d("Signup", "Email non valido")
+        }
+    }
+
     fun checkValidEmail(email: String): Boolean {
         val emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$".toRegex()
         return emailRegex.matches(email)

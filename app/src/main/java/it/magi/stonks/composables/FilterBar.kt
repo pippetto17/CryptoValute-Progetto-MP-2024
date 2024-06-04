@@ -1,6 +1,7 @@
 package it.magi.stonks.composables
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -27,10 +28,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import it.magi.stonks.R
+import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.viewmodels.HomeViewModel
 
 @Composable
 fun FilterBar(
+    modifier: Modifier = Modifier,
     viewModel: HomeViewModel
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -38,18 +41,20 @@ fun FilterBar(
     val filterState = viewModel.filter.collectAsState()
     val context = LocalContext.current
     val apiKey = stringResource(R.string.api_key)
-    Row(modifier = Modifier.fillMaxWidth()) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Start
+    ) {
         OutlinedTextField(
             value = filterState.value,
             onValueChange = {
                 viewModel._filter.value = it
             },
-            shape = RoundedCornerShape(30.dp),
+            shape = RoundedCornerShape(10.dp),
             label = {
                 Text(
-                    text = "Filter",
-                    fontStyle = FontStyle.Italic,
-                    fontWeight = FontWeight.Bold
+                    text = stringResource(R.string.filter),
+                    fontFamily = titleFont(),
                 )
             },
             textStyle = TextStyle(
@@ -62,10 +67,11 @@ fun FilterBar(
                 focusedLabelColor = Color.White,
                 unfocusedLabelColor = Color.White,
                 disabledLabelColor = Color.White,
-                cursorColor = Color.White
+                cursorColor = Color.White,
+                focusedTrailingIconColor = Color.White,
+                unfocusedTrailingIconColor = Color.White,
+                disabledTrailingIconColor = Color.White
             ),
-            modifier = Modifier
-                .fillMaxWidth(),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = {
                 keyboardController?.hide()
@@ -76,7 +82,7 @@ fun FilterBar(
                     Icons.Rounded.Search,
                     contentDescription = null,
                     modifier = Modifier
-                        .size(15.dp)
+                        .size(30.dp)
                         .clickable {
                             viewModel.filterCoins(context, apiKey, "usd", viewModel._filter.value)
                             keyboardController?.hide()

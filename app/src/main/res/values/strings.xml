@@ -48,5 +48,7 @@
     <string name="signup_subtitle_1">1/2</string>
     <string name="signup_subtitle_2">2/2</string>
     <string name="signup_previous">Previous</string>
+    <string name="signup_with_google_subtitle">with Google</string>
+    <string name="filter">Filter</string>
 
 </resources>

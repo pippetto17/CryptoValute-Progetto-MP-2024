@@ -23,6 +23,7 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.FirebaseDatabase
+import it.magi.stonks.screens.GoogleRegistrationScreen
 import it.magi.stonks.screens.LoginScreen
 import it.magi.stonks.screens.RegistrationScreen
 import it.magi.stonks.ui.theme.StonksTheme
@@ -108,27 +109,10 @@ class StartActivity : ComponentActivity() {
                                                             ),
                                                             null
                                                         )
-
-                                                        val database =
-                                                            FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/")
-                                                        val email = auth.currentUser?.email
-                                                        if (email != null) {
-                                                            val myRef = database.getReference()
-                                                                .child("users")
-                                                                .child(
-                                                                    Utilities().convertDotsToCommas(
-                                                                        email
-                                                                    ).lowercase()
-                                                                )
-                                                        } else {
-                                                            Log.d(
-                                                                "RealTimeDatabase",
-                                                                "signInWithGoogle:failure email is null"
-                                                            )
-                                                        }
+                                                        navController.navigate("google_registration")
                                                     }
                                                 }
-                                                
+
                                         } catch (e: Exception) {
                                             Log.d("Login", "signInWithGoogle:failure $e")
                                             Toast.makeText(
@@ -141,6 +125,12 @@ class StartActivity : ComponentActivity() {
                                 },
                                 navController = navController,
                                 viewModel = LoginViewModel()
+                            )
+                        }
+                        composable("google_registration") {
+                            GoogleRegistrationScreen(
+                                navController = navController,
+                                viewModel = RegistrationViewModel(application)
                             )
                         }
                     }

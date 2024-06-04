@@ -81,7 +81,7 @@ fun FirstRegistrationScreen(navController: NavController, viewModel: Registratio
     Box(modifier = Modifier.fillMaxSize())
     {
         Image(
-            painter = painterResource(id = R.drawable.login_background_design2),
+            painter = painterResource(id = R.drawable.login_background_design),
             contentDescription = "",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.matchParentSize()
@@ -232,7 +232,7 @@ fun SecondRegistrationScreen(navController: NavController, viewModel: Registrati
     Box(modifier = Modifier.fillMaxSize())
     {
         Image(
-            painter = painterResource(id = R.drawable.login_background_design2),
+            painter = painterResource(id = R.drawable.login_background_design),
             contentDescription = "",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.matchParentSize()

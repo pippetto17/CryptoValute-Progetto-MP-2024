@@ -50,7 +50,11 @@ import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.LoginViewModel
 
 @Composable
-fun LoginScreen(navController: NavController, viewModel: LoginViewModel,onSignInClick:()->Unit) {
+fun LoginScreen(
+    navController: NavController,
+    viewModel: LoginViewModel,
+    onSignInClick: () -> Unit
+) {
     val auth = Firebase.auth
     val context = LocalContext.current
     var email by rememberSaveable {
@@ -74,7 +78,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel,onSignIn
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
-            painter = painterResource(id = R.drawable.login_background_design2),
+            painter = painterResource(id = R.drawable.login_background_design),
             contentDescription = "",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.matchParentSize()
@@ -148,7 +152,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel,onSignIn
                 text = stringResource(id = R.string.login_button_label)
             )
             SignDivisor(isForm = false)
-            GoogleLoginButton({onSignInClick()})
+            GoogleLoginButton { onSignInClick() }
             Spacer(modifier = Modifier.height(40.dp))
             SignButton(
                 onclick = { navController.navigate("registration") },
