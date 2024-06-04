@@ -52,7 +52,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         order: String = ""
     ){
         val baseUrl =
-            "https://api.coingecko.com/api/v3/coins/markets?x_cg_demo_api_key=$apiKey&vs_currency=$currency"
+            "https://api.coingecko.com/api/v3/coins/markets?x_cg_demo_api_key=$apiKey&vs_currency=$currency&sparkline=true"
         val idsCasting = Utilities().removeSpacesAndConvertToLowerCase(ids)
 
         var url = "$baseUrl&ids=$idsCasting&categories=$categories&order=$order"

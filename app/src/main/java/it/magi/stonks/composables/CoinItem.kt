@@ -1,8 +1,10 @@
 package it.magi.stonks.composables
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import it.magi.stonks.R
+import it.magi.stonks.models.SparkLine
 import it.magi.stonks.utilities.Utilities
 
 @Composable
@@ -25,7 +28,7 @@ fun CoinItem(
     imageURI: String?,
     name: String,
     price: String,
-    currency: String
+    currency: String,
 ) {
     Card(
         Modifier
@@ -48,6 +51,7 @@ fun CoinItem(
             )
             Text(text = name)
             Text(text = Utilities().convertDotsToCommas(price) + if (currency == "usd") "$" else "€")
+
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(
                     painterResource(R.drawable.ic_add_to_wallet),
