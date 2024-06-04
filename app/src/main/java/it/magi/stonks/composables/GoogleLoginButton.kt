@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import it.magi.stonks.R
 import it.magi.stonks.ui.theme.login_google_button_size
 import it.magi.stonks.ui.theme.titleFont
-import it.magi.stonks.utilities.Utilities
 
 @Composable
 fun GoogleLoginButton(onclick: () -> Unit) {

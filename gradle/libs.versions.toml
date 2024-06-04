@@ -7,6 +7,8 @@ coil = "2.6.0"
 converterGson = "2.0.0-beta2"
 coreSplashscreen = "1.0.1"
 credentials = "1.3.0-alpha04"
+credentialsPlayServicesAuth = "1.3.0-beta01"
+credentialsVersion = "1.3.0-beta01"
 firebaseBom = "33.0.0"
 firebaseBomVersion = "32.8.0"
 googleid = "<latest version>"
@@ -44,6 +46,8 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
+androidx-credentials-play-services-auth-v130beta01 = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
+androidx-credentials-v130beta01 = { module = "androidx.credentials:credentials", version.ref = "credentialsVersion" }
 cloudy = { module = "com.github.skydoves:cloudy", version.ref = "cloudy" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 converter-gson = { module = "com.squareup.retrofit:converter-gson", version.ref = "converterGson" }

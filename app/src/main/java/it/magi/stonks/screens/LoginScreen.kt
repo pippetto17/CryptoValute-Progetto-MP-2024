@@ -42,8 +42,8 @@ import it.magi.stonks.composables.SignButton
 import it.magi.stonks.composables.SignDivisor
 import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.FormContainerColor
-import it.magi.stonks.ui.theme.SignUpButtonsColor
 import it.magi.stonks.ui.theme.SignInColor
+import it.magi.stonks.ui.theme.SignUpButtonsColor
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.ui.theme.title_font_size
 import it.magi.stonks.utilities.Utilities

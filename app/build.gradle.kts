@@ -66,8 +66,7 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.6.0")
 
     //credentials
-    implementation(libs.androidx.credentials)
-    implementation(libs.androidx.credentials.play.services.auth)
+    implementation("androidx.credentials:credentials-e2ee:1.0.0-alpha02")
     implementation (libs.googleid)
     implementation(libs.firebase.database)
 

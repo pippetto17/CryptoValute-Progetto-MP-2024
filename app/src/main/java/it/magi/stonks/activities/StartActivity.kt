@@ -1,14 +1,12 @@
 package it.magi.stonks.activities
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -24,9 +22,11 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.FirebaseDatabase
 import it.magi.stonks.screens.LoginScreen
 import it.magi.stonks.screens.RegistrationScreen
 import it.magi.stonks.ui.theme.StonksTheme
+import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.LoginViewModel
 import it.magi.stonks.viewmodels.RegistrationViewModel
 import kotlinx.coroutines.launch
@@ -78,29 +78,58 @@ class StartActivity : ComponentActivity() {
                                         .setNonce("")
                                         .build()
 
-                                    val request=GetCredentialRequest
+                                    val request = GetCredentialRequest
                                         .Builder()
                                         .addCredentialOption(googleIdOption)
                                         .build()
                                     scope.launch {
                                         try {
-                                            val result = CredentialManager.getCredential(context,request)
-                                            val credential=result.credential
-                                            val googleIdTokenCredential= GoogleIdTokenCredential.createFrom(credential.data)
-                                            val googleIdToken=googleIdTokenCredential.idToken
+                                            val result =
+                                                CredentialManager.getCredential(context, request)
+                                            val credential = result.credential
+                                            val googleIdTokenCredential =
+                                                GoogleIdTokenCredential.createFrom(credential.data)
+                                            val googleIdToken = googleIdTokenCredential.idToken
 
-                                            val firebaseCredential=GoogleAuthProvider.getCredential(googleIdToken,null)
-
-                                            auth.signInWithCredential(firebaseCredential).addOnCompleteListener {
-                                                task->if(task.isSuccessful){
-                                                ContextCompat.startActivity(
-                                                    context,
-                                                    Intent(context, MainActivity::class.java),
+                                            val firebaseCredential =
+                                                GoogleAuthProvider.getCredential(
+                                                    googleIdToken,
                                                     null
                                                 )
+
+                                            auth.signInWithCredential(firebaseCredential)
+                                                .addOnCompleteListener { task ->
+                                                    if (task.isSuccessful) {
+                                                        ContextCompat.startActivity(
+                                                            context,
+                                                            Intent(
+                                                                context,
+                                                                MainActivity::class.java
+                                                            ),
+                                                            null
+                                                        )
+
+                                                        val database =
+                                                            FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/")
+                                                        val email = auth.currentUser?.email
+                                                        if (email != null) {
+                                                            val myRef = database.getReference()
+                                                                .child("users")
+                                                                .child(
+                                                                    Utilities().convertDotsToCommas(
+                                                                        email
+                                                                    ).lowercase()
+                                                                )
+                                                        } else {
+                                                            Log.d(
+                                                                "RealTimeDatabase",
+                                                                "signInWithGoogle:failure email is null"
+                                                            )
+                                                        }
+                                                    }
                                                 }
-                                            }
-                                        }catch (e:Exception){
+                                                
+                                        } catch (e: Exception) {
                                             Log.d("Login", "signInWithGoogle:failure $e")
                                             Toast.makeText(
                                                 context,
@@ -119,4 +148,5 @@ class StartActivity : ComponentActivity() {
             }
         }
     }
+
 }

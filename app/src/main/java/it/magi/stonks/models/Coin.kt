@@ -24,6 +24,7 @@ package it.magi.stonks.models
         val atl: Double?,
         val atl_change_percentage: Double?,
         val atl_date: String?,
-        val roi: Any?, // Assuming this field can be null
+        val roi: Any?,
         val last_updated: String?,
+        val price_change_percentage_24h_in_currency:List<Double>?
     )
