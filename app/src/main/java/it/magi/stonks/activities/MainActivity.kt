@@ -18,6 +18,7 @@ import it.magi.stonks.composables.CustomTopAppBar
 import it.magi.stonks.navigation.NavigationItem
 import it.magi.stonks.screens.HomeScreen
 import it.magi.stonks.screens.OtherScreen
+import it.magi.stonks.screens.SearchScreen
 import it.magi.stonks.screens.WalletScreen
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.StonksTheme
@@ -39,7 +40,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = {
-                             CustomTopAppBar()
+                        CustomTopAppBar()
                     },
                     bottomBar = {
                         CustomBottomNavBar(navController = navController)
@@ -52,13 +53,16 @@ class MainActivity : ComponentActivity() {
                         startDestination = NavigationItem.Home.route
                     ) {
                         composable(NavigationItem.Home.route) {
-                            HomeScreen(navController,viewModel = HomeViewModel(application))
+                            HomeScreen(navController, viewModel = HomeViewModel(application))
                         }
                         composable(NavigationItem.Wallet.route) {
                             WalletScreen(
                                 navController = navController,
                                 viewModel = WalletViewModel()
                             )
+                        }
+                        composable(NavigationItem.Search.route) {
+                            SearchScreen(navController = navController)
                         }
                         composable(NavigationItem.Other.route) {
                             OtherScreen(

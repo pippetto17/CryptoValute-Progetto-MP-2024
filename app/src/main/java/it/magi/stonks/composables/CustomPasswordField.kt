@@ -29,6 +29,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import it.magi.stonks.R
+import it.magi.stonks.ui.theme.PasswordErrorContainerColor
+import it.magi.stonks.ui.theme.PasswordErrorTextColor
 import it.magi.stonks.ui.theme.titleFont
 
 @Composable
@@ -100,32 +102,33 @@ fun CustomPasswordField(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.LightGray)
+                    .background(PasswordErrorContainerColor, shape = RoundedCornerShape(10.dp))
+                    .padding(start = 10.dp, end = 10.dp)
             ) {
                 for (error in passwordErrors) {
                     when (error) {
                         1 -> Text(
                             text = stringResource(id = R.string.signup_password_error_code_1_length),
                             modifier = Modifier.padding(start = 10.dp),
-                            color = Color.DarkGray
+                            color = PasswordErrorTextColor
                         )
 
                         2 -> Text(
                             text = stringResource(id = R.string.signup_password_error_code_2_special_character),
                             modifier = Modifier.padding(start = 10.dp),
-                            color = Color.DarkGray
+                            color = PasswordErrorTextColor
                         )
 
                         3 -> Text(
                             text = stringResource(id = R.string.signup_password_error_code_3_number),
                             modifier = Modifier.padding(start = 10.dp),
-                            color = Color.DarkGray
+                            color = PasswordErrorTextColor
                         )
 
                         4 -> Text(
                             text = stringResource(id = R.string.signup_password_error_code_4_uppercase),
                             modifier = Modifier.padding(start = 10.dp),
-                            color = Color.DarkGray
+                            color = PasswordErrorTextColor
                         )
                     }
                 }

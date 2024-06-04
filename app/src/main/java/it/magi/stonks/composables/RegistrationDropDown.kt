@@ -34,7 +34,7 @@ import it.magi.stonks.viewmodels.RegistrationViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDown(viewModel: RegistrationViewModel, currencyList: List<String>) {
+fun DropDown(modifier: Modifier = Modifier, viewModel: RegistrationViewModel, currencyList: List<String>) {
     Log.d("currencyList", "DropDown: $currencyList")
 
 
@@ -56,7 +56,7 @@ fun DropDown(viewModel: RegistrationViewModel, currencyList: List<String>) {
             onExpandedChange = { isExpanded = !isExpanded }
         ) {
             TextField(
-                modifier = Modifier
+                modifier = modifier
                     .menuAnchor(),
                 label = {
                     Text(
@@ -77,14 +77,16 @@ fun DropDown(viewModel: RegistrationViewModel, currencyList: List<String>) {
                     unfocusedContainerColor = Color.Transparent,
                     unfocusedTextColor = Color.White,
                     focusedTextColor = Color.White,
-                    cursorColor = Color.White
+                    cursorColor = Color.White,
+                    focusedTrailingIconColor = Color.White,
+                    unfocusedTrailingIconColor = Color.White
                 ),
                 leadingIcon = {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.ic_currency),
                         contentDescription = "",
                         tint = Color.White,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(30.dp)
                     )
                 },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) }

@@ -135,6 +135,7 @@ fun FirstRegistrationScreen(navController: NavController, viewModel: Registratio
                         color = Color.White,
                     )
                     CustomField(
+                        modifier = Modifier.fillMaxWidth(),
                         value = nameState.value,
                         labelID = R.string.signup_name_label,
                         drawableID = R.drawable.ic_user_info,
@@ -146,6 +147,7 @@ fun FirstRegistrationScreen(navController: NavController, viewModel: Registratio
                     )
                     SignDivisor()
                     CustomField(
+                        modifier = Modifier.fillMaxWidth(),
                         value = surnameState.value,
                         labelID = R.string.signup_surname_label,
                         drawableID = R.drawable.ic_user_info,
@@ -156,7 +158,11 @@ fun FirstRegistrationScreen(navController: NavController, viewModel: Registratio
                         }
                     )
                     SignDivisor()
-                    DropDown(viewModel, currencyList)
+                    DropDown(
+                        modifier = Modifier.fillMaxWidth(),
+                        viewModel,
+                        currencyList
+                    )
                 }
             }
             Row(
@@ -205,19 +211,19 @@ fun SecondRegistrationScreen(navController: NavController, viewModel: Registrati
             navController = navController,
             onDismiss = {
                 showEmailDialog = false
-                navController.navigate("login"){
+                navController.navigate("login") {
                     popUpTo(0)
                 }
             },
             onConfirmButton = {
                 showEmailDialog = false
-                navController.navigate("login"){
+                navController.navigate("login") {
                     popUpTo(0)
                 }
             },
             onDismissButton = {
                 showEmailDialog = false
-                navController.navigate("login"){
+                navController.navigate("login") {
                     popUpTo(0)
                 }
             }

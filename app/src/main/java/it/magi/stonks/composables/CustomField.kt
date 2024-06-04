@@ -52,7 +52,7 @@ fun CustomField(
                 imageVector = ImageVector.vectorResource(drawableID),
                 contentDescription = stringResource(labelID),
                 tint = Color.White,
-                modifier = Modifier.size(25.dp)
+                modifier = Modifier.size(30.dp)
             )
         },
     )
