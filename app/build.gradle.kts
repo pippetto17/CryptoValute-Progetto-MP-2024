@@ -66,17 +66,23 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.6.0")
 
     //credentials
-    implementation("androidx.credentials:credentials-e2ee:1.0.0-alpha02")
-    implementation (libs.googleid)
+
+    implementation("androidx.credentials:credentials:1.3.0-beta01")
+
+    // optional - needed for credentials support from play services, for devices running
+    // Android 13 and below.
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0-beta01")
+
+    implementation(libs.googleid)
     implementation(libs.firebase.database)
 
     //api calls
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 
 
 
-    implementation (libs.volley)
+    implementation(libs.volley)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.benchmark.macro)
 

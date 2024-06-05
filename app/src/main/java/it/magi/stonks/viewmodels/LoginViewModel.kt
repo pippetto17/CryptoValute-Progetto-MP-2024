@@ -32,21 +32,24 @@ class LoginViewModel : ViewModel() {
         navController: NavController,
         context: android.content.Context
     ): Int {
-        auth.currentUser?.reload()
-        Log.d(
-            "Login",
-            "current user email is ${auth.currentUser?.email} and is verified ${auth.currentUser?.isEmailVerified}"
-        )
-        if (email.isNotEmpty() && password.isNotEmpty() && auth.currentUser?.isEmailVerified == true) {
+        if (email.isNotEmpty() && password.isNotEmpty()) {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Log.d("Login", "Login successful")
-                        startActivity(
-                            context,
-                            Intent(context, MainActivity::class.java),
-                            null
-                        )
+                        if (auth.currentUser?.isEmailVerified == false) {
+                            Toast.makeText(
+                                context,
+                                "Please verify your email.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Log.d("Login", "Login successful")
+                            startActivity(
+                                context,
+                                Intent(context, MainActivity::class.java),
+                                null
+                            )
+                        }
                     } else {
                         Log.d("Login", "signInWithEmail:failure", task.exception)
                         Toast.makeText(

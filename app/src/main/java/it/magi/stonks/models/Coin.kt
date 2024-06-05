@@ -27,7 +27,14 @@ data class Coin(
     val atl_date: String?,
     val roi: Any?,
     val last_updated: String?,
-    val sparkline_in_7d: SparkLine?
+    val sparkline_in_7d: SparkLine?,
+    val price_change_percentage_1h_in_currency:Float?,
+    val price_change_percentage_24h_in_currency: Float?,
+    val price_change_percentage_7d_in_currency:Float?,
+    val price_change_percentage_14d_in_currency:Float?,
+    val price_change_percentage_30d_in_currency:Float?,
+    val price_change_percentage_200d_in_currency:Float?,
+    val price_change_percentage_1y_in_currency:Float?,
 )
 
 data class SparkLine(

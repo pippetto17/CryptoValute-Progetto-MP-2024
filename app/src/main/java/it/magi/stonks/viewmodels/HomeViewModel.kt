@@ -49,13 +49,15 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         currency: String,
         ids: String = "",
         categories: String = "",
-        order: String = ""
-    ){
+        order: String = "",
+        priceChangePercentage: String = ""
+    ) {
         val baseUrl =
             "https://api.coingecko.com/api/v3/coins/markets?x_cg_demo_api_key=$apiKey&vs_currency=$currency&sparkline=true"
         val idsCasting = Utilities().removeSpacesAndConvertToLowerCase(ids)
 
-        var url = "$baseUrl&ids=$idsCasting&categories=$categories&order=$order"
+        var url =
+            "$baseUrl&ids=$idsCasting&categories=$categories&order=$order&price_change_percentage=$priceChangePercentage"
 
         if (ids.isEmpty()) {
             url = url.replace("&ids=$ids", "")
@@ -66,6 +68,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         if (order.isEmpty()) {
             url = url.replace("&order=$order", "")
         }
+        if (priceChangePercentage.isEmpty()) {
+            url = url.replace("&price_change_percentage=$priceChangePercentage", "")
+        }
+
         Log.d("API", "filterCoins url: $url")
 
         val stringRequest = StringRequest(Request.Method.GET, url,
@@ -85,10 +91,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         Log.d("API", "returning coinsList: ${coinsList.value}")
     }
 
-    fun GetCurrencyPreference(application: Application):String{
+    fun getCurrencyPreference(application: Application): String {
         val sharedPreferences = application.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val result=sharedPreferences.getString("currency","null")
-        Log.d("SharedPreferences","shared: $result")
+        val result = sharedPreferences.getString("currency", "null")
+        Log.d("SharedPreferences", "shared: $result")
         return result.toString()
     }
 
@@ -129,7 +135,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         apiKey: String,
         id: String,
     ) {
-        val url="https://api.coingecko.com/api/v3/nfts/$id?x_cg_demo_api_key=$apiKey"
+        val url = "https://api.coingecko.com/api/v3/nfts/$id?x_cg_demo_api_key=$apiKey"
         Log.d("API", "fetching NFT by id url: $url")
 
         val stringRequest = StringRequest(
@@ -149,8 +155,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         requestQueue.add(stringRequest)
     }
 
-    fun getTrendingsList(apiKey: String,){
-        val url="https://api.coingecko.com/api/v3/search/trending?x_cg_demo_api_key=$apiKey"
+    fun getTrendingsList(apiKey: String) {
+        val url = "https://api.coingecko.com/api/v3/search/trending?x_cg_demo_api_key=$apiKey"
         val stringRequest = StringRequest(Request.Method.GET, url,
             { response ->
                 Log.d("API", "Trending list Request Successful, response: $response ")

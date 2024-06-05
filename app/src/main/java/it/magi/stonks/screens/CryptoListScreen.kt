@@ -1,5 +1,6 @@
 package it.magi.stonks.screens
 
+import android.app.Application
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,13 +27,15 @@ import it.magi.stonks.viewmodels.HomeViewModel
 fun CryptoListScreen(navController: NavController, viewModel: HomeViewModel) {
 
     val context = LocalContext.current
+    val application = LocalContext.current.applicationContext as Application
     val apiKey = stringResource(R.string.api_key)
-    val currency = "usd"
+    val currency = viewModel.getCurrencyPreference(application)
     Log.d("CryptoScreen", "currency preference: $currency")
     viewModel.filterCoins(
         context,
         apiKey = apiKey,
-        currency = currency
+        currency = currency,
+        priceChangePercentage = "24h"
     )
     val coins = viewModel.getCoinsList().observeAsState()
 

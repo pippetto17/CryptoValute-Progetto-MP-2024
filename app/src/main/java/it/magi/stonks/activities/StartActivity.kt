@@ -36,6 +36,14 @@ private const val WEB_CLIENT_ID =
 class StartActivity : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
 
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            currentUser.reload()
+    }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -122,7 +130,8 @@ class StartActivity : ComponentActivity() {
                                     }
                                 },
                                 navController = navController,
-                                viewModel = LoginViewModel()
+                                viewModel = LoginViewModel(),
+                                auth = auth
                             )
                         }
                         composable("google_registration") {

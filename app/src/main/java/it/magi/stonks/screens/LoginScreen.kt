@@ -32,8 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
+import com.google.firebase.auth.FirebaseAuth
 import it.magi.stonks.R
 import it.magi.stonks.composables.CustomEmailField
 import it.magi.stonks.composables.CustomPasswordField
@@ -53,9 +52,10 @@ import it.magi.stonks.viewmodels.LoginViewModel
 fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel,
+    auth: FirebaseAuth,
     onSignInClick: () -> Unit
 ) {
-    val auth = Firebase.auth
+    auth.currentUser?.reload()
     val context = LocalContext.current
     var email by rememberSaveable {
         mutableStateOf("")
@@ -145,7 +145,8 @@ fun LoginScreen(
             }
             SignButton(
                 onclick = {
-                    if (viewModel.userLogin(auth, email, password, navController, context) == 0) {
+                    val refreshAuth=FirebaseAuth.getInstance()
+                    if (viewModel.userLogin(refreshAuth, email, password, navController, context) == 0) {
                         showEmailDialog = true
                     }
                 },
