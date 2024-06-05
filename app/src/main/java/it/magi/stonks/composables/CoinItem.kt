@@ -1,17 +1,12 @@
 package it.magi.stonks.composables
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,9 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import it.magi.stonks.R
-import it.magi.stonks.models.SparkLine
 import it.magi.stonks.utilities.Utilities
 
 @Composable
@@ -32,6 +27,7 @@ fun CoinItem(
     id: String,
     imageURI: String?,
     name: String,
+    symbol: String,
     price: String,
     onClick: () -> Unit,
     onAddClick: () -> Unit
@@ -40,7 +36,7 @@ fun CoinItem(
         modifier
             .fillMaxWidth()
             .padding(5.dp)
-            .clickable { onClick()},
+            .clickable { onClick() },
     ) {
         Row(
             modifier = Modifier
@@ -49,13 +45,16 @@ fun CoinItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            AsyncImage(
-                model = imageURI,
-                contentDescription = "coinImage",
-                placeholder = painterResource(R.drawable.star_coin),
-                modifier = Modifier.size(50.dp)
-            )
-            Text(text = name)
+            Text(text = id)
+            Column {
+                AsyncImage(
+                    model = imageURI,
+                    contentDescription = "coinImage",
+                    placeholder = painterResource(R.drawable.star_coin),
+                    modifier = Modifier.size(15.dp)
+                )
+                Text(text = symbol, fontSize = 10.sp)
+            }
             Text(text = Utilities().convertDotsToCommas(price)+" $")
             IconButton(onClick = onAddClick) {
                 Icon(

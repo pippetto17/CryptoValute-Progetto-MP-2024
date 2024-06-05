@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -16,7 +17,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.firebase.auth.FirebaseAuth
 import it.magi.stonks.composables.CustomBottomNavBar
-import it.magi.stonks.composables.CustomTopAppBar
 import it.magi.stonks.navigation.NavigationItem
 import it.magi.stonks.screens.CoinScreen
 import it.magi.stonks.screens.HomeScreen
@@ -43,13 +43,11 @@ class MainActivity : ComponentActivity() {
             StonksTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    topBar = {
-                        CustomTopAppBar(viewModel = HomeViewModel(application))
-                    },
                     bottomBar = {
                         CustomBottomNavBar(navController = navController)
                     },
-                    containerColor = FormContainerColor
+                    containerColor = FormContainerColor,
+                    contentWindowInsets = WindowInsets(0, 0, 0, 0),
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,

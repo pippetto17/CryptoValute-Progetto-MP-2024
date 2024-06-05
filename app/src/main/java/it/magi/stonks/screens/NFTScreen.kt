@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import it.magi.stonks.R
-import it.magi.stonks.composables.FilterBar
 import it.magi.stonks.composables.NFTItem
 import it.magi.stonks.viewmodels.HomeViewModel
 

@@ -22,12 +22,10 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.database.FirebaseDatabase
 import it.magi.stonks.screens.GoogleRegistrationScreen
 import it.magi.stonks.screens.LoginScreen
 import it.magi.stonks.screens.RegistrationScreen
 import it.magi.stonks.ui.theme.StonksTheme
-import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.LoginViewModel
 import it.magi.stonks.viewmodels.RegistrationViewModel
 import kotlinx.coroutines.launch
@@ -56,7 +54,7 @@ class StartActivity : ComponentActivity() {
             val context = LocalContext.current
             StonksTheme {
                 val scope = rememberCoroutineScope()
-                val CredentialManager = androidx.credentials.CredentialManager.create(context)
+                val credentialManager = androidx.credentials.CredentialManager.create(context)
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     NavHost(
                         navController = navController,
@@ -86,7 +84,7 @@ class StartActivity : ComponentActivity() {
                                     scope.launch {
                                         try {
                                             val result =
-                                                CredentialManager.getCredential(context, request)
+                                                credentialManager.getCredential(context, request)
                                             val credential = result.credential
                                             val googleIdTokenCredential =
                                                 GoogleIdTokenCredential.createFrom(credential.data)

@@ -15,41 +15,33 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import it.magi.stonks.R
 import it.magi.stonks.ui.theme.titleFont
-import it.magi.stonks.viewmodels.HomeViewModel
 
 @Composable
 fun FilterBar(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel
+    value: String = "",
+    onValueChange: (String) -> Unit = {},
+    onSearch: () -> Unit = {},
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
-    val filterState = viewModel.filter.collectAsState()
-    val context = LocalContext.current
-    val apiKey = stringResource(R.string.api_key)
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start
     ) {
         OutlinedTextField(
-            value = filterState.value,
-            onValueChange = {
-                viewModel._filter.value = it
-            },
+            value = value,
+            onValueChange = onValueChange,
             shape = RoundedCornerShape(10.dp),
             label = {
                 Text(
@@ -84,7 +76,7 @@ fun FilterBar(
                     modifier = Modifier
                         .size(30.dp)
                         .clickable {
-                            viewModel.filterCoins(context, apiKey, "usd", viewModel._filter.value)
+                            onSearch()
                             keyboardController?.hide()
                         }
                 )

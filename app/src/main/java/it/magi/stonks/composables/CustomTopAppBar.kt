@@ -2,11 +2,11 @@ package it.magi.stonks.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,22 +25,39 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import it.magi.stonks.R
 import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.titleFont
-import it.magi.stonks.viewmodels.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTopAppBar(
-    viewModel: HomeViewModel,
     modifier: Modifier = Modifier,
-    navigationIcon: @Composable (() -> Unit)? = null,
+    isHome: Boolean = true,
+    navController: NavController,
 ) {
 
     var showSearchBar by remember { mutableStateOf(false) }
 
     CenterAlignedTopAppBar(
+        modifier = modifier,
+        navigationIcon = {
+            if (!isHome) {
+                IconButton(
+                    onClick = { navController.popBackStack() }
+                ) {
+                    Icon(
+                        Icons.Rounded.KeyboardArrowLeft,
+                        contentDescription = "",
+                        tint = Color.White,
+                        modifier = Modifier.size(35.dp)
+                    )
+                }
+            } else {
+                null
+            }
+        },
         title = {
             if (!showSearchBar) {
                 Row(
@@ -61,9 +78,7 @@ fun CustomTopAppBar(
                     )
                 }
             } else {
-                FilterBar(
-                    viewModel = viewModel
-                )
+                FilterBar()
             }
 
         },
