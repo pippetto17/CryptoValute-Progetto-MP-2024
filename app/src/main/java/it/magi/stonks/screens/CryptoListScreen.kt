@@ -31,12 +31,15 @@ fun CryptoListScreen(navController: NavController, viewModel: HomeViewModel) {
     val apiKey = stringResource(R.string.api_key)
     val currency = viewModel.getCurrencyPreference(application)
     Log.d("CryptoScreen", "currency preference: $currency")
-    viewModel.filterCoins(
+    viewModel.filterCoinsApiRequest(
         context,
         apiKey = apiKey,
         currency = currency,
         priceChangePercentage = "24h"
     )
+    viewModel.trendingListApiRequest(apiKey)
+    viewModel.coinMarketChartDataById(apiKey,"bitcoin", "usd", 30)
+    val trendingList= viewModel.getTrendingList().observeAsState()
     val coins = viewModel.getCoinsList().observeAsState()
 
     Column(

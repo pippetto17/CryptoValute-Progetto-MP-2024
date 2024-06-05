@@ -12,8 +12,10 @@ import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import it.magi.stonks.models.Coin
+import it.magi.stonks.models.CoinMarketChart
 import it.magi.stonks.models.NFT
 import it.magi.stonks.models.NFTData
+import it.magi.stonks.models.TrendingList
 import it.magi.stonks.utilities.Utilities
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,6 +29,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private var nftData = MutableLiveData<NFTData>()
 
+    private var trendingList = MutableLiveData<TrendingList>()
+
+    private var marketChartById= MutableLiveData<CoinMarketChart>()
+
 
     var _screen = MutableStateFlow(1)
     val screen: MutableStateFlow<Int> = _screen
@@ -35,15 +41,24 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val filter: StateFlow<String> = this._filter
 
 
-    fun getNFTsList(): LiveData<List<NFT>> {
-        return nftList
+    fun getTrendingList(): LiveData<TrendingList> {
+        return trendingList
     }
 
     fun getCoinsList(): LiveData<List<Coin>> {
         return coinsList
     }
 
-    fun filterCoins(
+    fun getNFTsList(): LiveData<List<NFT>> {
+        return nftList
+    }
+
+    fun getCoinMarketChart(): LiveData<CoinMarketChart> {
+        return marketChartById
+
+    }
+
+    fun filterCoinsApiRequest(
         context: Context,
         apiKey: String,
         currency: String,
@@ -98,7 +113,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         return result.toString()
     }
 
-    fun getNFts(
+    fun NFtsApiRequest(
         context: Context,
         apiKey: String,
         order: String = ""
@@ -130,7 +145,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         Log.d("API", "returning all nftList: ${nftList.value}")
     }
 
-    fun searchNFT(
+    fun filterNFTApiRequest(
         context: Context,
         apiKey: String,
         id: String,
@@ -155,22 +170,40 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         requestQueue.add(stringRequest)
     }
 
-    fun getTrendingsList(apiKey: String) {
+    fun trendingListApiRequest(apiKey: String) {
         val url = "https://api.coingecko.com/api/v3/search/trending?x_cg_demo_api_key=$apiKey"
         val stringRequest = StringRequest(Request.Method.GET, url,
             { response ->
                 Log.d("API", "Trending list Request Successful, response: $response ")
                 Log.d("API", "response type: ${response}")
                 val gson = Gson()
-                val coinListType = object : TypeToken<List<Coin>>() {}.type
+                val trendingListType = object : TypeToken<TrendingList>() {}.type
 
-                val value = gson.fromJson<List<Coin>>(response, coinListType)
-                coinsList.value = value
+                val value = gson.fromJson<TrendingList>(response, trendingListType)
+                trendingList.value = value
                 Log.d("API", "value: ${coinsList.value}")
 
             },
             { error -> Log.d("API", "Trending List Request Error $error") })
         requestQueue.add(stringRequest)
         Log.d("API", "returning trendingList: ${coinsList.value}")
+    }
+
+    fun coinMarketChartDataById(apiKey: String,id: String,currency: String,days: Int){
+        val url="https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?$id?x_cg_demo_api_key=$apiKey&vs_currency=$currency&days=$days"
+        val stringRequest = StringRequest(Request.Method.GET, url,
+            { response ->
+                Log.d("API", " Market chart by id Request Successful, response: $response ")
+                Log.d("API", "response type: ${response}")
+                val gson = Gson()
+                val marketChartType = object : TypeToken<CoinMarketChart>() {}.type
+
+                val value = gson.fromJson<CoinMarketChart>(response, marketChartType)
+                marketChartById.value = value
+
+            },
+            { error -> Log.d("API", "Market chart by id Request Error $error") })
+        requestQueue.add(stringRequest)
+        Log.d("API", "returning market chart by id: ${marketChartById.value}")
     }
 }

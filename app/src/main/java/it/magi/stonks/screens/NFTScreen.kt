@@ -22,7 +22,7 @@ fun NFTScreen(viewModel: HomeViewModel) {
     val apiKey = stringResource(R.string.api_key)
     val currency = "usd"
     Log.d("CryptoScreen", "currency preference: $currency")
-    viewModel.getNFts(
+    viewModel.NFtsApiRequest(
         apiKey = apiKey,
         context = context
     )
