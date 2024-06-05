@@ -9,19 +9,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.google.firebase.auth.FirebaseAuth
 import it.magi.stonks.composables.CustomBottomNavBar
 import it.magi.stonks.composables.CustomTopAppBar
 import it.magi.stonks.navigation.NavigationItem
+import it.magi.stonks.screens.CoinScreen
 import it.magi.stonks.screens.HomeScreen
 import it.magi.stonks.screens.OtherScreen
 import it.magi.stonks.screens.SearchScreen
 import it.magi.stonks.screens.WalletScreen
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.StonksTheme
+import it.magi.stonks.viewmodels.CoinViewModel
 import it.magi.stonks.viewmodels.HomeViewModel
 import it.magi.stonks.viewmodels.OtherViewModel
 import it.magi.stonks.viewmodels.WalletViewModel
@@ -69,6 +73,24 @@ class MainActivity : ComponentActivity() {
                                 navController = navController,
                                 viewModel = OtherViewModel()
                             )
+                        }
+                        composable(
+                            "coin/{coinId}",
+                            arguments = listOf(
+                                navArgument("coinId") {
+                                    type = NavType.StringType
+                                }
+                            )
+                        ) { backStackEntry ->
+                            val coinId = backStackEntry.arguments?.getString("coinId")
+                            if (coinId != null) {
+                                CoinScreen(
+                                    navController = navController,
+                                    viewModel = CoinViewModel(),
+                                    coinId = coinId
+                                )
+
+                            }
                         }
                     }
                 }

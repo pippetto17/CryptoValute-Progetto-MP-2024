@@ -26,28 +26,7 @@ import it.magi.stonks.viewmodels.CoinViewModel
 import it.magi.stonks.viewmodels.HomeViewModel
 
 @Composable
-fun CryptoScreen(navController: NavController, viewModel: HomeViewModel){
-    val screenState = viewModel.screen.collectAsState()
-
-    when (screenState.value) {
-        1 -> {
-            CryptoListScreen(viewModel = viewModel)
-        }
-
-        2 -> {
-            CoinScreen(
-                viewModel = ,
-                imageURI = ,
-                name = ,
-                price = ,
-                currency = ,
-                sparkLine =
-            )
-        }
-    }
-}
-@Composable
-fun CryptoListScreen(viewModel: HomeViewModel) {
+fun CryptoListScreen(navController: NavController, viewModel: HomeViewModel) {
 
     val context = LocalContext.current
     val apiKey = stringResource(R.string.api_key)
@@ -70,9 +49,10 @@ fun CryptoListScreen(viewModel: HomeViewModel) {
                     imageURI = coin.image,
                     name = coin.name ?: "Unknown",
                     price = coin.current_price.toString(),
-                    currency = currency,
-                    sparkLine = coin.sparkline_in_7d,
-                    onClick = {},
+                    id = coin.id ?: "Unknown",
+                    onClick = {
+                        navController.navigate("coin/${coin.id}")
+                    },
                     onAddClick = {}
                 )
             }
@@ -81,35 +61,6 @@ fun CryptoListScreen(viewModel: HomeViewModel) {
     }
 }
 
-@Composable
-fun CoinScreen(
-    viewModel: CoinViewModel,
-    imageURI: String?,
-    name: String,
-    price: String,
-    currency: String,
-    sparkLine: SparkLine?,
-) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        AsyncImage(
-            model = imageURI,
-            contentDescription = "coinImage",
-            placeholder = painterResource(R.drawable.star_coin),
-            modifier = Modifier.size(50.dp)
-        )
-        Text(name)
-        Text(price)
-        Text(currency)
-        if (sparkLine != null) {
-            Text(sparkLine.toString())
-        }
-
-    }
-}
 
 
 

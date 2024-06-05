@@ -21,28 +21,18 @@ import it.magi.stonks.viewmodels.CoinViewModel
 fun CoinScreen(
     navController: NavController,
     viewModel: CoinViewModel,
-    imageURI: String?,
-    name: String,
-    price: String,
-    currency: String,
-    sparkLine: SparkLine?,
+    coinId: String?,
+
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        AsyncImage(
-            model = imageURI,
-            contentDescription = "coinImage",
-            placeholder = painterResource(R.drawable.star_coin),
-            modifier = Modifier.size(50.dp)
-        )
-        Text(name)
-        Text(price)
-        Text(currency)
-        if (sparkLine != null) {
-            Text(sparkLine.toString())
+        if (coinId != null) {
+            Text(coinId)
+        }else{
+            Text("Error")
         }
 
     }

@@ -92,7 +92,7 @@ fun CustomPasswordField(
             },
             leadingIcon = {
                 Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_password),
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_password_label),
                     contentDescription = "Password",
                     tint = Color.White,
                     modifier = Modifier.size(30.dp),

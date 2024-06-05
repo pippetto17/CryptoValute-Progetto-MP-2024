@@ -29,11 +29,10 @@ import it.magi.stonks.utilities.Utilities
 @Composable
 fun CoinItem(
     modifier: Modifier = Modifier,
+    id: String,
     imageURI: String?,
     name: String,
     price: String,
-    currency: String,
-    sparkLine: SparkLine?,
     onClick: () -> Unit,
     onAddClick: () -> Unit
 ) {
@@ -41,7 +40,7 @@ fun CoinItem(
         modifier
             .fillMaxWidth()
             .padding(5.dp)
-            .clickable { onClick() },
+            .clickable { onClick()},
     ) {
         Row(
             modifier = Modifier
@@ -57,7 +56,7 @@ fun CoinItem(
                 modifier = Modifier.size(50.dp)
             )
             Text(text = name)
-            Text(text = Utilities().convertDotsToCommas(price) + if (currency == "usd") "$" else "€")
+            Text(text = Utilities().convertDotsToCommas(price)+" $")
             IconButton(onClick = onAddClick) {
                 Icon(
                     painterResource(R.drawable.ic_add_to_wallet),

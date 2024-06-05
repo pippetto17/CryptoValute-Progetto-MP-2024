@@ -2,6 +2,7 @@ package it.magi.stonks.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -31,7 +32,11 @@ import it.magi.stonks.viewmodels.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomTopAppBar(viewModel: HomeViewModel) {
+fun CustomTopAppBar(
+    viewModel: HomeViewModel,
+    modifier: Modifier = Modifier,
+    navigationIcon: @Composable (() -> Unit)? = null,
+) {
 
     var showSearchBar by remember { mutableStateOf(false) }
 
