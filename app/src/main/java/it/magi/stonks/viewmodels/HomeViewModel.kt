@@ -206,4 +206,18 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         requestQueue.add(stringRequest)
         Log.d("API", "returning market chart by id: ${marketChartById.value}")
     }
+
+    //funzione per prendere dettagli dalla coin selezionata
+    fun coinDetails(id: String){
+        val client = OkHttpClient()
+
+        val request = Request.Builder()
+            .url("https://api.coingecko.com/api/v3/coins/id")
+            .get()
+            .addHeader("accept", "application/json")
+            .addHeader("x-cg-demo-api-key", "CG-Xag5m7fAKyT7rBF6biSrs1GF")
+            .build()
+
+        val response = client.newCall(request).execute()
+    }
 }

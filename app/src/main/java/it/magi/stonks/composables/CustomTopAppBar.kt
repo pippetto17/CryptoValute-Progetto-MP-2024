@@ -51,7 +51,7 @@ fun CustomTopAppBar(
                         Icons.Rounded.KeyboardArrowLeft,
                         contentDescription = "",
                         tint = Color.White,
-                        modifier = Modifier.size(35.dp)
+                        modifier = Modifier.size(40.dp)
                     )
                 }
             } else {

@@ -44,8 +44,8 @@ fun CryptoListScreen(navController: NavController, viewModel: HomeViewModel) {
         priceChangePercentage = "24h"
     )
     viewModel.trendingListApiRequest(apiKey)
-    viewModel.coinMarketChartDataById(apiKey,"bitcoin", "usd", 30)
-    val trendingList= viewModel.getTrendingList().observeAsState()
+    viewModel.coinMarketChartDataById(apiKey, "bitcoin", "usd", 30)
+    val trendingList = viewModel.getTrendingList().observeAsState()
     val coins = viewModel.getCoinsList().observeAsState()
 
     Column(
@@ -64,27 +64,32 @@ fun CryptoListScreen(navController: NavController, viewModel: HomeViewModel) {
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
-                modifier = Modifier.width(20.dp).background(Color.Red)
+                textAlign = TextAlign.Center,
+                modifier = Modifier.width(30.dp)
             )
-            Text("Currency",
+            Text(
+                "Currency",
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.width(80.dp).background(Color.Red)
+                modifier = Modifier.width(80.dp)
             )
-            Text("Price",
+            Text(
+                "Price",
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                textAlign = TextAlign.End,
+                modifier = Modifier.width(120.dp)
+            )
+            Text(
+                "24 Hours",
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.width(120.dp).background(Color.Red)
-            )
-            Text("24",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                modifier = Modifier.width(30.dp).background(Color.Red)
+                modifier = Modifier.width(70.dp)
             )
         }
         LazyColumn {
@@ -96,9 +101,10 @@ fun CryptoListScreen(navController: NavController, viewModel: HomeViewModel) {
                     name = coin.name ?: "Unknown",
                     symbol = coin.symbol ?: "Unknown",
                     price = coin.current_price.toString(),
+                    priceChangePercentage24h = coin.price_change_percentage_24h ?: 0.0.toFloat(),
                     id = coin.id ?: "Unknown",
                     onClick = {
-                        navController.navigate("coin/${coin.id}")
+                        navController.navigate("coin")
                     },
                     onAddClick = {}
                 )

@@ -21,11 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import it.magi.stonks.R
 import it.magi.stonks.utilities.Utilities
+import java.text.DecimalFormat
 
 @Composable
 fun CoinItem(
@@ -37,17 +39,17 @@ fun CoinItem(
     name: String,
     symbol: String,
     price: String,
+    priceChangePercentage24h: Float,
     onClick: () -> Unit,
     onAddClick: () -> Unit
 ) {
+    val decimalFormat = DecimalFormat("#.##")
+
     Card(
         modifier
             .fillMaxWidth()
             .padding(5.dp)
             .clickable { onClick() },
-        colors = CardDefaults.cardColors(
-            containerColor = Color.Transparent
-        )
     ) {
         Row(
             modifier = Modifier
@@ -57,14 +59,15 @@ fun CoinItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                modifier = Modifier.width(20.dp).background(Color.Red),
+                modifier = Modifier.width(30.dp),
                 text = rank,
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
                 color = Color.Black,
             )
             Box(
-                modifier = Modifier.width(80.dp).background(Color.Red),
+                modifier = Modifier.width(80.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Column(
@@ -86,11 +89,12 @@ fun CoinItem(
                 }
             }
             Row(
-                modifier = Modifier.width(120.dp).background(Color.Red),
+                modifier = Modifier
+                    .width(120.dp),
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
-                    text = price.toString(),
+                    text = price,
                     fontSize = 15.sp,
                     color = Color.Black
                 )
@@ -102,16 +106,14 @@ fun CoinItem(
                     color = Color.Black
                 )
             }
-            IconButton(
-                modifier = Modifier.width(30.dp).background(Color.Red),
-                onClick = onAddClick) {
-                Icon(
-                    painterResource(R.drawable.ic_add_to_wallet),
-                    contentDescription = "",
-                    tint = Color.Black,
-                    modifier = Modifier.size(25.dp)
-                )
-            }
+            Text(
+                modifier = Modifier.width(70.dp),
+                text = decimalFormat.format(priceChangePercentage24h).toString(),
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                color = if (priceChangePercentage24h > 0) Color.Green else Color.Red
+            )
         }
     }
 }
