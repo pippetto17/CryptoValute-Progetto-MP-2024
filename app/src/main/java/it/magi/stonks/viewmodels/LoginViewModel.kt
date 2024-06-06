@@ -78,6 +78,11 @@ class LoginViewModel : ViewModel() {
     fun retrieveCredentials(auth: FirebaseAuth, email: String, context: Context) {
         if (email.isNotEmpty()) {
             auth.sendPasswordResetEmail(email)
+            Toast.makeText(
+                context,
+                "Password reset email sent.",
+                Toast.LENGTH_SHORT,
+            ).show()
         } else {
             Toast.makeText(
                 context,
