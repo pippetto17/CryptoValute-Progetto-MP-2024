@@ -31,7 +31,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            CustomTopAppBar(navController = navController, application = application, viewModel = viewModel)
+            CustomTopAppBar(navController = navController, viewModel = viewModel)
         },
         containerColor = FormContainerColor,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),

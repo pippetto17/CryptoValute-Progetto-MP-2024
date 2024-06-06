@@ -39,11 +39,9 @@ fun CustomTopAppBar(
     viewModel: HomeViewModel,
     isHome: Boolean = true,
     navController: NavController,
-    application: Application
 ) {
 
     var showSearchBar by remember { mutableStateOf(false) }
-
 
     CenterAlignedTopAppBar(
         modifier = modifier,
@@ -60,7 +58,9 @@ fun CustomTopAppBar(
                     )
                 }
             } else {
-                null
+                if (showSearchBar) {
+                    FilterBar(viewModel = viewModel)
+                }
             }
         },
         title = {
@@ -82,22 +82,21 @@ fun CustomTopAppBar(
                         contentDescription = stringResource(R.string.app_name) + " logo"
                     )
                 }
-            } else {
-
-                FilterBar(application = application, viewModel = viewModel)
             }
 
         },
         actions = {
-            IconButton(
-                onClick = { showSearchBar = !showSearchBar },
-            ) {
-                Icon(
-                    modifier = Modifier.size(35.dp),
-                    imageVector = if (showSearchBar) Icons.Rounded.Close else Icons.Rounded.Search,
-                    contentDescription = "",
-                    tint = Color.White
-                )
+            if (isHome) {
+                IconButton(
+                    onClick = { showSearchBar = !showSearchBar },
+                ) {
+                    Icon(
+                        modifier = Modifier.size(35.dp),
+                        imageVector = if (showSearchBar) Icons.Rounded.Close else Icons.Rounded.Search,
+                        contentDescription = "",
+                        tint = Color.White
+                    )
+                }
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(

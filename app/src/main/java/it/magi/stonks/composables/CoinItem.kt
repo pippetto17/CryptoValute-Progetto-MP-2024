@@ -9,19 +9,32 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import it.magi.stonks.R
+import it.magi.stonks.ui.theme.CoinContainerColor
+import it.magi.stonks.ui.theme.greenStock
+import it.magi.stonks.ui.theme.redStock
 import java.text.DecimalFormat
 
 @Composable
@@ -33,18 +46,21 @@ fun CoinItem(
     imageURI: String?,
     name: String,
     symbol: String,
-    price: String,
+    price: Float,
     priceChangePercentage24h: Float,
-    onClick: () -> Unit,
-    onAddClick: () -> Unit
+    onClick: () -> Unit
 ) {
-    val decimalFormat = DecimalFormat("#.##")
+    val percentageFormat = DecimalFormat("0.0")
+    val priceFormat = DecimalFormat("0.000000")
 
     Card(
         modifier
             .fillMaxWidth()
             .padding(5.dp)
             .clickable { onClick() },
+        colors = CardDefaults.cardColors(
+            containerColor = CoinContainerColor
+        )
     ) {
         Row(
             modifier = Modifier
@@ -59,7 +75,7 @@ fun CoinItem(
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                color = Color.Black,
+                color = Color.White,
             )
             Box(
                 modifier = Modifier.width(80.dp),
@@ -67,7 +83,8 @@ fun CoinItem(
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.size(50.dp)
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.width(50.dp).wrapContentHeight()
                 ) {
                     AsyncImage(
                         model = imageURI,
@@ -79,7 +96,7 @@ fun CoinItem(
                         text = symbol.uppercase(),
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Black
+                        color = Color.White
                     )
                 }
             }
@@ -89,25 +106,26 @@ fun CoinItem(
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
-                    text = price,
+                    text = priceFormat.format(price).toString(),
                     fontSize = 15.sp,
-                    color = Color.Black
+                    color = Color.White
                 )
                 Text(
                     modifier = Modifier.padding(start = 5.dp),
-                    text = prefCurrency.uppercase(),
+                    text = prefCurrency,
                     fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
+                    fontStyle = FontStyle.Italic,
+                    color = Color.White
                 )
             }
             Text(
                 modifier = Modifier.width(70.dp),
-                text = decimalFormat.format(priceChangePercentage24h).toString(),
+                text = if (priceChangePercentage24h >= 0)
+                    "▲" + percentageFormat.format(priceChangePercentage24h).toString() + "%"
+                else "▼" + percentageFormat.format(priceChangePercentage24h).toString().substring(1) + "%",
                 fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                color = if (priceChangePercentage24h > 0) Color.Green else Color.Red
+                color = if (priceChangePercentage24h >= 0) greenStock else redStock
             )
         }
     }

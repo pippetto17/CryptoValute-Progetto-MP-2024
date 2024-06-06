@@ -29,10 +29,14 @@ import it.magi.stonks.composables.CoinItem
 import it.magi.stonks.viewmodels.HomeViewModel
 
 @Composable
-fun CryptoListScreen(navController: NavController, viewModel: HomeViewModel,application: Application) {
+fun CryptoListScreen(
+    navController: NavController,
+    viewModel: HomeViewModel,
+    application: Application
+) {
 
     val apiKey = stringResource(R.string.api_key)
-    val currency = viewModel.getCurrencyPreference(application)
+    val currency = viewModel.getCurrencyPreference(application).uppercase()
     val filterState = viewModel.filter.collectAsState()
     Log.d("CryptoScreen", "currency preference: $currency")
     viewModel.filterCoinsApiRequest(
@@ -43,9 +47,8 @@ fun CryptoListScreen(navController: NavController, viewModel: HomeViewModel,appl
     )
     //viewModel.trendingListApiRequest(apiKey)
     //viewModel.coinMarketChartDataById(apiKey, "bitcoin", "usd", 30)
-    val trendingList = viewModel.getTrendingList().observeAsState()
-    val coins =viewModel.getCoinsList().observeAsState()
-    Log.d("CryptoScreen", "coins: $coins")
+    //val trendingList = viewModel.getTrendingList().observeAsState()
+    val coins = viewModel.getCoinsList().observeAsState()
 
     Column(
         modifier = Modifier
@@ -91,21 +94,20 @@ fun CryptoListScreen(navController: NavController, viewModel: HomeViewModel,appl
                 modifier = Modifier.width(70.dp)
             )
         }
-        LazyColumn (){
-            items(coins.value?: emptyList()) { coin ->
+        LazyColumn {
+            items(coins.value ?: emptyList()) { coin ->
                 CoinItem(
                     prefCurrency = currency,
                     rank = coin.market_cap_rank?.toInt().toString(),
                     imageURI = coin.image,
                     name = coin.name ?: "Unknown",
                     symbol = coin.symbol ?: "Unknown",
-                    price = coin.current_price.toString(),
+                    price = coin.current_price ?: 0.0.toFloat(),
                     priceChangePercentage24h = coin.price_change_percentage_24h ?: 0.0.toFloat(),
                     id = coin.id ?: "Unknown",
                     onClick = {
                         navController.navigate("coin/${coin.id}")
                     },
-                    onAddClick = {}
                 )
             }
 
