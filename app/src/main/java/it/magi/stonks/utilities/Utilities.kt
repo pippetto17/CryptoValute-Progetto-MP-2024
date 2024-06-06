@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import it.magi.stonks.composables.ConfirmEmailDialog
 import it.magi.stonks.viewmodels.RegistrationViewModel
-import java.text.DecimalFormat
 
 class Utilities {
 

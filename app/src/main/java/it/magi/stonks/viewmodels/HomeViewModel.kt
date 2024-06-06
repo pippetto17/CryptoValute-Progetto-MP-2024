@@ -208,7 +208,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     //funzione per prendere dettagli dalla coin selezionata
-    fun coinDetails(id: String){
+    /*fun coinDetails(id: String){
         val client = OkHttpClient()
 
         val request = Request.Builder()
@@ -219,5 +219,5 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             .build()
 
         val response = client.newCall(request).execute()
-    }
+    }*/
 }

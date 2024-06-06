@@ -25,10 +25,11 @@ import it.magi.stonks.screens.SearchScreen
 import it.magi.stonks.screens.WalletScreen
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.StonksTheme
-import it.magi.stonks.viewmodels.CoinViewModel
 import it.magi.stonks.viewmodels.HomeViewModel
 import it.magi.stonks.viewmodels.OtherViewModel
 import it.magi.stonks.viewmodels.WalletViewModel
+
+const val apiKey="CG-Xag5m7fAKyT7rBF6biSrs1GF"
 
 class MainActivity : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
@@ -84,8 +85,10 @@ class MainActivity : ComponentActivity() {
                             if (coinId != null) {
                                 CoinScreen(
                                     navController = navController,
-                                    viewModel = CoinViewModel(),
-                                    coinId = coinId
+                                    viewModel = HomeViewModel(application),
+                                    apiKey = apiKey,
+                                    coinId = coinId,
+                                    currency = HomeViewModel(application).getCurrencyPreference(application)
                                 )
 
                             }

@@ -12,15 +12,19 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import it.magi.stonks.composables.CustomTopAppBar
 import it.magi.stonks.ui.theme.FormContainerColor
-import it.magi.stonks.viewmodels.CoinViewModel
+import it.magi.stonks.viewmodels.HomeViewModel
 
 @Composable
 fun CoinScreen(
     navController: NavController,
-    viewModel: CoinViewModel,
-    coinId: String?,
+    viewModel: HomeViewModel,
+    apiKey: String,
+    coinId: String,
+    currency: String,
+
 
     ) {
+    viewModel.coinMarketChartDataById(apiKey, coinId, currency,1)
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
