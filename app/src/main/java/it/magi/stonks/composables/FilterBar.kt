@@ -33,11 +33,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import it.magi.stonks.R
-<<<<<<< Updated upstream
-=======
 import it.magi.stonks.activities.apiKey
 import it.magi.stonks.ui.theme.FormContainerColor
->>>>>>> Stashed changes
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.viewmodels.HomeViewModel
 
@@ -45,13 +42,7 @@ import it.magi.stonks.viewmodels.HomeViewModel
 fun FilterBar(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel,
-<<<<<<< Updated upstream
-    onValueChange: (String) -> Unit = {viewModel._filter.value = it
-                                      Log.d("HomeViewModel", viewModel.filter.value)},
-    onSearch: () -> Unit = {},
-=======
     onValueChange: (String) -> Unit = { viewModel._filter.value = it }
->>>>>>> Stashed changes
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current

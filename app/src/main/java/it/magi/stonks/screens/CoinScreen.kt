@@ -28,7 +28,6 @@ fun CoinScreen(
     apiKey: String,
     coinId: String,
     currency: String,
-    application: Application
 
 
 ) {
@@ -52,9 +51,6 @@ fun CoinScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-<<<<<<< Updated upstream
-            Text(coinId)
-=======
             Spacer(modifier = Modifier.fillMaxHeight(0.5f))
             Text(coinId, color = Color.White)
             Spacer(
@@ -66,8 +62,6 @@ fun CoinScreen(
                 onclick = { /*TODO*/ },
                 text = "Add to Wallet"
             )
-
->>>>>>> Stashed changes
         }
     }
 

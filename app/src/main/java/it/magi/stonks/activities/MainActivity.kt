@@ -89,7 +89,6 @@ class MainActivity : ComponentActivity() {
                                     apiKey = apiKey,
                                     coinId = coinId,
                                     currency = HomeViewModel(application).getCurrencyPreference(application),
-                                    application = application
                                 )
 
                             }
