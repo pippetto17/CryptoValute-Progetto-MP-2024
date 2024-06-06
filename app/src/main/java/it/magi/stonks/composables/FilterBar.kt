@@ -1,7 +1,6 @@
 package it.magi.stonks.composables
 
 import android.app.Application
-import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -29,7 +27,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import it.magi.stonks.R
-import it.magi.stonks.activities.apiKey
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.viewmodels.HomeViewModel
 
@@ -40,9 +37,7 @@ fun FilterBar(
     viewModel: HomeViewModel,
     onValueChange: (String) -> Unit = {viewModel._filter.value = it
                                       Log.d("HomeViewModel", viewModel.filter.value)},
-    onSearch: () -> Unit = {
-        /*viewModel.filterCoinsApiRequest(apiKey,viewModel.getCurrencyPreference(application),
-        viewModel.filter.value)*/},
+    onSearch: () -> Unit = {},
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current

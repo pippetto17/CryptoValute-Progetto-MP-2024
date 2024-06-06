@@ -25,8 +25,8 @@ fun CoinScreen(
     application: Application
 
 
-    ) {
-    viewModel.coinMarketChartDataById(apiKey, coinId, currency,1)
+) {
+    viewModel.coinMarketChartDataById(apiKey, coinId, currency, 1)
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -46,13 +46,10 @@ fun CoinScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            if (coinId != null) {
-                Text(coinId)
-            } else {
-                Text("Error")
-            }
-
+            Text(coinId)
         }
     }
 
 }
+
+

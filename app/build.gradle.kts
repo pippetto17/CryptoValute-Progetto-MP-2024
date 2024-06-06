@@ -63,15 +63,15 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.play.services.auth.v2100)
-    implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation(libs.coil.compose)
 
     //credentials
 
-    implementation("androidx.credentials:credentials:1.3.0-beta01")
+    implementation(libs.androidx.credentials.v130beta01)
 
     // optional - needed for credentials support from play services, for devices running
     // Android 13 and below.
-    implementation("androidx.credentials:credentials-play-services-auth:1.3.0-beta01")
+    implementation(libs.androidx.credentials.play.services.auth.v130beta01)
 
     implementation(libs.googleid)
     implementation(libs.firebase.database)
@@ -86,7 +86,7 @@ dependencies {
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.benchmark.macro)
 
-
+    //grafici
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
