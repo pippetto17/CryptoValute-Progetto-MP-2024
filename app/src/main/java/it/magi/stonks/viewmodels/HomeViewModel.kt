@@ -3,7 +3,15 @@ package it.magi.stonks.viewmodels
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -36,7 +44,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
 
     var _screen = MutableStateFlow(1)
-    val screen: MutableStateFlow<Int> = _screen
 
     var _filter = MutableStateFlow("")
     val filter: StateFlow<String> = this._filter
@@ -50,6 +57,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         Log.d("API-COIN", "getCoinsList: ${coinsList.value}")
         return coinsList
     }
+
 
     fun getNFTsList(): LiveData<List<NFT>> {
         return nftList
@@ -87,18 +95,17 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         if (priceChangePercentage.isEmpty()) {
             url = url.replace("&price_change_percentage=$priceChangePercentage", "")
         }
-
-        Log.d("API", "filterCoins url: $url")
+        Log.d("API", "filter coins id: $ids category: $categories order: $order priceChangePercentage: $priceChangePercentage")
 
         val stringRequest = StringRequest(Request.Method.GET, url,
             { response ->
-                Log.d("API", "filterCoins Request Successful, response: $response ")
-                Log.d("API", "response type: ${response}")
+                Log.d("API", "filterCoins Request Successful")
                 val gson = Gson()
                 val coinListType = object : TypeToken<List<Coin>>() {}.type
 
                 val value = gson.fromJson<List<Coin>>(response, coinListType)
                 coinsList.value = value
+
                 Log.d("API", "value: ${coinsList.value}")
 
             },
@@ -115,7 +122,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun NFtsApiRequest(
-        context: Context,
         apiKey: String,
         order: String = ""
     ) {
@@ -207,17 +213,4 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         Log.d("API", "returning market chart by id: ${marketChartById.value}")
     }
 
-    //funzione per prendere dettagli dalla coin selezionata
-    /*fun coinDetails(id: String){
-        val client = OkHttpClient()
-
-        val request = Request.Builder()
-            .url("https://api.coingecko.com/api/v3/coins/id")
-            .get()
-            .addHeader("accept", "application/json")
-            .addHeader("x-cg-demo-api-key", "CG-Xag5m7fAKyT7rBF6biSrs1GF")
-            .build()
-
-        val response = client.newCall(request).execute()
-    }*/
 }

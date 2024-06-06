@@ -23,8 +23,7 @@ fun NFTScreen(viewModel: HomeViewModel) {
     val currency = "usd"
     Log.d("CryptoScreen", "currency preference: $currency")
     viewModel.NFtsApiRequest(
-        apiKey = apiKey,
-        context = context
+        apiKey = apiKey
     )
     val coins = viewModel.getNFTsList().observeAsState()
 

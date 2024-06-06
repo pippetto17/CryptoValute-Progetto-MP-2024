@@ -38,12 +38,14 @@ import it.magi.stonks.viewmodels.HomeViewModel
 @Composable
 fun CustomTopAppBar(
     modifier: Modifier = Modifier,
+    viewModel: HomeViewModel,
     isHome: Boolean = true,
     navController: NavController,
+    application: Application
 ) {
 
     var showSearchBar by remember { mutableStateOf(false) }
-    val application = LocalContext.current.applicationContext as Application
+
 
     CenterAlignedTopAppBar(
         modifier = modifier,
@@ -84,7 +86,7 @@ fun CustomTopAppBar(
                 }
             } else {
 
-                FilterBar(application = application, viewModel = HomeViewModel(application))
+                FilterBar(application = application, viewModel = viewModel)
             }
 
         },

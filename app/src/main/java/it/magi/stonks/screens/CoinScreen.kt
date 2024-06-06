@@ -1,5 +1,6 @@
 package it.magi.stonks.screens
 
+import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,6 +22,7 @@ fun CoinScreen(
     apiKey: String,
     coinId: String,
     currency: String,
+    application: Application
 
 
     ) {
@@ -30,7 +32,9 @@ fun CoinScreen(
         topBar = {
             CustomTopAppBar(
                 navController = navController,
-                isHome = false
+                isHome = false,
+                application = application,
+                viewModel = viewModel
             )
         },
         containerColor = FormContainerColor

@@ -11,10 +11,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,10 +35,8 @@ import it.magi.stonks.composables.CoinItem
 import it.magi.stonks.viewmodels.HomeViewModel
 
 @Composable
-fun CryptoListScreen(navController: NavController, viewModel: HomeViewModel) {
+fun CryptoListScreen(navController: NavController, viewModel: HomeViewModel,application: Application) {
 
-    val context = LocalContext.current
-    val application = LocalContext.current.applicationContext as Application
     val apiKey = stringResource(R.string.api_key)
     val currency = viewModel.getCurrencyPreference(application)
     val filterState = viewModel.filter.collectAsState()
@@ -44,10 +47,10 @@ fun CryptoListScreen(navController: NavController, viewModel: HomeViewModel) {
         ids = filterState.value,
         priceChangePercentage = "24h"
     )
-    viewModel.trendingListApiRequest(apiKey)
-    viewModel.coinMarketChartDataById(apiKey, "bitcoin", "usd", 30)
+    //viewModel.trendingListApiRequest(apiKey)
+    //viewModel.coinMarketChartDataById(apiKey, "bitcoin", "usd", 30)
     val trendingList = viewModel.getTrendingList().observeAsState()
-    val coins = viewModel.getCoinsList().observeAsState()
+    val coins =viewModel.getCoinsList().observeAsState()
     Log.d("CryptoScreen", "coins: $coins")
 
     Column(
@@ -94,8 +97,8 @@ fun CryptoListScreen(navController: NavController, viewModel: HomeViewModel) {
                 modifier = Modifier.width(70.dp)
             )
         }
-        LazyColumn {
-            items(coins.value ?: emptyList()) { coin ->
+        LazyColumn (){
+            items(coins.value?: emptyList()) { coin ->
                 CoinItem(
                     prefCurrency = currency,
                     rank = coin.market_cap_rank?.toInt().toString(),

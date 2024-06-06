@@ -2,6 +2,7 @@ package it.magi.stonks.composables
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -37,9 +38,11 @@ fun FilterBar(
     application: Application,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel,
-    onValueChange: (String) -> Unit = {viewModel._filter.value = it},
-    onSearch: () -> Unit = {viewModel.filterCoinsApiRequest(apiKey,viewModel.getCurrencyPreference(application),
-        viewModel.filter.value)},
+    onValueChange: (String) -> Unit = {viewModel._filter.value = it
+                                      Log.d("HomeViewModel", viewModel.filter.value)},
+    onSearch: () -> Unit = {
+        /*viewModel.filterCoinsApiRequest(apiKey,viewModel.getCurrencyPreference(application),
+        viewModel.filter.value)*/},
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
