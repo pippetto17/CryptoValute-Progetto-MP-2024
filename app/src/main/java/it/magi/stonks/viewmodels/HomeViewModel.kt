@@ -3,6 +3,7 @@ package it.magi.stonks.viewmodels
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -46,6 +47,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getCoinsList(): LiveData<List<Coin>> {
+        Log.d("API-COIN", "getCoinsList: ${coinsList.value}")
         return coinsList
     }
 
@@ -59,7 +61,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun filterCoinsApiRequest(
-        context: Context,
         apiKey: String,
         currency: String,
         ids: String = "",
@@ -146,7 +147,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun filterNFTApiRequest(
-        context: Context,
         apiKey: String,
         id: String,
     ) {

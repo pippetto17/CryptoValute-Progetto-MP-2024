@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,17 +36,19 @@ fun CryptoListScreen(navController: NavController, viewModel: HomeViewModel) {
     val application = LocalContext.current.applicationContext as Application
     val apiKey = stringResource(R.string.api_key)
     val currency = viewModel.getCurrencyPreference(application)
+    val filterState = viewModel.filter.collectAsState()
     Log.d("CryptoScreen", "currency preference: $currency")
     viewModel.filterCoinsApiRequest(
-        context,
         apiKey = apiKey,
         currency = currency,
+        ids = filterState.value,
         priceChangePercentage = "24h"
     )
     viewModel.trendingListApiRequest(apiKey)
     viewModel.coinMarketChartDataById(apiKey, "bitcoin", "usd", 30)
     val trendingList = viewModel.getTrendingList().observeAsState()
     val coins = viewModel.getCoinsList().observeAsState()
+    Log.d("CryptoScreen", "coins: $coins")
 
     Column(
         modifier = Modifier
@@ -103,7 +106,7 @@ fun CryptoListScreen(navController: NavController, viewModel: HomeViewModel) {
                     priceChangePercentage24h = coin.price_change_percentage_24h ?: 0.0.toFloat(),
                     id = coin.id ?: "Unknown",
                     onClick = {
-                        navController.navigate("coin")
+                        navController.navigate("coin/${coin.id}")
                     },
                     onAddClick = {}
                 )
