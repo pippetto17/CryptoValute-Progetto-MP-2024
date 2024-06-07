@@ -18,7 +18,7 @@
     <string name="signup_label">Sign Up</string>
 
     //EmailSentDialog
-    <string name="email_sent_dialog_text">we have sent a verification email to your email address, follow the instructions to continue</string>
+    <string name="email_sent_dialog_text">We have sent a verification email to your email address, follow the instructions to continue</string>
     <string name="email_sent_dialog_button_label">Verified email</string>
     <string name="email_sent_dialog_send_again_text">I have not received any email</string>
 

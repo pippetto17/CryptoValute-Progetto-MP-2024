@@ -3,6 +3,7 @@ package it.magi.stonks.viewmodels
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -66,53 +67,69 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         Log.d("Signup", "registerUser email: $email")
         Log.d("Signup", "registerUser password: $password")
         Log.d("Signup", "registerUser confirmPassword: $confirmPassword")
+        Log.d("Signup", "registerUser name: $name")
+        Log.d("Signup", "registerUser surname: $surname")
+        Log.d("Signup", "registerUser currencyPreference: $currencyPreference")
         val auth: FirebaseAuth = Firebase.auth
-        if (checkValidEmail(email) && password == confirmPassword) {
-            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Log.d(
-                        "RealTimeDatabase",
-                        "Trying to register user: $email name: $name surname: $surname"
-                    )
-                    try {
-                        val database =
-                            FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/")
-                        val myRef = database.getReference().child("users")
-                            .child(Utilities().convertDotsToCommas(email).lowercase())
-                        Log.d("RealTimeDatabase", "MyRef: $myRef")
-                        myRef.child("name").setValue(
-                            Utilities().convertDotsToCommas(
-                                Utilities().capitalizeFirstChar(name)
-                            )
-                        )
-                        myRef.child("surname").setValue(
-                            Utilities().convertDotsToCommas(
-                                Utilities().capitalizeFirstChar(surname)
-                            )
-                        )
+        if (name.isNotEmpty() || surname.isNotEmpty()) {
+            if (checkValidEmail(email) && password == confirmPassword) {
+                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+                    if (it.isSuccessful) {
                         Log.d(
                             "RealTimeDatabase",
-                            "User registered successfully on RealTimeDatabase"
+                            "Trying to register user: $email name: $name surname: $surname"
                         )
-                        SaveCurrencyPreference(currencyPreference)
-                        Log.d("Shared Preferences", "currencyPreference: $currencyPreference")
-                    } catch (e: Exception) {
-                        Log.d("RealTimeDatabase", "Error: ${e.message}")
-                    }
-                    Log.d("Signup", "User created successfully")
-                    Firebase.auth.currentUser?.sendEmailVerification()
-                        ?.addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                Log.d("Signup", "Email sent.")
-                            } else {
-                                Log.d("Signup", "Error, email not sent.")
-                            }
+                        try {
+                            val database =
+                                FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/")
+                            val myRef = database.getReference().child("users")
+                                .child(Utilities().convertDotsToCommas(email).lowercase())
+                            Log.d("RealTimeDatabase", "MyRef: $myRef")
+                            myRef.child("name").setValue(
+                                Utilities().convertDotsToCommas(
+                                    Utilities().capitalizeFirstChar(name)
+                                )
+                            )
+                            myRef.child("surname").setValue(
+                                Utilities().convertDotsToCommas(
+                                    Utilities().capitalizeFirstChar(surname)
+                                )
+                            )
+                            Log.d(
+                                "RealTimeDatabase",
+                                "User registered successfully on RealTimeDatabase"
+                            )
+                            SaveCurrencyPreference(currencyPreference)
+                            Log.d("Shared Preferences", "currencyPreference: $currencyPreference")
+                        } catch (e: Exception) {
+                            Log.d("RealTimeDatabase", "Error: ${e.message}")
                         }
+                        Log.d("Signup", "User created successfully")
+                        Firebase.auth.currentUser?.sendEmailVerification()
+                            ?.addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Log.d("Signup", "Email sent.")
+                                } else {
+                                    Log.d("Signup", "Error, email not sent.")
+                                }
+                            }
+                    }
                 }
+                return 0
+            } else {
+                Toast.makeText(
+                    getApplication<Application>().applicationContext,
+                    "Invalid email or mismatched passwords",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return 1
             }
-            return 0
         } else {
-            println("Email non valida o password non corrispondenti")
+            Toast.makeText(
+                getApplication<Application>().applicationContext,
+                "Name and surname cannot be empty",
+                Toast.LENGTH_SHORT
+            ).show()
             return 1
         }
     }
