@@ -105,7 +105,7 @@ fun CoinItem(
                 )
                 Text(
                     modifier = Modifier.padding(start = 5.dp),
-                    text = prefCurrency,
+                    text = prefCurrency.uppercase(),
                     fontSize = 12.sp,
                     fontStyle = FontStyle.Italic,
                     color = Color.White

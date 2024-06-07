@@ -99,7 +99,9 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
                                 "RealTimeDatabase",
                                 "User registered successfully on RealTimeDatabase"
                             )
-                            SaveCurrencyPreference(currencyPreference)
+                            myRef.child("currency").setValue(
+                                currencyPreference.lowercase()
+                            )
                             Log.d("Shared Preferences", "currencyPreference: $currencyPreference")
                         } catch (e: Exception) {
                             Log.d("RealTimeDatabase", "Error: ${e.message}")
@@ -163,7 +165,9 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
                     "RealTimeDatabase",
                     "User registered successfully on RealTimeDatabase"
                 )
-                SaveCurrencyPreference(currencyPreference)
+                myRef.child("currency").setValue(
+                    currencyPreference.lowercase()
+                )
                 Log.d("Shared Preferences", "currencyPreference: $currencyPreference")
             } catch (e: Exception) {
                 Log.d("RealTimeDatabase", "Error: ${e.message}")
@@ -232,13 +236,5 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
             },
             { error -> Log.d("API", "get all supported currency Request Error $error") })
         requestQueue.add(stringRequest)
-    }
-
-    fun SaveCurrencyPreference(string: String) {
-        val sharedPreferences =
-            getApplication<Application>().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString("currency", string.lowercase())
-        editor.apply()
     }
 }

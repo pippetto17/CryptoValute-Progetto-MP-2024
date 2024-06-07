@@ -3,12 +3,22 @@ package it.magi.stonks.viewmodels
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import it.magi.stonks.models.Coin
@@ -105,13 +115,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         Log.d("API", "returning coinsList: ${coinsList.value}")
     }
 
-    fun getCurrencyPreference(application: Application): String {
-        val sharedPreferences = application.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val result = sharedPreferences.getString("currency", "null")
-        Log.d("SharedPreferences", "shared: $result")
-        return result.toString()
-    }
-
     fun NFtsApiRequest(
         apiKey: String,
         order: String = ""
@@ -203,5 +206,28 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         requestQueue.add(stringRequest)
         Log.d("API", "returning market chart by id: ${marketChartById.value}")
     }
+
+    @Composable
+    fun getCurrencyPreference(): String {
+        val database =
+            FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/")
+        val auth = FirebaseAuth.getInstance()
+        val email = Utilities().convertDotsToCommas(auth.currentUser?.email?:"")
+        var currency by rememberSaveable {
+            mutableStateOf("")
+        }
+        val myRef = database.getReference().child("users").child(email.toString()).child("currency")
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val currencySnapshot = dataSnapshot.getValue(String::class.java)
+                currency = currencySnapshot?:"Unknown"
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.w("CryptoScreen", "Failed to read value.", error.toException())
+            }
+        })
+        return currency
+    }
+
 
 }
