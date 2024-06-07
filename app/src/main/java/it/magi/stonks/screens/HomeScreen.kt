@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,10 +19,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import it.magi.stonks.composables.CustomTopAppBar
 import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.FormContainerColor
+import it.magi.stonks.ui.theme.GreenStock
+import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.viewmodels.HomeViewModel
 
 @Composable
@@ -45,14 +50,24 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
             TabRow(
                 selectedTabIndex = tabState,
                 containerColor = DarkBgColor,
-                contentColor = Color.White
+                contentColor = Color.White,
+                indicator = { tabPositions ->
+                    if (tabState < tabPositions.size) {
+                        TabRowDefaults.Indicator(
+                            modifier = Modifier.tabIndicatorOffset(tabPositions[tabState]),
+                            color = GreenStock
+                        )
+                    }
+                }
             ) {
                 titles.forEachIndexed { index, title ->
                     Tab(
                         text = {
                             Text(
-                                text = title,
-                                color = if (tabState == index) Color.White else Color.LightGray
+                                text = title.uppercase(),
+                                color = if (tabState == index) Color.White else Color.LightGray,
+                                fontSize = 12.sp,
+                                fontFamily = titleFont()
                             )
                         },
                         selected = tabState == index,
@@ -63,7 +78,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
             }
             when (tabState) {
                 0 -> {
-                    CryptoListScreen(navController, viewModel, application )
+                    CryptoListScreen(navController, viewModel, application)
                 }
 
                 1 -> {

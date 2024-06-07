@@ -16,12 +16,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import it.magi.stonks.navigation.ImageVectorIcon
 import it.magi.stonks.navigation.NavigationItem
 import it.magi.stonks.navigation.ResourceIcon
 import it.magi.stonks.ui.theme.DarkBgColor
-import it.magi.stonks.ui.theme.navigationIndicatorColor
+import it.magi.stonks.ui.theme.NavigationIndicatorColor
+import it.magi.stonks.ui.theme.RedStock
+import it.magi.stonks.ui.theme.titleFont
 
 @Composable
 fun CustomBottomNavBar(navController: NavController) {
@@ -51,8 +54,8 @@ fun CustomBottomNavBar(navController: NavController) {
                         selectedIconColor = DarkBgColor,
                         unselectedIconColor = Color.LightGray,
                         unselectedTextColor = Color.LightGray,
-                        selectedTextColor = navigationIndicatorColor,
-                        indicatorColor = navigationIndicatorColor
+                        selectedTextColor = RedStock,
+                        indicatorColor = RedStock
                     ),
                     alwaysShowLabel = true,
                     icon = {
@@ -77,7 +80,11 @@ fun CustomBottomNavBar(navController: NavController) {
                         }
                     },
                     label = {
-                        Text(item.title)
+                        Text(
+                            item.title,
+                            fontSize = 12.sp,
+                            fontFamily = if (selectedItem == index) titleFont() else null
+                        )
                     },
                     selected = selectedItem == index,
                     onClick = {

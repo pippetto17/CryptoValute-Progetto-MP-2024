@@ -10,15 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,15 +20,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import it.magi.stonks.R
 import it.magi.stonks.ui.theme.CoinContainerColor
-import it.magi.stonks.ui.theme.greenStock
-import it.magi.stonks.ui.theme.redStock
+import it.magi.stonks.ui.theme.GreenStock
+import it.magi.stonks.ui.theme.RedStock
 import java.text.DecimalFormat
 
 @Composable
@@ -125,7 +118,7 @@ fun CoinItem(
                 else "▼" + percentageFormat.format(priceChangePercentage24h).toString().substring(1) + "%",
                 fontSize = 15.sp,
                 textAlign = TextAlign.Center,
-                color = if (priceChangePercentage24h >= 0) greenStock else redStock
+                color = if (priceChangePercentage24h >= 0) GreenStock else RedStock
             )
         }
     }

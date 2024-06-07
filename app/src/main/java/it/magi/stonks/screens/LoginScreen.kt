@@ -41,8 +41,8 @@ import it.magi.stonks.composables.SignButton
 import it.magi.stonks.composables.SignDivisor
 import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.FormContainerColor
-import it.magi.stonks.ui.theme.greenStock
-import it.magi.stonks.ui.theme.redStock
+import it.magi.stonks.ui.theme.GreenStock
+import it.magi.stonks.ui.theme.RedStock
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.ui.theme.title_font_size
 import it.magi.stonks.utilities.Utilities
@@ -136,7 +136,7 @@ fun LoginScreen(
                     ) {
                         Text(
                             text = stringResource(id = R.string.login_forgot_password_label),
-                            color = greenStock,
+                            color = GreenStock,
                             fontSize = 14.sp,
                             fontFamily = titleFont()
                         )
@@ -159,7 +159,7 @@ fun LoginScreen(
                 onclick = { navController.navigate("registration") },
                 text = "Sign up for free",
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = redStock,
+                    containerColor = RedStock,
                     contentColor = DarkBgColor
                 ),
             )

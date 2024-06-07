@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import it.magi.stonks.ui.theme.DarkBgColor
-import it.magi.stonks.ui.theme.greenStock
+import it.magi.stonks.ui.theme.GreenStock
 import it.magi.stonks.ui.theme.sign_button_size
 import it.magi.stonks.ui.theme.titleFont
 
@@ -27,7 +27,7 @@ fun SignButton(
     onclick: () -> Unit,
     text: String,
     colors: ButtonColors = ButtonDefaults.buttonColors(
-        containerColor = greenStock,
+        containerColor = GreenStock,
         contentColor = DarkBgColor
     ),
     textSize: TextUnit = sign_button_size
