@@ -44,7 +44,7 @@ fun CryptoListScreen(
     viewModel: HomeViewModel,
     application: Application
 ) {
-    val currency = viewModel.getCurrencyPreference()
+    val currency = viewModel.getCurrencyPreference().uppercase()
     val filterState = viewModel.filter.collectAsState()
     Log.d("CryptoScreen", "currency preference: $currency")
     viewModel.filterCoinsApiRequest(

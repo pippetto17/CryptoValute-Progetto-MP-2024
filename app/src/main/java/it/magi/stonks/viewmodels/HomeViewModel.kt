@@ -44,7 +44,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private var marketChartById= MutableLiveData<CoinMarketChart>()
 
 
-    var _screen = MutableStateFlow(1)
 
     var _filter = MutableStateFlow("")
     val filter: StateFlow<String> = this._filter
@@ -175,7 +174,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         val stringRequest = StringRequest(Request.Method.GET, url,
             { response ->
                 Log.d("API", "Trending list Request Successful, response: $response ")
-                Log.d("API", "response type: ${response}")
                 val gson = Gson()
                 val trendingListType = object : TypeToken<TrendingList>() {}.type
 

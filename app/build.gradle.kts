@@ -87,6 +87,7 @@ dependencies {
     implementation(libs.androidx.benchmark.macro)
 
     //grafici
+    implementation (libs.ycharts)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
