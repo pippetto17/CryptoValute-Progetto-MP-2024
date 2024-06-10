@@ -63,7 +63,10 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.play.services.auth.v2100)
+
+    //async images support
     implementation(libs.coil.compose)
+    implementation("io.coil-kt:coil-svg:2.6.0")
 
     //credentials
 

@@ -1,11 +1,14 @@
 package it.magi.stonks.composables
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -17,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -24,7 +28,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import it.magi.stonks.R
+import it.magi.stonks.models.SparkLine
 import it.magi.stonks.ui.theme.CoinContainerColor
 import it.magi.stonks.ui.theme.GreenStock
 import it.magi.stonks.ui.theme.RedStock
@@ -41,10 +48,18 @@ fun CoinItem(
     symbol: String,
     price: Float,
     priceChangePercentage24h: Float,
+
     onClick: () -> Unit
 ) {
     val percentageFormat = DecimalFormat("0.0")
     val priceFormat = DecimalFormat("0.0#######")
+
+    val regex = Regex("/(\\d+)/")
+
+    val matchResult = regex.find(imageURI ?: "")
+    val currencyImageNumber = matchResult?.groupValues?.get(1)?.toIntOrNull()
+
+    val sparkLineURI = "https://www.coingecko.com/coins/$currencyImageNumber/sparkline.svg"
     Card(
         modifier
             .fillMaxWidth()
@@ -61,14 +76,6 @@ fun CoinItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                modifier = Modifier.width(30.dp),
-                text = rank,
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                color = Color.White,
-            )
             Box(
                 modifier = Modifier.width(80.dp),
                 contentAlignment = Alignment.Center
@@ -76,7 +83,9 @@ fun CoinItem(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.width(50.dp).wrapContentHeight()
+                    modifier = Modifier
+                        .width(50.dp)
+                        .wrapContentHeight()
                 ) {
                     AsyncImage(
                         model = imageURI,
@@ -98,7 +107,8 @@ fun CoinItem(
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
-                    text = if(priceFormat.format(price).length > 8) priceFormat.format(price).substring(0, 9) else priceFormat.format(price),
+                    text = if (priceFormat.format(price).length > 8) priceFormat.format(price)
+                        .substring(0, 9) else priceFormat.format(price),
                     fontSize = 15.sp,
                     color = Color.White
                 )
@@ -110,11 +120,20 @@ fun CoinItem(
                     color = Color.White
                 )
             }
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(sparkLineURI)
+                    .decoderFactory(SvgDecoder.Factory())
+                    .build(),
+                contentDescription = "sparkLine",
+                modifier = Modifier.fillMaxSize(0.5f)
+            )
             Text(
-                modifier = Modifier.width(70.dp),
+                modifier = Modifier.width(50.dp),
                 text = if (priceChangePercentage24h >= 0)
                     "▲" + percentageFormat.format(priceChangePercentage24h).toString() + "%"
-                else "▼" + percentageFormat.format(priceChangePercentage24h).toString().substring(1) + "%",
+                else "▼" + percentageFormat.format(priceChangePercentage24h).toString()
+                    .substring(1) + "%",
                 fontSize = 15.sp,
                 textAlign = TextAlign.Center,
                 color = if (priceChangePercentage24h >= 0) GreenStock else RedStock
