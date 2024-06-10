@@ -1,5 +1,6 @@
 package it.magi.stonks.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,7 +30,8 @@ fun OtherScreen(navController: NavController, viewModel: OtherViewModel) {
     viewModel.getSupportedCurrencies(apiKey)
     val currencyListState = viewModel.getCurrencyList().observeAsState()
     val currencyList = currencyListState.value ?: listOf("EUR", "USD")
-    val currentCurrency by remember { mutableStateOf(viewModel.currentCurrency.value) }
+    val selectedCurrency by remember { mutableStateOf(viewModel._selectedCurrency.value) }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -40,13 +42,16 @@ fun OtherScreen(navController: NavController, viewModel: OtherViewModel) {
             viewModel,
             currencyList
         )
-        Button(onClick = { viewModel.changePreferredCurrency(context,currentCurrency)}) {
+        Button(onClick = {
+            viewModel.changePreferredCurrency(context,selectedCurrency)
+            Toast.makeText(context, "Currency changed", Toast.LENGTH_SHORT).show()
+        }) {
             Text(text = "Change")
         }
         Button(onClick = {
             viewModel.logOut(context)
         }) {
-            Text(text = "logout")
+            Text(text = "Logout")
         }
     }
 }

@@ -38,12 +38,11 @@ import it.magi.stonks.viewmodels.RegistrationViewModel
 fun OtherDropDown(modifier: Modifier = Modifier, viewModel: OtherViewModel, currencyList: List<String>) {
     Log.d("currencyList", "DropDown: $currencyList")
 
-
     var isExpanded by remember {
         mutableStateOf(false)
     }
 
-    var selectedText by remember { mutableStateOf(currencyList[0]) }
+    val selectedText by remember { mutableStateOf(currencyList[0]) }
     val currencyState = viewModel.selectedCurrency.collectAsState()
 
     Column(
