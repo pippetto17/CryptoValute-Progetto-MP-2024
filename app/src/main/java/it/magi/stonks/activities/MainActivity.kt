@@ -26,6 +26,7 @@ import it.magi.stonks.screens.NewsScreen
 import it.magi.stonks.screens.WalletScreen
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.StonksTheme
+import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.HomeViewModel
 import it.magi.stonks.viewmodels.OtherViewModel
 import it.magi.stonks.viewmodels.WalletViewModel
@@ -42,7 +43,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             LocalContext.current
-            val currency = HomeViewModel(application).getCurrencyPreference().uppercase()
+            val prefCurrency = Utilities().getCurrencyPreference().uppercase()
             StonksTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
@@ -61,7 +62,7 @@ class MainActivity : ComponentActivity() {
                             HomeScreen(
                                 navController,
                                 viewModel = HomeViewModel(application),
-                                currency = currency
+                                prefCurrency = prefCurrency
                             )
                         }
                         composable(NavigationItem.Wallet.route) {
@@ -76,7 +77,10 @@ class MainActivity : ComponentActivity() {
                         composable(NavigationItem.Other.route) {
                             OtherScreen(
                                 navController = navController,
-                                viewModel = OtherViewModel(application)
+                                viewModel = OtherViewModel(
+                                    application,
+                                    prefCurrency
+                                )
                             )
                         }
                         composable(
@@ -94,7 +98,7 @@ class MainActivity : ComponentActivity() {
                                     viewModel = HomeViewModel(application),
                                     apiKey = apiKey,
                                     coinId = coinId,
-                                    currency = currency
+                                    currency = prefCurrency
                                 )
                             }
                         }

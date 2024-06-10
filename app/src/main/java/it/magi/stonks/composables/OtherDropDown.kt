@@ -1,6 +1,8 @@
 package it.magi.stonks.composables
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,7 +37,12 @@ import it.magi.stonks.viewmodels.RegistrationViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OtherDropDown(modifier: Modifier = Modifier, viewModel: OtherViewModel, currencyList: List<String>) {
+fun OtherDropDown(
+    modifier: Modifier = Modifier,
+    viewModel: OtherViewModel,
+    currencyList: List<String>,
+    context: Context
+) {
     Log.d("currencyList", "DropDown: $currencyList")
 
     var isExpanded by remember {
@@ -107,6 +114,8 @@ fun OtherDropDown(modifier: Modifier = Modifier, viewModel: OtherViewModel, curr
                         },
                         onClick = {
                             viewModel._selectedCurrency.value = currencyList[index]
+                            viewModel.changePreferredCurrency(context, viewModel._selectedCurrency.value)
+                            Toast.makeText(context, "Currency changed", Toast.LENGTH_SHORT).show()
                             isExpanded = false
                         },
                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding

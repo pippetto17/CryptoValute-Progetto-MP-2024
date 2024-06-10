@@ -204,28 +204,4 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         requestQueue.add(stringRequest)
         Log.d("API", "returning market chart by id: ${marketChartById.value}")
     }
-
-    @Composable
-    fun getCurrencyPreference(): String {
-        val database =
-            FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/")
-        val auth = FirebaseAuth.getInstance()
-        val email = Utilities().convertDotsToCommas(auth.currentUser?.email?:"")
-        var currency by rememberSaveable {
-            mutableStateOf("")
-        }
-        val myRef = database.getReference().child("users").child(email.toString()).child("currency")
-        myRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val currencySnapshot = dataSnapshot.getValue(String::class.java)
-                currency = currencySnapshot?:"Unknown"
-            }
-            override fun onCancelled(error: DatabaseError) {
-                Log.w("CryptoScreen", "Failed to read value.", error.toException())
-            }
-        })
-        return currency
-    }
-
-
 }

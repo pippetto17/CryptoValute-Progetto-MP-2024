@@ -22,19 +22,19 @@ import it.magi.stonks.utilities.Utilities
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class OtherViewModel(application: Application) : AndroidViewModel(application) {
+class OtherViewModel(application: Application, prefCurrency: String) :
+    AndroidViewModel(application) {
     private val requestQueue = Volley.newRequestQueue(application)
 
     private var currencyList = MutableLiveData<List<String>>()
     fun getCurrencyList(): LiveData<List<String>> {
         return currencyList
     }
-    
-    var _selectedCurrency = MutableStateFlow("BTC")
+
+    val prefCurrency = prefCurrency
+
+    var _selectedCurrency = MutableStateFlow(prefCurrency)
     val selectedCurrency: StateFlow<String> = _selectedCurrency
-    
-    var _currentCurrency = MutableStateFlow("")
-    val currentCurrency: StateFlow<String> = _currentCurrency
 
     fun getSupportedCurrencies(apiKey: String) {
         val url =
@@ -60,13 +60,15 @@ class OtherViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun changePreferredCurrency(context: Context, newCurrency: String) {
+        val changedCurrency = newCurrency
         val email = FirebaseAuth.getInstance().currentUser?.email
         val database =
             FirebaseDatabase.getInstance(context.getString(R.string.db_url))
-        if (email != null){
+        if (email != null) {
             val myRef = database.getReference().child("users")
                 .child(Utilities().convertDotsToCommas(email).lowercase())
-            myRef.child("currency").setValue(newCurrency)
+            val currency = myRef.child("currency").setValue(changedCurrency)
+            _selectedCurrency.value = changedCurrency
         }
     }
 

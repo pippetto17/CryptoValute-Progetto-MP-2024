@@ -24,13 +24,15 @@ import it.magi.stonks.composables.OtherDropDown
 import it.magi.stonks.viewmodels.OtherViewModel
 
 @Composable
-fun OtherScreen(navController: NavController, viewModel: OtherViewModel) {
+fun OtherScreen(
+    navController: NavController,
+    viewModel: OtherViewModel,
+) {
     val context = LocalContext.current
     val apiKey = stringResource(R.string.api_key)
     viewModel.getSupportedCurrencies(apiKey)
     val currencyListState = viewModel.getCurrencyList().observeAsState()
     val currencyList = currencyListState.value ?: listOf("EUR", "USD")
-    val selectedCurrency by remember { mutableStateOf(viewModel._selectedCurrency.value) }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -40,14 +42,9 @@ fun OtherScreen(navController: NavController, viewModel: OtherViewModel) {
         OtherDropDown(
             modifier = Modifier.fillMaxWidth(),
             viewModel,
-            currencyList
+            currencyList,
+            context
         )
-        Button(onClick = {
-            viewModel.changePreferredCurrency(context,selectedCurrency)
-            Toast.makeText(context, "Currency changed", Toast.LENGTH_SHORT).show()
-        }) {
-            Text(text = "Change")
-        }
         Button(onClick = {
             viewModel.logOut(context)
         }) {
