@@ -2,6 +2,7 @@ package it.magi.stonks.utilities
 
 
 import android.app.Application
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import it.magi.stonks.composables.ConfirmEmailDialog
@@ -28,8 +29,8 @@ class Utilities {
         // Convert to lowercase
         return noExtraSpaces.lowercase()
     }
-    fun testSignup(application: Application){
-        RegistrationViewModel(application).registerUser("test@gmail.com","Abc123,","Abc123,","TestName","TestSurname","EUR")
+    fun testSignup(context: Context, application: Application){
+        RegistrationViewModel(application).registerUser(context,"test@gmail.com","Abc123,","Abc123,","TestName","TestSurname","EUR")
 
 
     }

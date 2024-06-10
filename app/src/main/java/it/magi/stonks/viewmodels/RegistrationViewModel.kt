@@ -16,6 +16,7 @@ import com.google.firebase.auth.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import it.magi.stonks.R
 import it.magi.stonks.utilities.Utilities
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -57,6 +58,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
 
 
     fun registerUser(
+        context: Context,
         email: String,
         password: String,
         confirmPassword: String,
@@ -81,7 +83,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
                         )
                         try {
                             val database =
-                                FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/")
+                                FirebaseDatabase.getInstance(context.getString(R.string.db_url))
                             val myRef = database.getReference().child("users")
                                 .child(Utilities().convertDotsToCommas(email).lowercase())
                             Log.d("RealTimeDatabase", "MyRef: $myRef")

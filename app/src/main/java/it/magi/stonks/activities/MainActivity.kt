@@ -70,7 +70,7 @@ class MainActivity : ComponentActivity() {
                         composable(NavigationItem.Other.route) {
                             OtherScreen(
                                 navController = navController,
-                                viewModel = OtherViewModel()
+                                viewModel = OtherViewModel(application)
                             )
                         }
                         composable(

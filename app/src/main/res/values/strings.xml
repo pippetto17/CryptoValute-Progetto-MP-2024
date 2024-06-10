@@ -14,6 +14,7 @@
     <string name="signup_password_error_code_3_number">Must contain at least one number</string>
     <string name="signup_password_error_code_4_uppercase">Must contain at least one uppercase letter</string>
     <string name="signup_select_currency">Choose your currency </string>
+    <string name="other_select_currency">Change your currency </string>
 
     <string name="signup_label">Sign Up</string>
 
@@ -50,5 +51,6 @@
     <string name="signup_previous">Previous</string>
     <string name="signup_with_google_subtitle">with Google</string>
     <string name="filter">Filter</string>
+    <string name="db_url">https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/</string>
 
 </resources>

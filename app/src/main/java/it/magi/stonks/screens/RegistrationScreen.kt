@@ -197,7 +197,7 @@ fun FirstRegistrationScreen(navController: NavController, viewModel: Registratio
 @Composable
 fun SecondRegistrationScreen(navController: NavController, viewModel: RegistrationViewModel) {
     val emailState = viewModel.email.collectAsState()
-
+    val context = LocalContext.current
     val passwordState = viewModel.password.collectAsState()
     val confirmPasswordState = viewModel.confirmPassword.collectAsState()
     var passwordErrors by rememberSaveable {
@@ -336,6 +336,7 @@ fun SecondRegistrationScreen(navController: NavController, viewModel: Registrati
                         .padding(end = 40.dp, start = 10.dp),
                     onclick = {
                         if (viewModel.registerUser(
+                                context,
                                 viewModel.email.value,
                                 viewModel.password.value,
                                 viewModel.confirmPassword.value,
