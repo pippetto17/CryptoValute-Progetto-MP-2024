@@ -104,7 +104,11 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
                             myRef.child("currency").setValue(
                                 currencyPreference.lowercase()
                             )
-                            Log.d("Shared Preferences", "currencyPreference: $currencyPreference")
+                            myRef.child("wallets").setValue("wallet1")
+                            Log.d(
+                                "RealTimeDatabase",
+                                "User registered successfully on RealTimeDatabase"
+                            )
                         } catch (e: Exception) {
                             Log.d("RealTimeDatabase", "Error: ${e.message}")
                         }

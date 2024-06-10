@@ -33,6 +33,7 @@ import it.magi.stonks.viewmodels.WalletViewModel
 
 const val apiKey = "CG-Xag5m7fAKyT7rBF6biSrs1GF"
 
+
 class MainActivity : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +69,7 @@ class MainActivity : ComponentActivity() {
                         composable(NavigationItem.Wallet.route) {
                             WalletScreen(
                                 navController = navController,
-                                viewModel = WalletViewModel()
+                                viewModel = WalletViewModel(application)
                             )
                         }
                         composable(NavigationItem.News.route) {
@@ -114,7 +115,7 @@ class MainActivity : ComponentActivity() {
                             if (coinId != null) {
                                 BuyCoinScreen(
                                     navController = navController,
-                                    viewModel = WalletViewModel(),
+                                    viewModel = WalletViewModel(application),
                                     coinId = coinId,
                                 )
                             }
