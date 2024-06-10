@@ -1,6 +1,5 @@
 package it.magi.stonks.composables
 
-import android.app.Application
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -8,7 +7,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,13 +29,13 @@ import androidx.navigation.NavController
 import it.magi.stonks.R
 import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.titleFont
-import it.magi.stonks.viewmodels.HomeViewModel
+import it.magi.stonks.viewmodels.StonksViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTopAppBar(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel,
+    viewModel: StonksViewModel,
     isHome: Boolean = true,
     navController: NavController,
 ) {

@@ -28,13 +28,13 @@ import it.magi.stonks.ui.theme.titleFont
 @Composable
 fun CustomBottomNavBar(navController: NavController) {
     val items = listOf(
-        NavigationItem.Home,
+        NavigationItem.Stonks,
         NavigationItem.Wallet,
         NavigationItem.News,
         NavigationItem.Other
     )
     var selectedItem by remember { mutableStateOf(0) }
-    var currentRoute by remember { mutableStateOf(NavigationItem.Home.route) }
+    var currentRoute by remember { mutableStateOf(NavigationItem.Stonks.route) }
 
     items.forEachIndexed { index, navigationItem ->
         if (navigationItem.route == currentRoute) {

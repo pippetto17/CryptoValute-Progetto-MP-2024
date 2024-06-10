@@ -18,18 +18,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import it.magi.stonks.R
 import it.magi.stonks.composables.CustomField
 import it.magi.stonks.composables.CustomTopAppBar
-import it.magi.stonks.composables.SignField
 import it.magi.stonks.composables.SignButton
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.RedStock
-import it.magi.stonks.viewmodels.HomeViewModel
+import it.magi.stonks.viewmodels.StonksViewModel
 import it.magi.stonks.viewmodels.WalletViewModel
 
 @Composable
@@ -46,7 +43,7 @@ fun BuyCoinScreen(
             CustomTopAppBar(
                 navController = navController,
                 isHome = false,
-                viewModel = HomeViewModel(application)
+                viewModel = StonksViewModel(application)
             )
         },
         containerColor = FormContainerColor

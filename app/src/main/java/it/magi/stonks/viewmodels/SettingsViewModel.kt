@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -22,7 +21,7 @@ import it.magi.stonks.utilities.Utilities
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class OtherViewModel(application: Application, prefCurrency: String) :
+class SettingsViewModel(application: Application, prefCurrency: String) :
     AndroidViewModel(application) {
     private val requestQueue = Volley.newRequestQueue(application)
 

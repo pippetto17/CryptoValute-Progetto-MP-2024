@@ -21,14 +21,14 @@ import it.magi.stonks.navigation.NavigationItem
 import it.magi.stonks.screens.BuyCoinScreen
 import it.magi.stonks.screens.CoinScreen
 import it.magi.stonks.screens.HomeScreen
-import it.magi.stonks.screens.OtherScreen
 import it.magi.stonks.screens.NewsScreen
+import it.magi.stonks.screens.OtherScreen
 import it.magi.stonks.screens.WalletScreen
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.StonksTheme
 import it.magi.stonks.utilities.Utilities
-import it.magi.stonks.viewmodels.HomeViewModel
-import it.magi.stonks.viewmodels.OtherViewModel
+import it.magi.stonks.viewmodels.SettingsViewModel
+import it.magi.stonks.viewmodels.StonksViewModel
 import it.magi.stonks.viewmodels.WalletViewModel
 
 const val apiKey = "CG-Xag5m7fAKyT7rBF6biSrs1GF"
@@ -56,12 +56,12 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         navController = navController,
                         modifier = Modifier.padding(innerPadding),
-                        startDestination = NavigationItem.Home.route
+                        startDestination = NavigationItem.Stonks.route
                     ) {
-                        composable(NavigationItem.Home.route) {
+                        composable(NavigationItem.Stonks.route) {
                             HomeScreen(
                                 navController,
-                                viewModel = HomeViewModel(application),
+                                viewModel = StonksViewModel(application),
                                 prefCurrency = prefCurrency
                             )
                         }
@@ -77,7 +77,7 @@ class MainActivity : ComponentActivity() {
                         composable(NavigationItem.Other.route) {
                             OtherScreen(
                                 navController = navController,
-                                viewModel = OtherViewModel(
+                                viewModel = SettingsViewModel(
                                     application,
                                     prefCurrency
                                 )
@@ -95,7 +95,7 @@ class MainActivity : ComponentActivity() {
                             if (coinId != null) {
                                 CoinScreen(
                                     navController = navController,
-                                    viewModel = HomeViewModel(application),
+                                    viewModel = StonksViewModel(application),
                                     apiKey = apiKey,
                                     coinId = coinId,
                                     currency = prefCurrency

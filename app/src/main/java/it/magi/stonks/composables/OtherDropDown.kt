@@ -32,14 +32,13 @@ import androidx.compose.ui.unit.dp
 import it.magi.stonks.R
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.titleFont
-import it.magi.stonks.viewmodels.OtherViewModel
-import it.magi.stonks.viewmodels.RegistrationViewModel
+import it.magi.stonks.viewmodels.SettingsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OtherDropDown(
     modifier: Modifier = Modifier,
-    viewModel: OtherViewModel,
+    viewModel: SettingsViewModel,
     currencyList: List<String>,
     context: Context
 ) {

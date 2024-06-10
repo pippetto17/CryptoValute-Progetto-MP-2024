@@ -14,10 +14,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import it.magi.stonks.R
 import it.magi.stonks.composables.NFTItem
-import it.magi.stonks.viewmodels.HomeViewModel
+import it.magi.stonks.viewmodels.StonksViewModel
 
 @Composable
-fun NFTScreen(viewModel: HomeViewModel) {
+fun NFTScreen(viewModel: StonksViewModel) {
     val context = LocalContext.current
     val apiKey = stringResource(R.string.api_key)
     val currency = "usd"

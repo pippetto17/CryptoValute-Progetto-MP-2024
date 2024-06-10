@@ -37,11 +37,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import it.magi.stonks.R
 import it.magi.stonks.composables.CustomEmailField
-import it.magi.stonks.composables.SignField
 import it.magi.stonks.composables.CustomPasswordField
 import it.magi.stonks.composables.DropDown
 import it.magi.stonks.composables.SignButton
 import it.magi.stonks.composables.SignDivisor
+import it.magi.stonks.composables.SignField
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.RedStock
 import it.magi.stonks.ui.theme.titleFont

@@ -24,12 +24,12 @@ import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.GreenStock
 import it.magi.stonks.ui.theme.titleFont
-import it.magi.stonks.viewmodels.HomeViewModel
+import it.magi.stonks.viewmodels.StonksViewModel
 
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: HomeViewModel,
+    viewModel: StonksViewModel,
     prefCurrency: String
 ) {
     var tabState by remember { mutableIntStateOf(0) }

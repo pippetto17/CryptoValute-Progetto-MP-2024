@@ -1,6 +1,5 @@
 package it.magi.stonks.screens
 
-import android.app.Application
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,18 +20,18 @@ import it.magi.stonks.composables.CoinMarketChart
 import it.magi.stonks.composables.CustomTopAppBar
 import it.magi.stonks.composables.SignButton
 import it.magi.stonks.ui.theme.FormContainerColor
-import it.magi.stonks.viewmodels.HomeViewModel
+import it.magi.stonks.viewmodels.StonksViewModel
 
 @Composable
 fun CoinScreen(
     navController: NavController,
-    viewModel: HomeViewModel,
+    viewModel: StonksViewModel,
     apiKey: String,
     coinId: String,
     currency: String,
 
 
-) {
+    ) {
     viewModel.coinMarketChartDataById(apiKey, coinId, currency, 1)
     val chartData = viewModel.getCoinMarketChart().observeAsState()
     val priceList=chartData.value?.prices
