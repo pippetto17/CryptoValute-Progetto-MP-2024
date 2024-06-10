@@ -66,7 +66,7 @@ fun CoinScreen(
                     .weight(1f)
             )
             SignButton(
-                onclick = { /*TODO*/ },
+                onclick = { navController.navigate("buycoin/$coinId") },
                 text = "Add to Wallet"
             )
         }

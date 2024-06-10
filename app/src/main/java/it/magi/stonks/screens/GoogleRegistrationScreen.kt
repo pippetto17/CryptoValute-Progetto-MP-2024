@@ -31,7 +31,7 @@ import androidx.navigation.NavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import it.magi.stonks.R
-import it.magi.stonks.composables.CustomField
+import it.magi.stonks.composables.SignField
 import it.magi.stonks.composables.DropDown
 import it.magi.stonks.composables.SignButton
 import it.magi.stonks.composables.SignDivisor
@@ -108,7 +108,7 @@ fun GoogleRegistrationScreen(navController: NavController, viewModel: Registrati
                         fontSize = 20.sp,
                         color = Color.White,
                     )
-                    CustomField(
+                    SignField(
                         modifier = Modifier.fillMaxWidth(),
                         value = nameState.value,
                         labelID = R.string.signup_name_label,
@@ -120,7 +120,7 @@ fun GoogleRegistrationScreen(navController: NavController, viewModel: Registrati
                         }
                     )
                     SignDivisor()
-                    CustomField(
+                    SignField(
                         modifier = Modifier.fillMaxWidth(),
                         value = surnameState.value,
                         labelID = R.string.signup_surname_label,

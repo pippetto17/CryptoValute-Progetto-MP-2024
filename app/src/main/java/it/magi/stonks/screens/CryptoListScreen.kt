@@ -37,14 +37,14 @@ import it.magi.stonks.R
 import it.magi.stonks.activities.apiKey
 import it.magi.stonks.composables.CoinItem
 import it.magi.stonks.viewmodels.HomeViewModel
+import java.util.Currency
 
 @Composable
 fun CryptoListScreen(
     navController: NavController,
     viewModel: HomeViewModel,
-    application: Application
+    currency: String
 ) {
-    val currency = viewModel.getCurrencyPreference().uppercase()
     val filterState = viewModel.filter.collectAsState()
     Log.d("CryptoScreen", "currency preference: $currency")
     viewModel.filterCoinsApiRequest(

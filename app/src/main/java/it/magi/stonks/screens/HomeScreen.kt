@@ -1,6 +1,7 @@
 package it.magi.stonks.screens
 
 import android.app.Application
+import android.icu.util.Currency
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,10 +30,13 @@ import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.viewmodels.HomeViewModel
 
 @Composable
-fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
+fun HomeScreen(
+    navController: NavController,
+    viewModel: HomeViewModel,
+    currency: String
+) {
     var tabState by remember { mutableIntStateOf(0) }
     val titles = listOf("Cryptovalute", "NFT", "Exchange")
-    val application = LocalContext.current.applicationContext as Application
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -78,7 +82,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
             }
             when (tabState) {
                 0 -> {
-                    CryptoListScreen(navController, viewModel, application)
+                    CryptoListScreen(navController, viewModel, currency)
                 }
 
                 1 -> {

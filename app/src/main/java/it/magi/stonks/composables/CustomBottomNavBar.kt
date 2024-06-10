@@ -22,7 +22,6 @@ import it.magi.stonks.navigation.ImageVectorIcon
 import it.magi.stonks.navigation.NavigationItem
 import it.magi.stonks.navigation.ResourceIcon
 import it.magi.stonks.ui.theme.DarkBgColor
-import it.magi.stonks.ui.theme.NavigationIndicatorColor
 import it.magi.stonks.ui.theme.RedStock
 import it.magi.stonks.ui.theme.titleFont
 
@@ -31,7 +30,7 @@ fun CustomBottomNavBar(navController: NavController) {
     val items = listOf(
         NavigationItem.Home,
         NavigationItem.Wallet,
-        NavigationItem.Search,
+        NavigationItem.News,
         NavigationItem.Other
     )
     var selectedItem by remember { mutableStateOf(0) }

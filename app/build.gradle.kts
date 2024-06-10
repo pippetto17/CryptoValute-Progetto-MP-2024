@@ -87,7 +87,7 @@ dependencies {
     implementation(libs.androidx.benchmark.macro)
 
     //grafici
-    implementation (libs.ycharts)
+    implementation("com.patrykandpatrick.vico:compose:1.14.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

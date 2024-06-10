@@ -18,10 +18,11 @@ import androidx.navigation.navArgument
 import com.google.firebase.auth.FirebaseAuth
 import it.magi.stonks.composables.CustomBottomNavBar
 import it.magi.stonks.navigation.NavigationItem
+import it.magi.stonks.screens.BuyCoinScreen
 import it.magi.stonks.screens.CoinScreen
 import it.magi.stonks.screens.HomeScreen
 import it.magi.stonks.screens.OtherScreen
-import it.magi.stonks.screens.SearchScreen
+import it.magi.stonks.screens.NewsScreen
 import it.magi.stonks.screens.WalletScreen
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.StonksTheme
@@ -29,7 +30,7 @@ import it.magi.stonks.viewmodels.HomeViewModel
 import it.magi.stonks.viewmodels.OtherViewModel
 import it.magi.stonks.viewmodels.WalletViewModel
 
-const val apiKey="CG-Xag5m7fAKyT7rBF6biSrs1GF"
+const val apiKey = "CG-Xag5m7fAKyT7rBF6biSrs1GF"
 
 class MainActivity : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
@@ -41,6 +42,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             LocalContext.current
+            val currency = HomeViewModel(application).getCurrencyPreference().uppercase()
             StonksTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
@@ -56,7 +58,11 @@ class MainActivity : ComponentActivity() {
                         startDestination = NavigationItem.Home.route
                     ) {
                         composable(NavigationItem.Home.route) {
-                            HomeScreen(navController, viewModel = HomeViewModel(application))
+                            HomeScreen(
+                                navController,
+                                viewModel = HomeViewModel(application),
+                                currency = currency
+                            )
                         }
                         composable(NavigationItem.Wallet.route) {
                             WalletScreen(
@@ -64,8 +70,8 @@ class MainActivity : ComponentActivity() {
                                 viewModel = WalletViewModel()
                             )
                         }
-                        composable(NavigationItem.Search.route) {
-                            SearchScreen(navController = navController)
+                        composable(NavigationItem.News.route) {
+                            NewsScreen(navController = navController)
                         }
                         composable(NavigationItem.Other.route) {
                             OtherScreen(
@@ -88,7 +94,24 @@ class MainActivity : ComponentActivity() {
                                     viewModel = HomeViewModel(application),
                                     apiKey = apiKey,
                                     coinId = coinId,
-                                    currency = HomeViewModel(application).getCurrencyPreference(),
+                                    currency = currency
+                                )
+                            }
+                        }
+                        composable(
+                            "buycoin/{coinId}",
+                            arguments = listOf(
+                                navArgument("coinId") {
+                                    type = NavType.StringType
+                                }
+                            )
+                        ) { backStackEntry ->
+                            val coinId = backStackEntry.arguments?.getString("coinId")
+                            if (coinId != null) {
+                                BuyCoinScreen(
+                                    navController = navController,
+                                    viewModel = WalletViewModel(),
+                                    coinId = coinId,
                                 )
                             }
                         }

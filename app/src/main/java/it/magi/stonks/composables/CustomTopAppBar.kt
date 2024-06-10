@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.Search
@@ -51,7 +52,7 @@ fun CustomTopAppBar(
                     onClick = { navController.popBackStack() }
                 ) {
                     Icon(
-                        Icons.Rounded.KeyboardArrowLeft,
+                        Icons.AutoMirrored.Rounded.KeyboardArrowLeft,
                         contentDescription = "",
                         tint = Color.White,
                         modifier = Modifier.size(40.dp)

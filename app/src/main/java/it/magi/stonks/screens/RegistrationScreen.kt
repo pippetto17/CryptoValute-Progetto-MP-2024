@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import it.magi.stonks.R
 import it.magi.stonks.composables.CustomEmailField
-import it.magi.stonks.composables.CustomField
+import it.magi.stonks.composables.SignField
 import it.magi.stonks.composables.CustomPasswordField
 import it.magi.stonks.composables.DropDown
 import it.magi.stonks.composables.SignButton
@@ -134,7 +134,7 @@ fun FirstRegistrationScreen(navController: NavController, viewModel: Registratio
                         fontSize = 20.sp,
                         color = Color.White,
                     )
-                    CustomField(
+                    SignField(
                         modifier = Modifier.fillMaxWidth(),
                         value = nameState.value,
                         labelID = R.string.signup_name_label,
@@ -146,7 +146,7 @@ fun FirstRegistrationScreen(navController: NavController, viewModel: Registratio
                         }
                     )
                     SignDivisor()
-                    CustomField(
+                    SignField(
                         modifier = Modifier.fillMaxWidth(),
                         value = surnameState.value,
                         labelID = R.string.signup_surname_label,

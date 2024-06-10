@@ -44,8 +44,7 @@ fun CoinItem(
     onClick: () -> Unit
 ) {
     val percentageFormat = DecimalFormat("0.0")
-    val priceFormat = DecimalFormat("0.000")
-
+    val priceFormat = DecimalFormat("0.0#######")
     Card(
         modifier
             .fillMaxWidth()
@@ -99,14 +98,14 @@ fun CoinItem(
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
-                    text = priceFormat.format(price).toString(),
-                    fontSize = 12.sp,
+                    text = if(priceFormat.format(price).length > 8) priceFormat.format(price).substring(0, 9) else priceFormat.format(price),
+                    fontSize = 15.sp,
                     color = Color.White
                 )
                 Text(
                     modifier = Modifier.padding(start = 5.dp),
                     text = prefCurrency.uppercase(),
-                    fontSize = 12.sp,
+                    fontSize = 15.sp,
                     fontStyle = FontStyle.Italic,
                     color = Color.White
                 )
