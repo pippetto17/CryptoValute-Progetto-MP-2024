@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.ui.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -12,6 +14,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -20,6 +23,7 @@ import it.magi.stonks.activities.StartActivity
 import it.magi.stonks.utilities.Utilities
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.tasks.await
 
 class SettingsViewModel(application: Application, prefCurrency: String) :
     AndroidViewModel(application) {
@@ -68,6 +72,31 @@ class SettingsViewModel(application: Application, prefCurrency: String) :
                 .child(Utilities().convertDotsToCommas(email).lowercase())
             val currency = myRef.child("currency").setValue(changedCurrency)
             _selectedCurrency.value = changedCurrency
+        }
+    }
+
+    suspend fun deleteFirebaseUser(context: Context) {
+        val user = FirebaseAuth.getInstance().currentUser
+        val email = user?.email
+        val database =
+            FirebaseDatabase.getInstance(context.getString(R.string.db_url))
+        if(email != null) {
+            val myRef = database.getReference().child("users")
+                .child(Utilities().convertDotsToCommas(email).lowercase())
+            try {
+                user.delete().await()
+                myRef.removeValue().await()
+                Log.d("API", "User deleted successfully")
+
+                ContextCompat.startActivity(
+                    context,
+                    Intent(context, StartActivity::class.java),
+                    null
+                )
+            } catch (e: Exception) {
+                Toast.makeText(context, "You must logout and log back in to delete your account. Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                println("Error deleting user: ${e.message}")
+            }
         }
     }
 

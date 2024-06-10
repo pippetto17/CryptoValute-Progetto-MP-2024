@@ -23,6 +23,11 @@
     <string name="email_sent_dialog_button_label">Verified email</string>
     <string name="email_sent_dialog_send_again_text">I have not received any email</string>
 
+    //DeleteAccountDialog
+    <string name="confirm_delete_account_text">Are you sure you want to delete your account?</string>
+    <string name="confirm_delete_account_button_label">Yes</string>
+    <string name="confirm_delete_account_button_cancel_label">No</string>
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //LOGIN SCREEN

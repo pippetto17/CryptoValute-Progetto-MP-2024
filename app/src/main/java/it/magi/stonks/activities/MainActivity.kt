@@ -23,6 +23,7 @@ import it.magi.stonks.screens.CoinScreen
 import it.magi.stonks.screens.HomeScreen
 import it.magi.stonks.screens.NewsScreen
 import it.magi.stonks.screens.OtherScreen
+import it.magi.stonks.screens.ProfileSettingsScreen
 import it.magi.stonks.screens.WalletScreen
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.StonksTheme
@@ -82,6 +83,12 @@ class MainActivity : ComponentActivity() {
                                     application,
                                     prefCurrency
                                 )
+                            )
+                        }
+                        composable("profile") {
+                            ProfileSettingsScreen(
+                                navController = navController,
+                                viewModel = SettingsViewModel(application, prefCurrency)
                             )
                         }
                         composable(

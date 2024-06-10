@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import it.magi.stonks.composables.ConfirmDeleteDialog
 import it.magi.stonks.composables.ConfirmEmailDialog
 import it.magi.stonks.viewmodels.RegistrationViewModel
 
@@ -66,6 +67,19 @@ class Utilities {
         onConfirmButton: () -> Unit
     ) {
         ConfirmEmailDialog(
+            onDismissRequest = onDismiss,
+            onDismissButton = onDismissButton,
+            onConfirmButton = onConfirmButton
+        )
+    }
+
+    @Composable
+    fun DeleteAccountDialog(
+        onDismiss: () -> Unit,
+        onDismissButton: () -> Unit,
+        onConfirmButton: () -> Unit
+    ) {
+        ConfirmDeleteDialog(
             onDismissRequest = onDismiss,
             onDismissButton = onDismissButton,
             onConfirmButton = onConfirmButton
