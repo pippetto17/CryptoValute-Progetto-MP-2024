@@ -18,7 +18,7 @@ import androidx.navigation.navArgument
 import com.google.firebase.auth.FirebaseAuth
 import it.magi.stonks.composables.CustomBottomNavBar
 import it.magi.stonks.navigation.NavigationItem
-import it.magi.stonks.screens.BuyCoinScreen
+import it.magi.stonks.screen.BuyCoinScreen
 import it.magi.stonks.screens.CoinScreen
 import it.magi.stonks.screens.HomeScreen
 import it.magi.stonks.screens.NewsScreen
@@ -124,6 +124,7 @@ class MainActivity : ComponentActivity() {
                                     navController = navController,
                                     viewModel = WalletViewModel(application),
                                     coinId = coinId,
+                                    currency = prefCurrency
                                 )
                             }
                         }

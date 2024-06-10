@@ -1,6 +1,7 @@
-package it.magi.stonks.screens
+package it.magi.stonks.screen
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,12 +16,15 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import it.magi.stonks.activities.apiKey
 import it.magi.stonks.composables.CustomField
 import it.magi.stonks.composables.CustomTopAppBar
 import it.magi.stonks.composables.SignButton
@@ -29,13 +33,25 @@ import it.magi.stonks.ui.theme.RedStock
 import it.magi.stonks.viewmodels.StonksViewModel
 import it.magi.stonks.viewmodels.WalletViewModel
 
+
 @Composable
 fun BuyCoinScreen(
     navController: NavController,
     viewModel: WalletViewModel,
-    coinId: String
+    coinId: String,
+    currency: String
 ) {
     val application = LocalContext.current.applicationContext as Application
+    viewModel.coinPriceApiRequest(
+        apiKey,
+        coinId,
+        currency.lowercase(),
+        viewModel.printResultCallback
+    )
+
+    val coinPriceState = viewModel.coinPrice.collectAsState()
+    val quantityState = viewModel.quantity.collectAsState()
+    val totalSpentState = viewModel.totalSpent.collectAsState()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -61,33 +77,39 @@ fun BuyCoinScreen(
                     .weight(1f)
             )
             Text(
-                text = "Prezzo per valuta"
+                text = "Valuta",
+                color = Color.White
             )
             CustomField(
                 value = coinId,
                 onValueChange = { /*TODO*/ }
             )
             Text(
-                text = "Quantità"
+                text = "Quantità", color = Color.White
             )
             CustomField(
-                value = "prova",
-                onValueChange = { /*TODO*/ }
+                value = quantityState.value.toString(),
+                onValueChange = {
+                    viewModel._quantity.value = it
+                    viewModel._totalSpent.value = (it.toFloat() * coinPriceState.value.toFloat()).toString()
+                }
             )
             Text(
                 text = "Totale speso"
             )
             CustomField(
-                value = "prova",
-                onValueChange = { /*TODO*/ }
+                value = totalSpentState.value.toString(),
+                onValueChange = {
+                    viewModel._totalSpent.value = it
+                    viewModel._quantity.value = (it.toFloat() / coinPriceState.value.toFloat()).toString()
+                },
             )
+
             Text(
-                text = "Data"
+                text = "Valore per azione ${coinPriceState.value}$currency",
+                color = Color.White
             )
-            CustomField(
-                value = "prova",
-                onValueChange = { /*TODO*/ }
-            )
+
             Spacer(
                 modifier = Modifier
                     .fillMaxHeight()

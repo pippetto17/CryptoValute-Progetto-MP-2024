@@ -41,8 +41,6 @@ fun CryptoListScreen(
         priceChangePercentage = "24h"
     )
     viewModel.trendingListApiRequest(apiKey)
-    //viewModel.coinMarketChartDataById(apiKey, "bitcoin", "usd", 30)
-    //val trendingList = viewModel.getTrendingList().observeAsState()
     val coins = viewModel.getCoinsList().observeAsState()
 
     Column(

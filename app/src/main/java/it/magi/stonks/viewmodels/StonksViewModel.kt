@@ -12,6 +12,8 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import it.magi.stonks.models.Coin
 import it.magi.stonks.models.CoinMarketChart
+import it.magi.stonks.models.Exchange
+import it.magi.stonks.models.ExchangeData
 import it.magi.stonks.models.NFT
 import it.magi.stonks.models.NFTData
 import it.magi.stonks.models.TrendingList
@@ -23,6 +25,10 @@ class StonksViewModel(application: Application) : AndroidViewModel(application) 
     private val requestQueue = Volley.newRequestQueue(application)
 
     private var coinsList = MutableLiveData<List<Coin>>()
+
+    private var exchangesList = MutableLiveData<List<Exchange>>()
+
+    private var exchangeData = MutableLiveData<ExchangeData>()
 
     private var nftList = MutableLiveData<List<NFT>>()
 
@@ -43,7 +49,7 @@ class StonksViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun getCoinsList(): LiveData<List<Coin>> {
-        Log.d("API-COIN", "getCoinsList: ${coinsList.value}")
+        Log.d("API", "getCoinsList: ${coinsList.value}")
         return coinsList
     }
 
@@ -57,14 +63,7 @@ class StonksViewModel(application: Application) : AndroidViewModel(application) 
 
     }
 
-    fun filterCoinsApiRequest(
-        apiKey: String,
-        currency: String,
-        ids: String = "",
-        categories: String = "",
-        order: String = "",
-        priceChangePercentage: String = ""
-    ) {
+    fun filterCoinsApiRequest(apiKey: String, currency: String, ids: String = "", categories: String = "", order: String = "", priceChangePercentage: String = "") {
         val baseUrl =
             "https://api.coingecko.com/api/v3/coins/markets?x_cg_demo_api_key=$apiKey&vs_currency=$currency&sparkline=true"
         val idsCasting = Utilities().removeSpacesAndConvertToLowerCase(ids)
@@ -103,10 +102,43 @@ class StonksViewModel(application: Application) : AndroidViewModel(application) 
         Log.d("API", "returning coinsList: ${coinsList.value}")
     }
 
-    fun NFtsApiRequest(
-        apiKey: String,
-        order: String = ""
-    ) {
+    fun exchangesListApiRequest(apiKey: String){
+        val url= "https://api.coingecko.com/api/v3/exchanges?x_cg_demo_api_key=$apiKey"
+        val stringRequest = StringRequest(Request.Method.GET, url,
+            { response ->
+                Log.d("API", "exchangesList Request Successful, response: $response ")
+                Log.d("API", "response type: ${response}")
+                val gson = Gson()
+                val exchangeListType = object : TypeToken<List<Exchange>>() {}.type
+
+                val value = gson.fromJson<List<Exchange>>(response, exchangeListType)
+                exchangesList.value = value
+
+            },
+            { error -> Log.d("API", "Market chart by id Request Error $error") })
+        requestQueue.add(stringRequest)
+        Log.d("API", "exchange list: ${exchangesList.value}")
+    }
+
+    fun exchangeDataById(apiKey: String,id: String){
+        val url="https://api.coingecko.com/api/v3/exchanges/$id?x_cg_demo_api_key=$apiKey"
+        val stringRequest = StringRequest(Request.Method.GET, url,
+            { response ->
+                Log.d("API", "exchangesData Request Successful, response: $response ")
+                Log.d("API", "response type: ${response}")
+                val gson = Gson()
+                val exchangeDataType = object : TypeToken<ExchangeData>() {}.type
+
+                val value = gson.fromJson<ExchangeData>(response, exchangeDataType)
+                exchangeData.value = value
+
+            },
+            { error -> Log.d("API", "ExchangeData by id Request Error $error") })
+        requestQueue.add(stringRequest)
+        Log.d("API", "exchange data: ${exchangeData.value}")
+    }
+
+    fun NFtsApiRequest(apiKey: String, order: String = "") {
         val baseUrl = "https://api.coingecko.com/api/v3/nfts/list?x_cg_demo_api_key=$apiKey"
         var url = "$baseUrl&$order"
         if (order.isEmpty()) {
@@ -134,10 +166,7 @@ class StonksViewModel(application: Application) : AndroidViewModel(application) 
         Log.d("API", "returning all nftList: ${nftList.value}")
     }
 
-    fun filterNFTApiRequest(
-        apiKey: String,
-        id: String,
-    ) {
+    fun filterNFTApiRequest(apiKey: String, id: String, ) {
         val url = "https://api.coingecko.com/api/v3/nfts/$id?x_cg_demo_api_key=$apiKey"
         Log.d("API", "fetching NFT by id url: $url")
 

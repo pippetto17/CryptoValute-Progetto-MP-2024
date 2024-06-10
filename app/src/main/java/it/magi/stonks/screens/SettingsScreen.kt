@@ -1,12 +1,9 @@
 package it.magi.stonks.screens
 
-import android.content.Intent
-import androidx.activity.result.launch
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -19,12 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.window.Dialog
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import it.magi.stonks.R
-import it.magi.stonks.activities.StartActivity
 import it.magi.stonks.composables.OtherDropDown
 import it.magi.stonks.composables.SignDivisor
 import it.magi.stonks.utilities.Utilities

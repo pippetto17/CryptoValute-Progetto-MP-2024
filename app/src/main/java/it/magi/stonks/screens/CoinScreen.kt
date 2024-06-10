@@ -32,7 +32,7 @@ fun CoinScreen(
 
 
     ) {
-    viewModel.coinMarketChartDataById(apiKey, coinId, currency, 1)
+    viewModel.coinMarketChartDataById(apiKey,coinId, currency, 1)
     val chartData = viewModel.getCoinMarketChart().observeAsState()
     val priceList=chartData.value?.prices
     Log.d("priceList",priceList.toString())
