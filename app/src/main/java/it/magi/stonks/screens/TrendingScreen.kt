@@ -16,6 +16,7 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import it.magi.stonks.activities.apiKey
 import it.magi.stonks.composables.CoinItem
+import it.magi.stonks.composables.TrendingItem
 import it.magi.stonks.viewmodels.StonksViewModel
 
 @Composable
@@ -46,7 +47,7 @@ fun TrendingScreen(
         )
         LazyColumn {
             items(trendingCoins ?: emptyList()) { coin ->
-                CoinItem(
+                TrendingItem(
                     prefCurrency = prefCurrency,
                     rank = coin.item.market_cap_rank.toString(),
                     imageURI = coin.item.large,

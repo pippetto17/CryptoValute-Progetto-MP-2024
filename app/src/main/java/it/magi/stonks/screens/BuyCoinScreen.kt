@@ -12,15 +12,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -30,6 +33,8 @@ import it.magi.stonks.composables.CustomTopAppBar
 import it.magi.stonks.composables.SignButton
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.RedStock
+import it.magi.stonks.utilities.DecimalFormatter
+import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.StonksViewModel
 import it.magi.stonks.viewmodels.WalletViewModel
 
@@ -52,6 +57,9 @@ fun BuyCoinScreen(
     val coinPriceState = viewModel.coinPrice.collectAsState()
     val quantityState = viewModel.quantity.collectAsState()
     val totalSpentState = viewModel.totalSpent.collectAsState()
+
+    val decimalFormatter = DecimalFormatter()
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -88,21 +96,25 @@ fun BuyCoinScreen(
                 text = "Quantità", color = Color.White
             )
             CustomField(
-                value = quantityState.value.toString(),
+                value = quantityState.value,
                 onValueChange = {
-                    viewModel._quantity.value = it
-                    viewModel._totalSpent.value = (it.toFloat() * coinPriceState.value.toFloat()).toString()
-                }
+                    viewModel._quantity.value = decimalFormatter.cleanup(it)
+                    viewModel._totalSpent.value =
+                        (decimalFormatter.cleanup(it).toFloat() * coinPriceState.value).toString()
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
             )
             Text(
                 text = "Totale speso"
             )
             CustomField(
-                value = totalSpentState.value.toString(),
+                value = totalSpentState.value,
                 onValueChange = {
-                    viewModel._totalSpent.value = it
-                    viewModel._quantity.value = (it.toFloat() / coinPriceState.value.toFloat()).toString()
+                    viewModel._totalSpent.value = decimalFormatter.cleanup(it)
+                    viewModel._quantity.value =
+                        (decimalFormatter.cleanup(it).toFloat() / coinPriceState.value).toString()
                 },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
             )
 
             Text(
@@ -125,7 +137,9 @@ fun BuyCoinScreen(
                         .fillMaxHeight()
                         .weight(1f)
                         .padding(start = 40.dp, end = 10.dp),
-                    onclick = {},
+                    onclick = {
+                        navController.popBackStack()
+                    },
                     text = "cancel",
                     textSize = 15.sp
                 )

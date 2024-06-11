@@ -3,6 +3,7 @@ package it.magi.stonks.utilities
 
 import android.app.Application
 import android.content.Context
+import android.icu.text.DecimalFormatSymbols
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -107,5 +108,36 @@ class Utilities {
             }
         })
         return currency
+    }
+}
+
+class DecimalFormatter(
+    symbols: DecimalFormatSymbols = DecimalFormatSymbols.getInstance()
+) {
+
+    private val thousandsSeparator = symbols.groupingSeparator
+    private val decimalSeparator = symbols.decimalSeparator
+
+    fun cleanup(input: String): String {
+
+        if (input.matches("\\D".toRegex())) return ""
+        if (input.matches("0+".toRegex())) return "0"
+
+        val sb = StringBuilder()
+
+        var hasDecimalSep = false
+
+        for (char in input) {
+            if (char.isDigit()) {
+                sb.append(char)
+                continue
+            }
+            if (char == decimalSeparator && !hasDecimalSep && sb.isNotEmpty()) {
+                sb.append(char)
+                hasDecimalSep = true
+            }
+        }
+
+        return sb.toString()
     }
 }
