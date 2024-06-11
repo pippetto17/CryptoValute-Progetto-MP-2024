@@ -13,8 +13,8 @@
     <string name="signup_password_error_code_2_special_character">Must contain at least one special character</string>
     <string name="signup_password_error_code_3_number">Must contain at least one number</string>
     <string name="signup_password_error_code_4_uppercase">Must contain at least one uppercase letter</string>
-    <string name="signup_select_currency">Choose your currency </string>
-    <string name="other_select_currency">Change your currency </string>
+    <string name="signup_select_currency">Choose your currency</string>
+    <string name="other_select_currency">Currency</string>
 
     <string name="signup_label">Sign Up</string>
 
@@ -25,7 +25,7 @@
 
     //DeleteAccountDialog
     <string name="confirm_delete_account_text">Are you sure you want to delete your account?</string>
-    <string name="confirm_delete_account_button_label">Yes</string>
+    <string name="confirm_delete_account_button_label">Yes, delete</string>
     <string name="confirm_delete_account_button_cancel_label">No</string>
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

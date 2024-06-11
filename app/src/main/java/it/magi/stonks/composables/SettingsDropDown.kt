@@ -4,10 +4,12 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -56,6 +58,7 @@ fun OtherDropDown(
             .fillMaxWidth()
             .padding(bottom = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         ExposedDropdownMenuBox(
             expanded = isExpanded,
@@ -63,7 +66,8 @@ fun OtherDropDown(
         ) {
             TextField(
                 modifier = modifier
-                    .menuAnchor(),
+                    .menuAnchor()
+                    .wrapContentHeight(align = Alignment.CenterVertically),
                 label = {
                     Text(
                         text = stringResource(R.string.other_select_currency),
@@ -87,16 +91,7 @@ fun OtherDropDown(
                     focusedTrailingIconColor = Color.White,
                     unfocusedTrailingIconColor = Color.White
                 ),
-                leadingIcon = {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_currency),
-                        contentDescription = "",
-                        tint = Color.White,
-                        modifier = Modifier.size(30.dp)
-                    )
-                },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) }
-
             )
             ExposedDropdownMenu(
                 expanded = isExpanded,

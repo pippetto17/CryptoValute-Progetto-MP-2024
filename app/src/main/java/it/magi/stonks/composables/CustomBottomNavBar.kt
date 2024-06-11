@@ -92,7 +92,7 @@ fun CustomBottomNavBar(navController: NavController) {
                         navController.navigate(item.route) {
                             navController.graph.startDestinationRoute?.let { route ->
                                 popUpTo(route) {
-                                    saveState = true
+                                    inclusive = true
                                 }
                             }
                             launchSingleTop = true
