@@ -67,6 +67,7 @@ dependencies {
     //async images support
     implementation(libs.coil.compose)
     implementation("io.coil-kt:coil-svg:2.6.0")
+    implementation("io.coil-kt:coil-gif:2.6.0")
 
     //credentials
 

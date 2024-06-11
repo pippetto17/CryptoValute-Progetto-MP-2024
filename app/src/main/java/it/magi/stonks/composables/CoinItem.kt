@@ -1,6 +1,7 @@
 package it.magi.stonks.composables
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -76,8 +77,15 @@ fun CoinItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            Text(
+                modifier = Modifier.width(50.dp),
+                textAlign = TextAlign.Center,
+                text = rank,
+                fontSize = 15.sp,
+                color = Color.White
+            )
             Box(
-                modifier = Modifier.width(80.dp),
+                modifier = Modifier.width(80.dp).background(Color.Red),
                 contentAlignment = Alignment.Center
             ) {
                 Column(

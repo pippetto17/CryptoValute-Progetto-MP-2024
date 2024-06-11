@@ -85,12 +85,6 @@ class MainActivity : ComponentActivity() {
                                 )
                             )
                         }
-                        composable("profile") {
-                            ProfileSettingsScreen(
-                                navController = navController,
-                                viewModel = SettingsViewModel(application, prefCurrency)
-                            )
-                        }
                         composable(
                             "coin/{coinId}",
                             arguments = listOf(
@@ -127,6 +121,12 @@ class MainActivity : ComponentActivity() {
                                     currency = prefCurrency
                                 )
                             }
+                        }
+                        composable("profile") {
+                            ProfileSettingsScreen(
+                                navController = navController,
+                                viewModel = SettingsViewModel(application, prefCurrency)
+                            )
                         }
                     }
                 }

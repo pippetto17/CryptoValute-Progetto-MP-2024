@@ -64,7 +64,7 @@ fun HomeScreen(
 
             when (tabState) {
                 0 -> {
-                    TrendingScreen(viewModel, prefCurrency)
+                    TrendingScreen(navController, viewModel, prefCurrency)
                 }
 
                 1 -> {

@@ -51,6 +51,8 @@ fun CryptoListScreen(
     )
     viewModel.trendingListApiRequest(apiKey)
     val coins = viewModel.getCoinsList().observeAsState()
+    val coinsList = coins.value ?: emptyList()
+    val reverseCoins = coinsList.reversed()
 
     var x by remember { mutableStateOf(false) }
     Column(
@@ -65,7 +67,9 @@ fun CryptoListScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
-                modifier = Modifier.width(50.dp).height(30.dp),
+                modifier = Modifier
+                    .width(50.dp)
+                    .height(30.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = DarkBgColor
                 ),
@@ -74,7 +78,7 @@ fun CryptoListScreen(
                 onClick = { x = !x },
             ) {
                 Text(
-                    if(x) "# ▲"
+                    if (x) "# ▲"
                     else "# ▼",
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
@@ -108,7 +112,7 @@ fun CryptoListScreen(
             )
         }
         LazyColumn {
-            items(coins.value ?: emptyList()) { coin ->
+            items(coinsList) { coin ->
                 CoinItem(
                     prefCurrency = prefCurrency,
                     rank = coin.market_cap_rank?.toInt().toString(),
