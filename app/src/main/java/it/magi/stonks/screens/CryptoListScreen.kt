@@ -1,6 +1,5 @@
 package it.magi.stonks.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -49,7 +48,6 @@ fun CryptoListScreen(
         ids = filterState.value,
         priceChangePercentage = "24h"
     )
-    viewModel.trendingListApiRequest(apiKey)
     val coins = viewModel.getCoinsList().observeAsState()
     val coinsList = coins.value ?: emptyList()
     val reverseCoins = coinsList.reversed()

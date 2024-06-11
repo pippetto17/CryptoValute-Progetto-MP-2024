@@ -2,10 +2,11 @@ package it.magi.stonks.viewmodels
 
 import android.app.Application
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -18,8 +19,6 @@ import com.google.firebase.database.ValueEventListener
 import it.magi.stonks.utilities.Utilities
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -32,11 +31,23 @@ class WalletViewModel(application: Application) : AndroidViewModel(application) 
     var _totalSpent = MutableStateFlow("")
     val totalSpent: StateFlow<String> = _totalSpent
 
+    var _wallets = MutableStateFlow(emptyList<String>())
+    val wallets: StateFlow<List<String>> = _wallets
 
     var _coinPrice = MutableStateFlow(0f)
     val coinPrice: StateFlow<Float> = this._coinPrice
 
-    fun coinPriceApiRequest(apiKey: String, id: String, currency: String, callback: (Float) -> Unit){
+    var _newWalletName = MutableStateFlow("")
+    val newWalletName: StateFlow<String> = _newWalletName
+
+
+
+    fun coinPriceApiRequest(
+        apiKey: String,
+        id: String,
+        currency: String,
+        callback: (Float) -> Unit
+    ) {
         val url =
             "https://api.coingecko.com/api/v3/simple/price?x_cg_demo_api_key=$apiKey&ids=$id&vs_currencies=$currency"
 
@@ -70,6 +81,14 @@ class WalletViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    val returnWalletListCallback: (List<String>?) -> Unit = { result ->
+        if (result != null) {
+            _wallets.value = result
+        } else {
+            println("Errore durante il recupero della lista dei wallet")
+        }
+    }
+
     fun createNewWallet(walletName: String, database: FirebaseDatabase, auth: FirebaseAuth) {
         val email = auth.currentUser?.email ?: ""
         val myRef = database
@@ -79,6 +98,7 @@ class WalletViewModel(application: Application) : AndroidViewModel(application) 
         try {
             myRef
                 .child("wallets")
+                .push()
                 .setValue(walletName.lowercase())
         } catch (e: Exception) {
             Log.e("RealTimeDatabase", "errore nella creazione di un nuovo wallet: " + e.toString())
@@ -121,7 +141,30 @@ class WalletViewModel(application: Application) : AndroidViewModel(application) 
 
             override fun onCancelled(error: DatabaseError) {
                 Log.e("RealTimeDatabase", "Failed to read value.", error.toException())
-                onResult(-1f) // Indicate failure
+                onResult(-1f)
+            }
+        })
+    }
+
+    fun getWalletList(database: FirebaseDatabase, onWalletListReady: (List<String>) -> Unit) {
+        val email = FirebaseAuth.getInstance().currentUser?.email ?: ""
+        val userRef: DatabaseReference = database.getReference("users")
+            .child(Utilities().convertDotsToCommas(email).lowercase())
+
+        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val walletList = mutableListOf<String>()
+                val walletsSnapshot = snapshot.child("wallets")
+                for (childSnapshot in walletsSnapshot.children) {
+                    val walletId = childSnapshot.value.toString()
+                    walletList.add(walletId)
+                }
+                onWalletListReady(walletList)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("RealTimeDatabase", "Failed to read wallet list", error.toException())
+                onWalletListReady(emptyList())
             }
         })
     }
