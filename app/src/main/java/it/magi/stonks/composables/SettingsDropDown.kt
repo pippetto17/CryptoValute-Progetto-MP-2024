@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,7 +31,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import it.magi.stonks.R
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.titleFont
@@ -64,46 +69,61 @@ fun OtherDropDown(
             expanded = isExpanded,
             onExpandedChange = { isExpanded = !isExpanded }
         ) {
-            TextField(
-                modifier = modifier
-                    .menuAnchor()
-                    .wrapContentHeight(align = Alignment.CenterVertically),
-                label = {
-                    Text(
-                        text = stringResource(R.string.other_select_currency),
+            Row {
+                TextField(
+                    value = "Currency",
+                    modifier = Modifier.fillMaxWidth(0.7f),
+                    onValueChange = {},
+                    readOnly = true,
+                    enabled = false,
+                    textStyle = TextStyle(
                         color = Color.White,
-                        fontFamily = titleFont()
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    ),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        unfocusedContainerColor = Color.Transparent
                     )
-                },
-                value = currencyState.value.uppercase(),
-                onValueChange = {
-                    viewModel._selectedCurrency.value = selectedText
-                },
-                readOnly = true,
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color.Transparent,
-                    unfocusedBorderColor = Color.Transparent,
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    unfocusedTextColor = Color.White,
-                    focusedTextColor = Color.White,
-                    cursorColor = Color.White,
-                    focusedTrailingIconColor = Color.White,
-                    unfocusedTrailingIconColor = Color.White
-                ),
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) }
-            )
+                )
+                TextField(
+                    modifier = modifier
+                        .menuAnchor()
+                        .wrapContentHeight(align = Alignment.CenterVertically),
+                    value = currencyState.value.uppercase(),
+                    onValueChange = {
+                        viewModel._selectedCurrency.value = selectedText
+                    },
+                    readOnly = true,
+                    textStyle = TextStyle(
+                        textAlign = TextAlign.End
+                    ),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color.White,
+                        unfocusedBorderColor = Color.Unspecified,
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent,
+                        focusedTextColor = Color.White,
+                        unfocusedTextColor = Color.White,
+                        cursorColor = Color.White,
+                        focusedTrailingIconColor = Color.White,
+                        unfocusedTrailingIconColor = Color.White
+                    ),
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) }
+                )
+            }
+
             ExposedDropdownMenu(
                 expanded = isExpanded,
                 onDismissRequest = { isExpanded = false },
-                modifier = Modifier.background(FormContainerColor)
+                modifier = Modifier
+                    .background(FormContainerColor)
             ) {
                 currencyList.forEachIndexed { index, text ->
                     DropdownMenuItem(
                         text = {
                             Text(
                                 text = text.uppercase(),
-                                color = Color.White,
+                                color = Color.White
                             )
                         },
                         onClick = {

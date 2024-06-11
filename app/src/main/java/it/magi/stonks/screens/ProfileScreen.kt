@@ -149,7 +149,6 @@ fun ProfileScreen(navController: NavController, viewModel: SettingsViewModel) {
                                 enabled = false,
                                 textStyle = TextStyle(
                                     textAlign = TextAlign.End,
-                                    color = Color.White,
                                     fontSize = 15.sp
                                 ),
                                 colors = OutlinedTextFieldDefaults.colors(
@@ -183,7 +182,6 @@ fun ProfileScreen(navController: NavController, viewModel: SettingsViewModel) {
                                 enabled = false,
                                 textStyle = TextStyle(
                                     textAlign = TextAlign.End,
-                                    color = Color.White,
                                     fontSize = 15.sp
                                 ),
                                 colors = OutlinedTextFieldDefaults.colors(
@@ -217,7 +215,6 @@ fun ProfileScreen(navController: NavController, viewModel: SettingsViewModel) {
                                 enabled = false,
                                 textStyle = TextStyle(
                                     textAlign = TextAlign.End,
-                                    color = Color.White,
                                     fontSize = 15.sp
                                 ),
                                 colors = OutlinedTextFieldDefaults.colors(
