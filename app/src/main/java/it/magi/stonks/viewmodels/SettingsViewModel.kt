@@ -5,10 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.runtime.mutableStateOf
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -21,6 +23,7 @@ import it.magi.stonks.activities.StartActivity
 import it.magi.stonks.utilities.Utilities
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class SettingsViewModel(application: Application, prefCurrency: String) :
@@ -31,8 +34,6 @@ class SettingsViewModel(application: Application, prefCurrency: String) :
     fun getCurrencyList(): LiveData<List<String>> {
         return currencyList
     }
-
-    val prefCurrency = prefCurrency
 
     var _selectedCurrency = MutableStateFlow(prefCurrency)
     val selectedCurrency: StateFlow<String> = _selectedCurrency
@@ -59,7 +60,6 @@ class SettingsViewModel(application: Application, prefCurrency: String) :
             { error -> Log.d("API", "get all supported currency Request Error $error") })
         requestQueue.add(stringRequest)
     }
-
     fun changePreferredCurrency(context: Context, newCurrency: String) {
         val changedCurrency = newCurrency
         val email = FirebaseAuth.getInstance().currentUser?.email
@@ -92,7 +92,7 @@ class SettingsViewModel(application: Application, prefCurrency: String) :
                     null
                 )
             } catch (e: Exception) {
-                Toast.makeText(context, "You must logout and log back in to delete your account. Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "You must logout and log back in to delete your account.", Toast.LENGTH_SHORT).show()
                 println("Error deleting user: ${e.message}")
             }
         }

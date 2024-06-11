@@ -96,7 +96,7 @@ class Utilities {
         var currency by rememberSaveable {
             mutableStateOf("")
         }
-        val myRef = database.getReference().child("users").child(email.toString()).child("currency")
+        val myRef = database.getReference().child("users").child(email).child("currency")
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val currencySnapshot = dataSnapshot.getValue(String::class.java)
@@ -108,6 +108,52 @@ class Utilities {
             }
         })
         return currency
+    }
+
+    @Composable
+    fun getAccountName(): String {
+        val database =
+            FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/")
+        val auth = FirebaseAuth.getInstance()
+        val email = Utilities().convertDotsToCommas(auth.currentUser?.email ?: "")
+        var name by rememberSaveable {
+            mutableStateOf("")
+        }
+        val myRef = database.getReference().child("users").child(email).child("name")
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val nameSnapshot = dataSnapshot.getValue(String::class.java)
+                name = nameSnapshot ?: "Unknown"
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.w("CryptoScreen", "Failed to read value.", error.toException())
+            }
+        })
+        return name
+    }
+
+    @Composable
+    fun getAccountSurname(): String {
+        val database =
+            FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/")
+        val auth = FirebaseAuth.getInstance()
+        val email = Utilities().convertDotsToCommas(auth.currentUser?.email ?: "")
+        var surname by rememberSaveable {
+            mutableStateOf("")
+        }
+        val myRef = database.getReference().child("users").child(email.toString()).child("surname")
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val surnameSnapshot = dataSnapshot.getValue(String::class.java)
+                surname = surnameSnapshot ?: "Unknown"
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.w("CryptoScreen", "Failed to read value.", error.toException())
+            }
+        })
+        return surname
     }
 }
 
