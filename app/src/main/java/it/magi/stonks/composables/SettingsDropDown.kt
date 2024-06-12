@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -37,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import it.magi.stonks.R
+import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.viewmodels.SettingsViewModel
@@ -99,15 +101,15 @@ fun OtherDropDown(
                             textAlign = TextAlign.End
                         ),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = Color.White,
-                            unfocusedBorderColor = Color.Unspecified,
+                            focusedBorderColor = Color.Transparent,
+                            unfocusedBorderColor = Color.Transparent,
                             focusedContainerColor = Color.Transparent,
                             unfocusedContainerColor = Color.Transparent,
                             focusedTextColor = Color.White,
                             unfocusedTextColor = Color.White,
                             cursorColor = Color.White,
                             focusedTrailingIconColor = Color.White,
-                            unfocusedTrailingIconColor = Color.White
+                            unfocusedTrailingIconColor = Color.White,
                         ),
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) }
                     )
@@ -116,7 +118,8 @@ fun OtherDropDown(
                         expanded = isExpanded,
                         onDismissRequest = { isExpanded = false },
                         modifier = Modifier
-                            .background(FormContainerColor)
+                            .height(160.dp)
+                            .background(DarkBgColor)
                     ) {
                         currencyList.forEachIndexed { index, text ->
                             DropdownMenuItem(

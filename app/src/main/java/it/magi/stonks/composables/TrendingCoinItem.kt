@@ -102,7 +102,7 @@ fun TrendingCoinItem(
                 color = Color.White
             )
             Column(
-                modifier = Modifier.width(100.dp),
+                modifier = Modifier.width(120.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -114,13 +114,13 @@ fun TrendingCoinItem(
                     Text(
                         text = if (priceFormat.format(price).length > 8) priceFormat.format(price)
                             .substring(0, 9) else priceFormat.format(price),
-                        fontSize = 15.sp,
+                        fontSize = 14.sp,
                         color = Color.White
                     )
                     Text(
                         modifier = Modifier.padding(start = 5.dp),
                         text = prefCurrency.uppercase(),
-                        fontSize = 15.sp,
+                        fontSize = 14.sp,
                         fontStyle = FontStyle.Italic,
                         color = Color.White
                     )
@@ -132,7 +132,7 @@ fun TrendingCoinItem(
                 ) {
                     Text(
                         text = marketCap,
-                        fontSize = 12.sp,
+                        fontSize = 14.sp,
                         color = Color.White
                     )
                 }

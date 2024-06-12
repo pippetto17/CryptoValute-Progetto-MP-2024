@@ -79,7 +79,7 @@ fun TrendingScreen(
                 .fillMaxWidth()
                 .padding(10.dp),
             color = Color.White,
-            fontSize = 25.sp,
+            fontSize = 30.sp,
             fontFamily = titleFont()
         )
         if (!expandedNFt) {
@@ -87,7 +87,7 @@ fun TrendingScreen(
                 "Here are the trending coins today",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 10.dp, end = 10.dp),
+                    .padding(top = 20.dp, start = 10.dp, end = 10.dp),
                 color = Color.White,
                 fontSize = 15.sp,
                 fontFamily = titleFont()
@@ -156,7 +156,7 @@ fun TrendingScreen(
             "And here are the trending NFTs",
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp),
+                .padding(top= 30.dp, start = 10.dp, end = 10.dp),
             color = Color.White,
             fontSize = 15.sp,
             fontFamily = titleFont()

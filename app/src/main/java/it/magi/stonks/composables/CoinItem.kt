@@ -9,12 +9,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -43,9 +46,9 @@ fun CoinItem(
     rank: String,
     id: String,
     imageURI: String?,
-    name: String,
     symbol: String,
     price: Float,
+    marketCap: Float,
     priceChangePercentage24h: Float,
 
     onClick: () -> Unit
@@ -70,7 +73,7 @@ fun CoinItem(
     ) {
         Row(
             modifier = Modifier
-                .padding(10.dp)
+                .padding(5.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -83,15 +86,15 @@ fun CoinItem(
                 color = Color.White
             )
             Box(
-                modifier = Modifier.width(80.dp),
+                modifier = Modifier
+                    .width(70.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
+                    verticalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
-                        .width(50.dp)
-                        .wrapContentHeight()
+                        .width(50.dp).wrapContentHeight()
                 ) {
                     AsyncImage(
                         model = imageURI,
@@ -101,30 +104,57 @@ fun CoinItem(
                     )
                     Text(
                         text = symbol.uppercase(),
-                        fontSize = 14.sp,
+                        fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     )
                 }
             }
-            Row(
-                modifier = Modifier
-                    .width(120.dp),
-                horizontalArrangement = Arrangement.End
+            Column(
+                modifier = Modifier.width(100.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                Text(
-                    text = if (priceFormat.format(price).length > 8) priceFormat.format(price)
-                        .substring(0, 9) else priceFormat.format(price),
-                    fontSize = 15.sp,
-                    color = Color.White
-                )
-                Text(
-                    modifier = Modifier.padding(start = 5.dp),
-                    text = prefCurrency.uppercase(),
-                    fontSize = 15.sp,
-                    fontStyle = FontStyle.Italic,
-                    color = Color.White
-                )
+                Row(
+                    modifier = Modifier
+                        .width(100.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Text(
+                        text = if (priceFormat.format(price).length > 8) priceFormat.format(price)
+                            .substring(0, 9) else priceFormat.format(price),
+                        fontSize = 12.sp,
+                        color = Color.White
+                    )
+                    Text(
+                        modifier = Modifier.padding(start = 5.dp),
+                        text = prefCurrency.uppercase(),
+                        fontSize = 12.sp,
+                        fontStyle = FontStyle.Italic,
+                        color = Color.White
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .width(100.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Text(
+                        text = if (priceFormat.format(marketCap).length > 8) priceFormat.format(
+                            marketCap
+                        )
+                            .substring(0, 9) else priceFormat.format(marketCap),
+                        fontSize = 12.sp,
+                        color = Color.White
+                    )
+                    Text(
+                        modifier = Modifier.padding(start = 5.dp),
+                        text = "$",
+                        fontSize = 12.sp,
+                        fontStyle = FontStyle.Italic,
+                        color = Color.White
+                    )
+                }
             }
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -132,10 +162,13 @@ fun CoinItem(
                     .decoderFactory(SvgDecoder.Factory())
                     .build(),
                 contentDescription = "sparkLine",
-                modifier = Modifier.fillMaxSize(0.5f)
+                modifier = Modifier
+                    .width(100.dp)
+                    .padding(start = 10.dp, end = 10.dp)
             )
             Text(
-                modifier = Modifier.width(50.dp),
+                modifier = Modifier
+                    .width(70.dp),
                 text = if (priceChangePercentage24h >= 0)
                     "▲" + percentageFormat.format(priceChangePercentage24h).toString() + "%"
                 else "▼" + percentageFormat.format(priceChangePercentage24h).toString()

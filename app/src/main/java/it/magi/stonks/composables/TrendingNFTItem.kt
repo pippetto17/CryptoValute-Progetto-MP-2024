@@ -124,11 +124,11 @@ fun TrendingNFTItem(
             Text(
                 modifier = Modifier.width(120.dp),
                 text = name,
-                fontSize = 15.sp,
+                fontSize = 14.sp,
                 color = Color.White
             )
             Row(
-                modifier = Modifier.width(100.dp),
+                modifier = Modifier.width(120.dp),
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
@@ -136,13 +136,13 @@ fun TrendingNFTItem(
                         floorPriceInNativeCurrency
                     )
                         .substring(0, 9) else priceFormat.format(floorPriceInNativeCurrency),
-                    fontSize = 12.sp,
+                    fontSize = 14.sp,
                     color = Color.White
                 )
                 Text(
                     modifier = Modifier.padding(start = 5.dp),
-                    text = nativeCurrency,
-                    fontSize = 12.sp,
+                    text = nativeCurrency.uppercase(),
+                    fontSize = 14.sp,
                     fontStyle = FontStyle.Italic,
                     color = Color.White
                 )
@@ -153,7 +153,7 @@ fun TrendingNFTItem(
                     "▲" + percentageFormat.format(floorPrice24HPercentage).toString() + "%"
                 else "▼" + percentageFormat.format(floorPrice24HPercentage).toString()
                     .substring(1) + "%",
-                fontSize = 15.sp,
+                fontSize = 14.sp,
                 textAlign = TextAlign.Center,
                 color = if (floorPrice24HPercentage >= 0) GreenStock else RedStock
             )

@@ -1,19 +1,22 @@
 package it.magi.stonks.screens
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -32,7 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import it.magi.stonks.activities.apiKey
 import it.magi.stonks.composables.CoinItem
-import it.magi.stonks.ui.theme.DarkBgColor
+import it.magi.stonks.ui.theme.CoinContainerColor
 import it.magi.stonks.viewmodels.StonksViewModel
 
 @Composable
@@ -50,74 +53,91 @@ fun CryptoListScreen(
     )
     val coins = viewModel.getCoinsList().observeAsState()
     val coinsList = coins.value ?: emptyList()
-    val reverseCoins = coinsList.reversed()
+    val reverseCoinsList = coinsList.reversed()
 
-    var x by remember { mutableStateOf(false) }
+    var descendingOrder by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
         Row(
             modifier = Modifier
-                .padding(10.dp)
+                .padding(start = 5.dp, end = 10.dp, top = 10.dp, bottom = 10.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Button(
+            Card(
                 modifier = Modifier
-                    .width(50.dp)
-                    .height(30.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = DarkBgColor
+                    .width(55.dp)
+                    .height(30.dp)
+                    .clickable { descendingOrder = !descendingOrder },
+                colors = CardDefaults.cardColors(
+                    containerColor = CoinContainerColor,
+                    contentColor = Color.White
                 ),
-                shape = RoundedCornerShape(5.dp),
-                contentPadding = PaddingValues(0.dp),
-                onClick = { x = !x },
+                shape = RoundedCornerShape(10.dp),
             ) {
                 Text(
-                    if (x) "# ▲"
+                    if (descendingOrder) "# ▲"
                     else "# ▼",
-                    fontSize = 15.sp,
+                    fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White,
                     textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .wrapContentHeight(Alignment.CenterVertically),
                 )
             }
             Text(
                 "Currency",
-                fontSize = 15.sp,
+                fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.width(80.dp)
+                modifier = Modifier
+                    .width(70.dp)
             )
             Text(
-                "Price",
-                fontSize = 15.sp,
+                "Price\nMarket cap",
+                fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
+                lineHeight = 16.sp,
                 textAlign = TextAlign.End,
-                modifier = Modifier.width(120.dp)
+                modifier = Modifier
+                    .width(100.dp)
             )
             Text(
-                "24 Hours",
-                fontSize = 15.sp,
+                "Trend",
+                fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.width(70.dp)
+                modifier = Modifier
+                    .width(100.dp)
+                    .padding(start = 10.dp, end = 10.dp)
+            )
+            Text(
+                "24 H",
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .width(70.dp),
             )
         }
         LazyColumn {
-            items(coinsList) { coin ->
+            items(if (!descendingOrder) coinsList else reverseCoinsList) { coin ->
                 CoinItem(
                     prefCurrency = prefCurrency,
                     rank = coin.market_cap_rank?.toInt().toString(),
                     imageURI = coin.image,
-                    name = coin.name ?: "Unknown",
                     symbol = coin.symbol ?: "Unknown",
                     price = coin.current_price ?: 0.0.toFloat(),
+                    marketCap = coin.market_cap ?: 0.0.toFloat(),
                     priceChangePercentage24h = coin.price_change_percentage_24h ?: 0.0.toFloat(),
                     id = coin.id ?: "Unknown",
                     onClick = {

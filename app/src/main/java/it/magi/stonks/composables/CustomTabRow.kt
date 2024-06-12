@@ -1,5 +1,6 @@
 package it.magi.stonks.composables
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
@@ -72,13 +73,12 @@ fun CustomScrollableTabRow(
                 )
             } else {
                 Tab(
-                    modifier = Modifier.width(20.dp),
+                    modifier = Modifier.width(30.dp),
                     text = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_trending),
-                            contentDescription = "",
-                            modifier = Modifier
-                                .size(20.dp)
+                        Image(
+                            painter = painterResource(R.drawable.ic_trending),
+                            contentDescription = title,
+                            modifier = Modifier.size(30.dp)
                         )
                     },
                     selected = selectedTabIndex == tabIndex,

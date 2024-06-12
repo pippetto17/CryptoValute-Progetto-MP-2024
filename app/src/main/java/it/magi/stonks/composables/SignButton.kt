@@ -1,5 +1,6 @@
 package it.magi.stonks.composables
 
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,7 +31,8 @@ fun SignButton(
         containerColor = GreenStock,
         contentColor = DarkBgColor
     ),
-    textSize: TextUnit = sign_button_size
+    textSize: TextUnit = sign_button_size,
+    content: (@Composable () -> Unit)? = null
 ) {
     Button(
         shape = RoundedCornerShape(15.dp),
@@ -41,11 +43,15 @@ fun SignButton(
         modifier = modifier,
         onClick = onclick
     ) {
-        Text(
-            text = text.uppercase(),
-            fontSize = textSize,
-            fontFamily = titleFont(),
-            textAlign = TextAlign.Center
-        )
+        Row {
+            Text(
+                text = text.uppercase(),
+                fontSize = textSize,
+                fontFamily = titleFont(),
+                textAlign = TextAlign.Center
+            )
+            content
+        }
+
     }
 }
