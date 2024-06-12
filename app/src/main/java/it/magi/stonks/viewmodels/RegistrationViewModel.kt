@@ -104,7 +104,10 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
                             myRef.child("currency").setValue(
                                 currencyPreference.lowercase()
                             )
-                            myRef.child("wallets").push().setValue("wallet1")
+                            myRef.child("wallets")
+                                .push()
+                                .child("walletName")
+                                .setValue("wallet1")
                             Log.d(
                                 "RealTimeDatabase",
                                 "User registered successfully on RealTimeDatabase"

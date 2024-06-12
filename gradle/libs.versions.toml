@@ -6,6 +6,7 @@ appsearchLocalStorage = "appsearch-*"
 appsearchZ = "1.1.0-alpha03"
 cloudy = "0.1.2"
 coil = "2.6.0"
+compose = "1.14.0"
 composecharts = "latest_version"
 converterGson = "2.0.0-beta2"
 coreSplashscreen = "1.0.1"
@@ -26,6 +27,7 @@ composeBom = "2023.08.00"
 googleGmsGoogleServices = "4.4.1"
 firebaseAuth = "23.0.0"
 lottieCompose = "6.4.0"
+lottieComposeVersion = "6.4.1"
 navigationCompose = "2.7.7"
 navigationRuntimeKtx = "2.7.7"
 composePreviewRenderer = "0.0.1-alpha01"
@@ -57,6 +59,7 @@ androidx-credentials-v130beta01 = { module = "androidx.credentials:credentials",
 cloudy = { module = "com.github.skydoves:cloudy", version.ref = "cloudy" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+compose = { module = "com.patrykandpatrick.vico:compose", version.ref = "compose" }
 composecharts = { module = "com.github.ehsannarmani:ComposeCharts", version.ref = "composecharts" }
 converter-gson = { module = "com.squareup.retrofit:converter-gson", version.ref = "converterGson" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
@@ -82,6 +85,7 @@ androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navig
 compose-preview-renderer = { group = "com.android.tools.compose", name = "compose-preview-renderer", version.ref = "composePreviewRenderer" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
+lottie-compose-v641 = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieComposeVersion" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 play-services-auth-v2100 = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuthVersion" }
 mediation-test-suite = { group = "com.google.android.ads", name = "mediation-test-suite", version.ref = "mediationTestSuite" }

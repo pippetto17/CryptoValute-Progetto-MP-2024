@@ -155,6 +155,10 @@ class Utilities {
         })
         return surname
     }
+
+    fun convertScientificToDecimal(scientificNumber: String): Double {
+        return scientificNumber.toDouble()
+    }
 }
 
 class DecimalFormatter(

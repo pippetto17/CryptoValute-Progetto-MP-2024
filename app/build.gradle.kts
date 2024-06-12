@@ -90,8 +90,10 @@ dependencies {
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.benchmark.macro)
 
+    implementation (libs.lottie.compose.v641)
+
     //grafici
-    implementation("com.patrykandpatrick.vico:compose:1.14.0")
+    implementation(libs.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

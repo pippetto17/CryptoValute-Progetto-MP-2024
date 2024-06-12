@@ -1,6 +1,7 @@
 package it.magi.stonks.screen
 
 import android.app.Application
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +27,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -42,11 +44,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
+import com.airbnb.lottie.LottieComposition
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import it.magi.stonks.R
 import it.magi.stonks.activities.apiKey
-import it.magi.stonks.composables.CustomField
 import it.magi.stonks.composables.CustomTopAppBar
 import it.magi.stonks.composables.NewWalletDialog
 import it.magi.stonks.composables.SignButton
@@ -55,6 +62,7 @@ import it.magi.stonks.ui.theme.GreenStock
 import it.magi.stonks.ui.theme.RedStock
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.utilities.DecimalFormatter
+import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.StonksViewModel
 import it.magi.stonks.viewmodels.WalletViewModel
 
@@ -68,6 +76,7 @@ fun BuyCoinScreen(
     currency: String
 ) {
     val application = LocalContext.current.applicationContext as Application
+    val context = LocalContext.current
     viewModel.coinPriceApiRequest(
         apiKey,
         coinId,
@@ -80,15 +89,17 @@ fun BuyCoinScreen(
         viewModel.returnWalletListCallback
     )
     val sheetState = rememberModalBottomSheetState()
+
     var showBottomSheet by remember { mutableStateOf(false) }
     var showNewWalletDialog by remember { mutableStateOf(false) }
-
+    var showSuccesAnimation by remember { mutableStateOf(false) }
 
     var selectedWallet by remember { mutableStateOf(0) }
 
 
     val walletState = viewModel.wallets.collectAsState()
     val coinPriceState = viewModel.coinPrice.collectAsState()
+    val price = Utilities().convertScientificToDecimal(coinPriceState.value.toString())
     val quantityState = viewModel.quantity.collectAsState()
     val totalSpentState = viewModel.totalSpent.collectAsState()
 
@@ -106,8 +117,18 @@ fun BuyCoinScreen(
         },
         containerColor = FormContainerColor
     ) { innerPadding ->
+        if (showSuccesAnimation) {
+            val composition by rememberLottieComposition(spec=LottieCompositionSpec.RawRes(R.raw.added_to_wallet_animation))
+            Dialog (onDismissRequest = {showSuccesAnimation=false}){
+                LottieAnimation(composition = composition,iterations = 1)
+
+            }
+        }
         if (showNewWalletDialog) {
-            NewWalletDialog(onDismissRequest = {showNewWalletDialog = false}, viewModel =viewModel )
+            NewWalletDialog(
+                onDismissRequest = { showNewWalletDialog = false },
+                viewModel = viewModel
+            )
         }
         if (showBottomSheet) {
             ModalBottomSheet(
@@ -128,6 +149,7 @@ fun BuyCoinScreen(
                         fontFamily = titleFont(),
                         textAlign = TextAlign.Center
                     )
+                    Text(text=walletState.value[selectedWallet], color = Color.White)
                     Spacer(modifier = Modifier.height(20.dp))
                     LazyColumn {
                         items(walletState.value.size) {
@@ -161,7 +183,7 @@ fun BuyCoinScreen(
                     if (walletState.value.size <= 1) {
                         FloatingActionButton(
                             modifier = Modifier.padding(20.dp),
-                            onClick = { showNewWalletDialog=true },
+                            onClick = { showNewWalletDialog = true },
                             shape = CircleShape,
                             containerColor = GreenStock
 
@@ -174,9 +196,27 @@ fun BuyCoinScreen(
                             )
                         }
                     }
-                    Spacer(modifier = Modifier.fillMaxHeight().weight(1f))
-                    Row(Modifier.fillMaxWidth().padding(20.dp), horizontalArrangement = Arrangement.End){
-                        Button(onClick = { /*TODO*/ }) {
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(1f)
+                    )
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(20.dp), horizontalArrangement = Arrangement.End
+                    ) {
+                        Button(onClick = {
+                            viewModel.addCryptoToWallet(
+                                FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/"),
+                                walletState.value[selectedWallet],
+                                coinId,
+                                Utilities().convertScientificToDecimal(quantityState.value).toString(),
+                            )
+                            showBottomSheet = false
+                            showSuccesAnimation=true
+
+                        }) {
                             Text(text = "Confirm")
                         }
                     }
@@ -196,64 +236,59 @@ fun BuyCoinScreen(
                     .fillMaxHeight()
                     .weight(1f)
             )
+            Text(text = coinId, fontSize = 30.sp, fontFamily = titleFont(), color = Color.White)
             Text(
-                text = "Valuta",
+                text = "Valore per azione ${Utilities().convertScientificToDecimal(coinPriceState.value.toString())}$currency",
                 color = Color.White
             )
-            CustomField(
-                value = coinId,
-                onValueChange = { /*TODO*/ }
-            )
-            Text(
-                text = "Quantità", color = Color.White
-            )
-            CustomField(
-                value = quantityState.value,
-                onValueChange = { newValue ->
-                    if (newValue.isNotEmpty() || quantityState.value.isNotEmpty()) {
-                        viewModel._quantity.value = decimalFormatter.cleanup(newValue)
-                        if (newValue.isNotEmpty()) {
-                            try {
+            Column(verticalArrangement = Arrangement.SpaceBetween) {
+                TextField(
+                    modifier = Modifier.padding(5.dp),
+                    value = quantityState.value,
+                    label = { Text("Amount") },
+                    onValueChange = { newValue ->
+                        if (newValue.isNotEmpty() || quantityState.value.isNotEmpty()) {
+                            viewModel._quantity.value = decimalFormatter.cleanup(newValue)
+                            if (newValue.isNotEmpty()) {
+                                try {
+                                    viewModel._totalSpent.value =
+                                        (decimalFormatter.cleanup(newValue)
+                                            .toFloat() * price).toString()
+                                } catch (e: Exception) {
+                                    viewModel._totalSpent.value = viewModel.totalSpent.value
+                                }
+                            } else {
                                 viewModel._totalSpent.value =
-                                    (decimalFormatter.cleanup(newValue)
-                                        .toFloat() * coinPriceState.value).toString()
+                                    ""
+                            }
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+                TextField(
+                    modifier = Modifier.padding(5.dp),
+                    value = totalSpentState.value,
+                    label = { Text("Total spent") },
+                    onValueChange = { newValue ->
+                        if (newValue.isNotEmpty() || totalSpentState.value.isNotEmpty()) {
+                            try {
+                                viewModel._totalSpent.value = decimalFormatter.cleanup(newValue)
                             } catch (e: Exception) {
                                 viewModel._totalSpent.value = viewModel.totalSpent.value
                             }
-                        } else {
-                            viewModel._totalSpent.value =
-                                ""
+                            if (newValue.isNotEmpty()) {
+                                viewModel._quantity.value =
+                                    (decimalFormatter.cleanup(newValue)
+                                        .toFloat() / price).toString()
+                            } else {
+                                viewModel._quantity.value = ""
+                            }
                         }
-                    }
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
-            )
-
-            CustomField(
-                value = totalSpentState.value,
-                onValueChange = { newValue ->
-                    if (newValue.isNotEmpty() || totalSpentState.value.isNotEmpty()) {
-                        try {
-                            viewModel._totalSpent.value = decimalFormatter.cleanup(newValue)
-                        } catch (e: Exception) {
-                            viewModel._totalSpent.value = viewModel.totalSpent.value
-                        }
-                        if (newValue.isNotEmpty()) {
-                            viewModel._quantity.value =
-                                (decimalFormatter.cleanup(newValue)
-                                    .toFloat() / coinPriceState.value).toString()
-                        } else {
-                            viewModel._quantity.value = ""
-                        }
-                    }
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
-            )
-
-            Text(
-                text = "Valore per azione ${coinPriceState.value}$currency",
-                color = Color.White
-            )
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+                )
+            }
 
             Spacer(
                 modifier = Modifier
@@ -282,12 +317,20 @@ fun BuyCoinScreen(
                         .weight(1f)
                         .padding(start = 10.dp, end = 40.dp),
                     onclick = {
-                        viewModel.getWalletList(
-                            database = FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/"),
-                            viewModel.returnWalletListCallback
-                        )
+                        if (quantityState.value.isEmpty() || totalSpentState.value.isEmpty()) {
+                            Toast.makeText(
+                                context,
+                                "Inserisci la quantità o la spesa prima di continuare",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            viewModel.getWalletList(
+                                database = FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/"),
+                                viewModel.returnWalletListCallback
+                            )
+                            showBottomSheet = true
+                        }
 
-                        showBottomSheet = true
                     },
                     text = "buy",
                     textSize = 15.sp,

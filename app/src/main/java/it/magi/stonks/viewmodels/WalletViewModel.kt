@@ -17,8 +17,10 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import it.magi.stonks.utilities.Utilities
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.callbackFlow
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -99,49 +101,56 @@ class WalletViewModel(application: Application) : AndroidViewModel(application) 
             myRef
                 .child("wallets")
                 .push()
+                .child("walletName")
                 .setValue(walletName.lowercase())
         } catch (e: Exception) {
             Log.e("RealTimeDatabase", "errore nella creazione di un nuovo wallet: " + e.toString())
         }
     }
 
-    fun addCoinToWallet(
-        id: String,
-        amount: Float,
-        walletName: String,
+
+
+    fun addCryptoToWallet(
         database: FirebaseDatabase,
-        auth: FirebaseAuth,
-        onResult: (Float) -> Unit // Callback to handle the result
+        walletName: String,
+        coinName: String,
+        valueToAdd: String
     ) {
-        val email = auth.currentUser?.email ?: ""
-        val walletRef: DatabaseReference = database.getReference("users")
+        val email = FirebaseAuth.getInstance().currentUser?.email ?: ""
+        val userRef: DatabaseReference = database.getReference("users")
             .child(Utilities().convertDotsToCommas(email).lowercase())
             .child("wallets")
-            .child(walletName.lowercase())
-            .child(id.lowercase())
-            .child("amount")
 
-        walletRef.addListenerForSingleValueEvent(object : ValueEventListener {
+        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val actualAmountSnapshot = snapshot.getValue(Float::class.java) ?: 0f
-                val newAmount = actualAmountSnapshot + amount
-                if (newAmount > 0) {
-                    walletRef.setValue(newAmount)
-                        .addOnSuccessListener {
-                            onResult(newAmount) // Notify success with the new amount
+                if (snapshot.exists()) {
+                    for (walletSnapshot in snapshot.children) {
+                        val currentWalletName = walletSnapshot.child("walletName").getValue(String::class.java)
+                        if (currentWalletName == walletName) {
+                            val walletKey = walletSnapshot.key
+                            if (walletKey != null) {
+                                val walletRef = userRef.child(walletKey).child("crypto").child(coinName)
+                                walletRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onDataChange(cryptoSnapshot: DataSnapshot) {
+                                        val existingValue = cryptoSnapshot.getValue(String::class.java)?.toDoubleOrNull() ?: 0.0
+                                        val newValue = existingValue + valueToAdd.toFloatOrNull()!!
+                                        walletRef.setValue(newValue.toString())
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {
+                                        println("Errore durante l'accesso al database: ${error.message}")
+                                    }
+                                })
+                                return
+                            }
                         }
-                        .addOnFailureListener { error ->
-                            Log.e("RealTimeDatabase", "Failed to update value.", error)
-                            onResult(-1f)
-                        }
-                } else {
-                    onResult(actualAmountSnapshot)
+                    }
+                    println("Il wallet $walletName non esiste.")
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.e("RealTimeDatabase", "Failed to read value.", error.toException())
-                onResult(-1f)
+                println("Errore durante l'accesso al database: ${error.message}")
             }
         })
     }
@@ -156,8 +165,8 @@ class WalletViewModel(application: Application) : AndroidViewModel(application) 
                 val walletList = mutableListOf<String>()
                 val walletsSnapshot = snapshot.child("wallets")
                 for (childSnapshot in walletsSnapshot.children) {
-                    val walletId = childSnapshot.value.toString()
-                    walletList.add(walletId)
+                    val walletName = childSnapshot.child("walletName").getValue(String::class.java)
+                    walletName?.let { walletList.add(it) }
                 }
                 onWalletListReady(walletList)
             }

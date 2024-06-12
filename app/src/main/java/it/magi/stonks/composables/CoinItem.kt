@@ -83,7 +83,7 @@ fun CoinItem(
                 color = Color.White
             )
             Box(
-                modifier = Modifier.width(80.dp).background(Color.Red),
+                modifier = Modifier.width(80.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Column(

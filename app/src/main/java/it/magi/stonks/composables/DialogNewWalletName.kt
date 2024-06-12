@@ -61,12 +61,16 @@ fun NewWalletDialog(
                         )
                     } catch (e: Exception) {
                     }
+                    onDismissRequest()
                 }) {
                     Text("Create")
                     viewModel.getWalletList(
                         database = FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/"),
                         viewModel.returnWalletListCallback
+
+
                     )
+
                 }
             }
         }
