@@ -72,68 +72,70 @@ fun OtherDropDown(
             Row {
                 TextField(
                     value = "Currency",
-                    modifier = Modifier.fillMaxWidth(0.7f),
+                    modifier = Modifier.fillMaxWidth(0.6f),
                     onValueChange = {},
                     readOnly = true,
                     enabled = false,
                     textStyle = TextStyle(
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        fontSize = 13.sp
                     ),
                     colors = OutlinedTextFieldDefaults.colors(
                         unfocusedContainerColor = Color.Transparent
                     )
                 )
-                TextField(
-                    modifier = modifier
-                        .menuAnchor()
-                        .wrapContentHeight(align = Alignment.CenterVertically),
-                    value = currencyState.value.uppercase(),
-                    onValueChange = {
-                        viewModel._selectedCurrency.value = selectedText
-                    },
-                    readOnly = true,
-                    textStyle = TextStyle(
-                        textAlign = TextAlign.End
-                    ),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color.White,
-                        unfocusedBorderColor = Color.Unspecified,
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White,
-                        cursorColor = Color.White,
-                        focusedTrailingIconColor = Color.White,
-                        unfocusedTrailingIconColor = Color.White
-                    ),
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) }
-                )
-            }
-
-            ExposedDropdownMenu(
-                expanded = isExpanded,
-                onDismissRequest = { isExpanded = false },
-                modifier = Modifier
-                    .background(FormContainerColor)
-            ) {
-                currencyList.forEachIndexed { index, text ->
-                    DropdownMenuItem(
-                        text = {
-                            Text(
-                                text = text.uppercase(),
-                                color = Color.White
-                            )
+                Column {
+                    TextField(
+                        modifier = modifier
+                            .menuAnchor()
+                            .wrapContentHeight(align = Alignment.CenterVertically),
+                        value = currencyState.value.uppercase(),
+                        onValueChange = {
+                            viewModel._selectedCurrency.value = selectedText
                         },
-                        onClick = {
-                            viewModel._selectedCurrency.value = currencyList[index]
-                            viewModel.changePreferredCurrency(context, viewModel._selectedCurrency.value)
-                            Toast.makeText(context, "Currency changed", Toast.LENGTH_SHORT).show()
-                            isExpanded = false
-                        },
-                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                        readOnly = true,
+                        textStyle = TextStyle(
+                            textAlign = TextAlign.End
+                        ),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = Color.White,
+                            unfocusedBorderColor = Color.Unspecified,
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.White,
+                            cursorColor = Color.White,
+                            focusedTrailingIconColor = Color.White,
+                            unfocusedTrailingIconColor = Color.White
+                        ),
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) }
                     )
+
+                    ExposedDropdownMenu(
+                        expanded = isExpanded,
+                        onDismissRequest = { isExpanded = false },
+                        modifier = Modifier
+                            .background(FormContainerColor)
+                    ) {
+                        currencyList.forEachIndexed { index, text ->
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        text = text.uppercase(),
+                                        color = Color.White
+                                    )
+                                },
+                                onClick = {
+                                    viewModel._selectedCurrency.value = currencyList[index]
+                                    viewModel.changePreferredCurrency(context, viewModel._selectedCurrency.value)
+                                    Toast.makeText(context, "Currency changed", Toast.LENGTH_SHORT).show()
+                                    isExpanded = false
+                                },
+                                contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                            )
+                        }
+                    }
                 }
             }
         }

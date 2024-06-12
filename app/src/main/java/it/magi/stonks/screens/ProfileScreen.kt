@@ -3,6 +3,7 @@ package it.magi.stonks.screens
 import android.annotation.SuppressLint
 import android.app.Application
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -34,7 +36,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -47,6 +51,7 @@ import com.google.firebase.auth.FirebaseUser
 import it.magi.stonks.R
 import it.magi.stonks.composables.CustomTopAppBar
 import it.magi.stonks.composables.OtherDropDown
+import it.magi.stonks.composables.SignButton
 import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.GreenStock
@@ -81,22 +86,28 @@ fun ProfileScreen(navController: NavController, viewModel: SettingsViewModel) {
                 )
             },
             containerColor = FormContainerColor,
-            contentWindowInsets = WindowInsets(0, 0, 0, 0),
+            contentWindowInsets = WindowInsets(left = 0.dp, top = 0.dp, right = 0.dp, bottom = 0.dp),
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = "Profile Icon",
-                    modifier = Modifier
-                        .size(120.dp)
-                        .clickable {
-                            /* Edit Profile Picture */
-                        }
-                )
+                Card(
+                    modifier = Modifier.size(130.dp),
+                    shape = CircleShape,
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 2.dp
+                    ),
+                    border = BorderStroke(1.dp, GreenStock),
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.gendo),
+                        contentDescription = "",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
                 Spacer(modifier = Modifier.height(40.dp))
                 Text(
                     text = "Account Information",
@@ -105,153 +116,166 @@ fun ProfileScreen(navController: NavController, viewModel: SettingsViewModel) {
                     fontSize = 26.sp,
                     modifier = Modifier.align(CenterHorizontally)
                 )
-                Card(
-                    shape = RoundedCornerShape(15.dp),
-                    border = BorderStroke(1.dp, GreenStock),
-                    colors = CardDefaults.cardColors(
-                        containerColor = DarkBgColor
-                    ),
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 20.dp
-                    ),
+                Column (
                     modifier = Modifier
-                        .padding(start = 40.dp, end = 40.dp, top = 20.dp, bottom = 40.dp)
                         .fillMaxWidth()
+                        .padding(start = 40.dp, end = 40.dp, top = 20.dp)
                 ) {
-                    Column(
+                    Card(
+                        shape = RoundedCornerShape(15.dp),
+                        border = BorderStroke(1.dp, GreenStock),
+                        colors = CardDefaults.cardColors(
+                            containerColor = DarkBgColor
+                        ),
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 20.dp
+                        ),
                         modifier = Modifier
+                            .padding(bottom = 40.dp)
                             .fillMaxWidth()
-                            .padding(10.dp),
                     ) {
-                        Row (
-                            modifier = Modifier.fillMaxWidth()
-                        ){
-                            TextField(
-                                value = "Name",
-                                modifier = Modifier.fillMaxWidth(0.3f),
-                                onValueChange = {},
-                                readOnly = true,
-                                enabled = false,
-                                textStyle = TextStyle(
-                                    color = Color.White,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 16.sp
-                                ),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    unfocusedContainerColor = Color.Transparent
-                                )
-                            )
-                            TextField(
-                                value = Utilities().getAccountName().uppercase(),
-                                modifier = Modifier.fillMaxWidth(1f),
-                                onValueChange = {},
-                                readOnly = true,
-                                enabled = false,
-                                textStyle = TextStyle(
-                                    textAlign = TextAlign.End,
-                                    fontSize = 15.sp
-                                ),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    unfocusedContainerColor = Color.Transparent
-                                )
-                            )
-                        }
-                        Row (
-                            modifier = Modifier.fillMaxWidth()
-                        ){
-                            TextField(
-                                value = "Surname",
-                                modifier = Modifier.fillMaxWidth(0.4f),
-                                onValueChange = {},
-                                readOnly = true,
-                                enabled = false,
-                                textStyle = TextStyle(
-                                    color = Color.White,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 16.sp
-                                ),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    unfocusedContainerColor = Color.Transparent
-                                )
-                            )
-                            TextField(
-                                value = Utilities().getAccountSurname().uppercase(),
-                                modifier = Modifier.fillMaxWidth(1f),
-                                onValueChange = {},
-                                readOnly = true,
-                                enabled = false,
-                                textStyle = TextStyle(
-                                    textAlign = TextAlign.End,
-                                    fontSize = 15.sp
-                                ),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    unfocusedContainerColor = Color.Transparent
-                                )
-                            )
-                        }
-                        Row (
-                            modifier = Modifier.fillMaxWidth()
-                        ){
-                            TextField(
-                                value = "Email",
-                                modifier = Modifier.fillMaxWidth(0.3f),
-                                onValueChange = {},
-                                readOnly = true,
-                                enabled = false,
-                                textStyle = TextStyle(
-                                    color = Color.White,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 16.sp
-                                ),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    unfocusedContainerColor = Color.Transparent
-                                )
-                            )
-                            TextField(
-                                value = "$authEmail",
-                                modifier = Modifier.fillMaxWidth(1f),
-                                onValueChange = {},
-                                readOnly = true,
-                                enabled = false,
-                                textStyle = TextStyle(
-                                    textAlign = TextAlign.End,
-                                    fontSize = 15.sp
-                                ),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    unfocusedContainerColor = Color.Transparent
-                                )
-                            )
-                        }
-                        OtherDropDown(
+                        Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .wrapContentHeight(align = Alignment.CenterVertically),
-                            viewModel,
-                            currencyList,
-                            context
+                                .padding(10.dp)
+                        ) {
+                            Row (
+                                modifier = Modifier.fillMaxWidth()
+                            ){
+                                TextField(
+                                    value = "Name",
+                                    modifier = Modifier.fillMaxWidth(0.3f),
+                                    onValueChange = {},
+                                    readOnly = true,
+                                    enabled = false,
+                                    textStyle = TextStyle(
+                                        color = Color.White,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 14.sp
+                                    ),
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        unfocusedContainerColor = Color.Transparent
+                                    )
+                                )
+                                TextField(
+                                    value = Utilities().getAccountName().uppercase(),
+                                    modifier = Modifier.fillMaxWidth(1f),
+                                    onValueChange = {},
+                                    readOnly = true,
+                                    enabled = false,
+                                    textStyle = TextStyle(
+                                        textAlign = TextAlign.End,
+                                        fontSize = 14.sp
+                                    ),
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        unfocusedContainerColor = Color.Transparent
+                                    )
+                                )
+                            }
+                            Row (
+                                modifier = Modifier.fillMaxWidth()
+                            ){
+                                TextField(
+                                    value = "Surname",
+                                    modifier = Modifier.fillMaxWidth(0.4f),
+                                    onValueChange = {},
+                                    readOnly = true,
+                                    enabled = false,
+                                    textStyle = TextStyle(
+                                        color = Color.White,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 14.sp
+                                    ),
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        unfocusedContainerColor = Color.Transparent
+                                    )
+                                )
+                                TextField(
+                                    value = Utilities().getAccountSurname().uppercase(),
+                                    modifier = Modifier.fillMaxWidth(1f),
+                                    onValueChange = {},
+                                    readOnly = true,
+                                    enabled = false,
+                                    textStyle = TextStyle(
+                                        textAlign = TextAlign.End,
+                                        fontSize = 14.sp
+                                    ),
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        unfocusedContainerColor = Color.Transparent
+                                    )
+                                )
+                            }
+                            Row (
+                                modifier = Modifier.fillMaxWidth()
+                            ){
+                                TextField(
+                                    value = "Email",
+                                    modifier = Modifier.fillMaxWidth(0.25f),
+                                    onValueChange = {},
+                                    readOnly = true,
+                                    enabled = false,
+                                    textStyle = TextStyle(
+                                        color = Color.White,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 14.sp
+                                    ),
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        unfocusedContainerColor = Color.Transparent
+                                    )
+                                )
+                                TextField(
+                                    value = "gendoikari01@nerv.jp",
+                                    modifier = Modifier.fillMaxWidth(1f),
+                                    onValueChange = {},
+                                    readOnly = true,
+                                    enabled = false,
+                                    textStyle = TextStyle(
+                                        textAlign = TextAlign.End,
+                                        fontSize = 14.sp
+                                    ),
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        unfocusedContainerColor = Color.Transparent
+                                    )
+                                )
+                            }
+                            OtherDropDown(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .wrapContentHeight(align = Alignment.CenterVertically),
+                                viewModel,
+                                currencyList,
+                                context
+                            )
+                        }
+                    }
+                    Row {
+                        SignButton(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f),
+                            onclick = { /*TODO*/ },
+                            text = "Change Email",
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = RedStock,
+                                contentColor = FormContainerColor
+                            ),
+                            textSize = 15.sp
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        SignButton(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f),
+                            onclick = { /*TODO*/ },
+                            text = "Change Password",
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = RedStock,
+                                contentColor = FormContainerColor
+                            ),
+                            textSize = 15.sp
                         )
                     }
                 }
-                Row {
-                    Button(
-                        onClick = { /* TODO */ },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = RedStock
-                        )
-                    ) {
-                        Text(text = "Change Email")
-                    }
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Button(
-                        onClick = { /* TODO */ },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = RedStock
-                        )
-                    ) {
-                        Text(text = "Change Password")
-                    }
-                }
-
             }
         }
     }
