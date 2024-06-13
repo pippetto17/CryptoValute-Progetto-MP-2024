@@ -206,7 +206,7 @@ class StonksViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun coinMarketChartDataById(apiKey: String,id: String,currency: String,days: Int){
-        val url="https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?$id?x_cg_demo_api_key=$apiKey&vs_currency=$currency&days=$days"
+        val url="https://api.coingecko.com/api/v3/coins/$id/market_chart??x_cg_demo_api_key=$apiKey&vs_currency=$currency&days=$days"
         val stringRequest = StringRequest(Request.Method.GET, url,
             { response ->
                 Log.d("API", " Market chart by id Request Successful, response: $response ")
@@ -220,6 +220,6 @@ class StonksViewModel(application: Application) : AndroidViewModel(application) 
             },
             { error -> Log.d("API", "Market chart by id Request Error $error") })
         requestQueue.add(stringRequest)
-        Log.d("API", "returning market chart by id: ${marketChartById.value}")
+        Log.d("API-Chart", "returning market chart by id: ${marketChartById.value}")
     }
 }

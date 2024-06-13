@@ -1,9 +1,6 @@
 package it.magi.stonks.models
 
-
-
+import kotlin.Pair
 data class CoinMarketChart(
-    val prices: List<List<Float>>,
-    val market_caps: List<List<Float>>,
-    val total_volumes: List<List<Float>>
+    val prices: List<List<Double>>
 )

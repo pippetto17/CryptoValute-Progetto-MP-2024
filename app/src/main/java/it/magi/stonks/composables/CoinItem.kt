@@ -94,7 +94,8 @@ fun CoinItem(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
-                        .width(50.dp).wrapContentHeight()
+                        .width(50.dp)
+                        .wrapContentHeight()
                 ) {
                     AsyncImage(
                         model = imageURI,
@@ -142,8 +143,7 @@ fun CoinItem(
                     Text(
                         text = if (priceFormat.format(marketCap).length > 8) priceFormat.format(
                             marketCap
-                        )
-                            .substring(0, 9) else priceFormat.format(marketCap),
+                        ).substring(0, 9) else priceFormat.format(marketCap),
                         fontSize = 12.sp,
                         color = Color.White
                     )
