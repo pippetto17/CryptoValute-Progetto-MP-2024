@@ -140,7 +140,7 @@ fun BuyCoinScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        text = "Scegli il wallet dove aggiungere la criptovaluta".uppercase(),
+                        text = "Choose a wallet to add this coin".uppercase(),
                         color = Color.White,
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                         fontSize = 20.sp,

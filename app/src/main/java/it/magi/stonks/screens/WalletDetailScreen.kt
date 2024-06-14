@@ -11,6 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,19 +23,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.FirebaseDatabase
 import it.magi.stonks.R
 import it.magi.stonks.activities.apiKey
+import it.magi.stonks.composables.PieChart
 import it.magi.stonks.composables.WalletCoinItem
 import it.magi.stonks.models.Coin
 import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.titleFont
+import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.WalletViewModel
 
 @Composable
@@ -48,6 +53,8 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
     var coinsAmount by remember { mutableStateOf(0f) }
     var totalValue by remember { mutableStateOf(0f) }
     var walletCoins by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
+    var coinsWithPriceList by remember { mutableStateOf<Map<String, Float>>(emptyMap()) }
+
 
 
     LaunchedEffect(walletName) {
@@ -82,6 +89,7 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
                         "Price per value $crypto value: $pricePerValue * $amount"
                     )
                     totalValue += pricePerValue * amount.toFloat()
+                    coinsWithPriceList += mapOf(Pair(crypto, pricePerValue))
                 }
                 isWalletDatasLoading = false
             }
@@ -101,11 +109,12 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
     } else {
         Column(
             Modifier
+                .verticalScroll(rememberScrollState())
                 .fillMaxWidth()
                 .wrapContentWidth()
         ) {
             Text(
-                text = "$totalValue $currency",
+                text = "${totalValue} $currency",
                 fontFamily = titleFont(),
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
@@ -116,37 +125,39 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
         if (isCoinListLoading) {
             CircularProgressIndicator()
         } else {
+            Spacer(modifier = Modifier.height(20.dp))
             LazyColumn(
                 modifier = Modifier
                     .background(DarkBgColor)
                     .padding(horizontal = 24.dp)
+                    .clip(RoundedCornerShape(20.dp))
                     .fillMaxSize()
 
             ) {
-                items(walletCoins.size){ it ->
+                items(walletCoins.size) { it ->
                     val name = walletCoins.keys.elementAt(it)
                     var coin by remember { mutableStateOf<List<Coin>>(emptyList()) }
-                    LaunchedEffect (walletName){
+                    LaunchedEffect(walletName) {
                         coin = emptyList()
-                        viewModel.filterCoinsApiRequest(apiKey,currency,name) {
+                        viewModel.filterCoinsApiRequest(apiKey, currency, name) {
                             Log.d("WalletScreen", "Coin Lazy Column: $it")
-                            coin=it
+                            coin = it
                             isCoinDatasLoading = false
                         }
                     }
                     if (isCoinDatasLoading) {
                         CircularProgressIndicator()
-                    }else {
-                        if(coin.isNotEmpty()){
+                    } else {
+                        if (coin.isNotEmpty()) {
                             Log.d("AIUT", "Value: $name Coin to WalletCoinItem: ${coin[0].name}")
                             WalletCoinItem(
                                 prefCurrency = currency,
                                 id = name,
-                                imageURI =coin[0].image ,
+                                imageURI = coin[0].image,
                                 name = walletCoins.keys.elementAt(it),
                                 amount = walletCoins.values.elementAt(it),
-                                symbol = coin[0].symbol?:"",
-                                price = coin[0].current_price?:0f,
+                                symbol = coin[0].symbol ?: "",
+                                price = coin[0].current_price ?: 0f,
                             ) {
 
                             }
@@ -155,6 +166,15 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
 
                 }
             }
+            if (isWalletDatasLoading) {
+                CircularProgressIndicator()
+            }else{
+                Log.d("WalletScreen", "PieChart datas: ${Utilities().convertMapIntoPairs(coinsWithPriceList)}")
+                PieChart(
+                    data =Utilities().convertMapIntoPairs(coinsWithPriceList)
+                )
+            }
+
         }
     }
 }

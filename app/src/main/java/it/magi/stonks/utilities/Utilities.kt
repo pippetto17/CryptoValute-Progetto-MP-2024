@@ -160,6 +160,14 @@ class Utilities {
         return scientificNumber.toDouble()
     }
 
+    fun convertToPercentage(value: Float): String {
+        return String.format("%.1f%%", value)
+    }
+
+    fun convertMapIntoPairs(inputMap: Map<String, Float>): Map<String, Float> {
+        return mapOf(*inputMap.map { Pair(it.key, it.value) }.toTypedArray())
+    }
+
     fun isFirstRun(context: Context): Boolean {
         val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val isFirstRun = sharedPreferences.getBoolean("first_run", true)

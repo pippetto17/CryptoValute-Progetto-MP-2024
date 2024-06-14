@@ -10,12 +10,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
@@ -30,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,13 +43,13 @@ import com.google.firebase.database.FirebaseDatabase
 import it.magi.stonks.R
 import it.magi.stonks.activities.apiKey
 import it.magi.stonks.composables.CoinItem
-import it.magi.stonks.composables.CustomTopAppBar
+import it.magi.stonks.composables.NewWalletDialog
 import it.magi.stonks.composables.OtherTopAppBar
 import it.magi.stonks.models.Coin
 import it.magi.stonks.ui.theme.FormContainerColor
+import it.magi.stonks.ui.theme.GreenStock
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.utilities.Utilities
-import it.magi.stonks.viewmodels.StonksViewModel
 import it.magi.stonks.viewmodels.WalletViewModel
 
 @Composable
@@ -62,6 +67,9 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
     var isLoadingWalletList by remember { mutableStateOf(true) }
     var isLoadingAccountCoinsList by remember { mutableStateOf(true) }
     var isLoadingCoinsDatas by remember { mutableStateOf(true) }
+    //dialog flags
+    var showNewWalletDialog by remember { mutableStateOf(false) }
+
     LaunchedEffect(key1 = true) {
         isLoadingWalletList = true
         viewModel.getWalletsList(database) {
@@ -83,6 +91,12 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
         containerColor = FormContainerColor,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
     ) { innerPadding ->
+        if (showNewWalletDialog) {
+            NewWalletDialog(
+                onDismissRequest = { showNewWalletDialog = false },
+                viewModel = viewModel
+            )
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -234,6 +248,22 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                         }
                                     }
 
+                                }
+                            }
+                            if(walletList.size<2){
+                                FloatingActionButton(
+                                    modifier = Modifier.padding(20.dp),
+                                    onClick = { showNewWalletDialog = true },
+                                    shape = CircleShape,
+                                    containerColor = GreenStock
+
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_new_wallet),
+                                        contentDescription = "New Wallet",
+                                        modifier = Modifier.size(40.dp),
+                                        tint = Color.Black
+                                    )
                                 }
                             }
                             Spacer(modifier = Modifier.height(10.dp))
