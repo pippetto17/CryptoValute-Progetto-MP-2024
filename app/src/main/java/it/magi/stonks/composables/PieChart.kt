@@ -38,6 +38,12 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import it.magi.stonks.utilities.Utilities
+import java.math.BigDecimal
+
+fun convertExponentialToDecimal(number: String): String {
+    val bigDecimal = BigDecimal(number)
+    return bigDecimal.toPlainString()
+}
 
 @Composable
 fun PieChart(
@@ -76,7 +82,7 @@ fun PieChart(
             durationMillis = animDuration,
             delayMillis = 0,
             easing = LinearOutSlowInEasing
-        )
+        ), label = ""
     )
 
     // if you want to stabilize the Pie Chart you can use value -90f
@@ -101,44 +107,44 @@ fun PieChart(
     ) {
 
         // Pie Chart using Canvas Arc
-        Card {
-            Box(
-                modifier = Modifier.size(animateSize.dp),
-                contentAlignment = Alignment.Center
+
+        Box(
+            modifier = Modifier.size(animateSize.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Canvas(
+                modifier = Modifier
+                    .offset { IntOffset.Zero }
+                    //seleziona la grandezza del grafico
+                    .size(radiusOuter * 1.2f)
+                    .rotate(animateRotation)
             ) {
-                Canvas(
-                    modifier = Modifier
-                        .offset { IntOffset.Zero }
-                        //seleziona la grandezza del grafico
-                        .size(radiusOuter * 1.2f)
-                        .rotate(animateRotation)
-                ) {
-                    // draw each Arc for each data entry in Pie Chart
-                    floatValue.forEachIndexed { index, value ->
-                        drawArc(
-                            color = colors[index],
-                            lastValue,
-                            value,
-                            useCenter = false,
-                            style = Stroke(chartBarWidth.toPx(), cap = StrokeCap.Butt)
-                        )
-                        lastValue += value
-                    }
+                // draw each Arc for each data entry in Pie Chart
+                floatValue.forEachIndexed { index, value ->
+                    drawArc(
+                        color = colors[index],
+                        lastValue,
+                        value,
+                        useCenter = false,
+                        style = Stroke(chartBarWidth.toPx(), cap = StrokeCap.Butt)
+                    )
+                    lastValue += value
                 }
-                Text(text = totalSum.toString())
             }
+            Text(
+                text = convertExponentialToDecimal(totalSum.toString())
+            )
         }
-
-        // To see the data in more structured way
-        // Compose Function in which Items are showing data
-        Log.d("PieChart", "passing totalSum1: $totalSum")
-        DetailsPieChart(
-            data = data,
-            colors = colors,
-            totalSum = totalSum
-        )
-
     }
+
+    // To see the data in more structured way
+    // Compose Function in which Items are showing data
+    Log.d("PieChart", "passing totalSum1: $totalSum")
+    DetailsPieChart(
+        data = data,
+        colors = colors,
+        totalSum = totalSum
+    )
 
 }
 

@@ -76,7 +76,7 @@ class MainActivity : ComponentActivity() {
                         composable(NavigationItem.News.route) {
                             NewsScreen(navController = navController)
                         }
-                        composable(NavigationItem.Other.route) {
+                        composable(NavigationItem.Settings.route) {
                             SettingsScreen(
                                 navController = navController,
                                 viewModel = SettingsViewModel(

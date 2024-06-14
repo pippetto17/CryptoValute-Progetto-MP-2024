@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
@@ -102,19 +103,23 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
     }
 
 
-    Text(text = walletName, fontFamily = titleFont(), color = Color.White, fontSize = 20.sp)
+    Text(
+        text = walletName,
+        fontFamily = titleFont(),
+        color = Color.White,
+        fontSize = 20.sp
+    )
     Spacer(modifier = Modifier.height(30.dp))
     if (isWalletDatasLoading) {
         CircularProgressIndicator()
     } else {
         Column(
             Modifier
-                .verticalScroll(rememberScrollState())
                 .fillMaxWidth()
-                .wrapContentWidth()
+                .wrapContentHeight()
         ) {
             Text(
-                text = "${totalValue} $currency",
+                text = "$totalValue $currency",
                 fontFamily = titleFont(),
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
@@ -126,52 +131,52 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
             CircularProgressIndicator()
         } else {
             Spacer(modifier = Modifier.height(20.dp))
-            LazyColumn(
-                modifier = Modifier
-                    .background(DarkBgColor)
-                    .padding(horizontal = 24.dp)
-                    .clip(RoundedCornerShape(20.dp))
-                    .fillMaxSize()
-
-            ) {
-                items(walletCoins.size) { it ->
-                    val name = walletCoins.keys.elementAt(it)
-                    var coin by remember { mutableStateOf<List<Coin>>(emptyList()) }
-                    LaunchedEffect(walletName) {
-                        coin = emptyList()
-                        viewModel.filterCoinsApiRequest(apiKey, currency, name) {
-                            Log.d("WalletScreen", "Coin Lazy Column: $it")
-                            coin = it
-                            isCoinDatasLoading = false
-                        }
-                    }
-                    if (isCoinDatasLoading) {
-                        CircularProgressIndicator()
-                    } else {
-                        if (coin.isNotEmpty()) {
-                            Log.d("AIUT", "Value: $name Coin to WalletCoinItem: ${coin[0].name}")
-                            WalletCoinItem(
-                                prefCurrency = currency,
-                                id = name,
-                                imageURI = coin[0].image,
-                                name = walletCoins.keys.elementAt(it),
-                                amount = walletCoins.values.elementAt(it),
-                                symbol = coin[0].symbol ?: "",
-                                price = coin[0].current_price ?: 0f,
-                            ) {
-
-                            }
-                        }
-                    }
-
-                }
-            }
+//            LazyColumn(
+//                modifier = Modifier
+//                    .wrapContentHeight()
+//
+//            ) {
+//                items(walletCoins.size) { it ->
+//                    val name = walletCoins.keys.elementAt(it)
+//                    var coin by remember { mutableStateOf<List<Coin>>(emptyList()) }
+//                    LaunchedEffect(walletName) {
+//                        coin = emptyList()
+//                        viewModel.filterCoinsApiRequest(apiKey, currency, name) {
+//                            Log.d("WalletScreen", "Coin Lazy Column: $it")
+//                            coin = it
+//                            isCoinDatasLoading = false
+//                        }
+//                    }
+//                    if (isCoinDatasLoading) {
+//                        CircularProgressIndicator()
+//                    } else {
+//                        if (coin.isNotEmpty()) {
+//                            Log.d("AIUT", "Value: $name Coin to WalletCoinItem: ${coin[0].name}")
+//                            WalletCoinItem(
+//                                prefCurrency = currency,
+//                                id = name,
+//                                imageURI = coin[0].image,
+//                                name = walletCoins.keys.elementAt(it),
+//                                amount = walletCoins.values.elementAt(it),
+//                                symbol = coin[0].symbol ?: "",
+//                                price = coin[0].current_price ?: 0f,
+//                            ) {
+//
+//                            }
+//                        }
+//                    }
+//
+//                }
+//            }
             if (isWalletDatasLoading) {
                 CircularProgressIndicator()
-            }else{
-                Log.d("WalletScreen", "PieChart datas: ${Utilities().convertMapIntoPairs(coinsWithPriceList)}")
+            } else {
+                Log.d(
+                    "WalletScreen",
+                    "PieChart datas: ${Utilities().convertMapIntoPairs(coinsWithPriceList)}"
+                )
                 PieChart(
-                    data =Utilities().convertMapIntoPairs(coinsWithPriceList)
+                    data = Utilities().convertMapIntoPairs(coinsWithPriceList)
                 )
             }
 

@@ -158,6 +158,19 @@ fun BuyCoinScreen(
                                 .padding(start = 20.dp, end = 20.dp, top = 10.dp)
                                 .clickable {
                                     selectedWallet = it
+                                    viewModel.addCryptoToWallet(
+                                        FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/"),
+                                        walletState.value[selectedWallet],
+                                        coinId,
+                                        Utilities()
+                                            .convertScientificToDecimal(quantityState.value)
+                                            .toString(),
+                                    )
+                                    showBottomSheet = false
+                                    showSuccesAnimation = true
+                                    navController.navigate("wallet") {
+                                        popUpTo(0)
+                                    }
                                 }) {
                                 Row(
                                     modifier = Modifier
@@ -195,26 +208,13 @@ fun BuyCoinScreen(
                             )
                         }
                     }
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .weight(1f)
-                    )
                     Row(
                         Modifier
                             .fillMaxWidth()
                             .padding(20.dp), horizontalArrangement = Arrangement.End
                     ) {
                         Button(onClick = {
-                            viewModel.addCryptoToWallet(
-                                FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/"),
-                                walletState.value[selectedWallet],
-                                coinId,
-                                Utilities().convertScientificToDecimal(quantityState.value)
-                                    .toString(),
-                            )
-                            showBottomSheet = false
-                            showSuccesAnimation = true
+
 
                         }) {
                             Text(text = "Confirm")

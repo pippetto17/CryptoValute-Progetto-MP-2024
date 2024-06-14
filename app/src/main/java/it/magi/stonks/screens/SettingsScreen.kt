@@ -1,18 +1,24 @@
 package it.magi.stonks.screens
 
 import android.annotation.SuppressLint
+import android.os.Build.VERSION.SDK_INT
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
@@ -27,14 +33,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import coil.ImageLoader
 import it.magi.stonks.R
 import it.magi.stonks.composables.OtherTopAppBar
+import it.magi.stonks.composables.SignButton
 import it.magi.stonks.composables.SignDivisor
 import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.FormContainerColor
@@ -63,7 +72,7 @@ fun SettingsScreen(
             },
             onConfirmButton = {
                 showDeleteDialog = false
-                viewModel.viewModelScope.launch { viewModel.deleteFirebaseUser(context)}
+                viewModel.viewModelScope.launch { viewModel.deleteFirebaseUser(context) }
             },
             onDismissButton = {
                 showDeleteDialog = false
@@ -71,7 +80,7 @@ fun SettingsScreen(
         )
     }
 
-    Scaffold (
+    Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             OtherTopAppBar(
@@ -88,7 +97,7 @@ fun SettingsScreen(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center
         ) {
-            Column (
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 20.dp, end = 20.dp, top = 20.dp)
@@ -124,33 +133,49 @@ fun SettingsScreen(
                         )
                     }
                 }
-                Spacer(modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(1f))
-                Card(
-                    shape = RoundedCornerShape(15.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = DarkBgColor
-                    ),
+                Spacer(
                     modifier = Modifier
-                        .wrapContentHeight()
-                        .padding(20.dp)
-                        .fillMaxWidth()
-                        .clickable {
-                            showDeleteDialog = true
-                        },
-                ) {
+                        .fillMaxHeight()
+                        .weight(1f)
+                )
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ){
                     Text(
-                        text = "Delete Account",
-                        color = Color.Red,
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .wrapContentSize(),
-                        textAlign = TextAlign.Center,
+                        text = "Powered By",
+                        color = Color.White,
+                        fontSize = 15.sp
+                    )
+                    Text(
+                        text = "I MAGI",
+                        color = Color.White,
                         fontFamily = titleFont(),
-                        fontSize = 25.sp
+                        fontSize = 15.sp,
+                        modifier = Modifier.padding(start = 5.dp)
+                    )
+                    Image(
+                        painter = painterResource(R.drawable.magi_logo),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                            .size(25.dp)
                     )
                 }
+
+                SignButton(
+                    onclick = { showDeleteDialog = true },
+                    text = "Delete Account",
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = DarkBgColor,
+                        contentColor = Color.Red
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 40.dp, end = 40.dp, top = 20.dp, bottom = 20.dp)
+                )
             }
         }
     }

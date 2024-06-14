@@ -31,7 +31,7 @@ fun CustomBottomNavBar(navController: NavController) {
         NavigationItem.Stonks,
         NavigationItem.Wallet,
         NavigationItem.News,
-        NavigationItem.Other
+        NavigationItem.Settings
     )
     var selectedItem by remember { mutableStateOf(0) }
     var currentRoute by remember { mutableStateOf(NavigationItem.Stonks.route) }
