@@ -177,35 +177,18 @@ fun CoinScreen(
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                     ) {
-                        ) {
-                            AsyncImage(
-                                model = Coin().image,
-                                contentDescription = "",
-                                placeholder = painterResource(R.drawable.star_coin),
-                                modifier = Modifier.size(80.dp)
-                            )
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(1f)
-                                    .padding(start = 10.dp)
-                            ) {
-                                Text(
-                                    text = Coin().name,
-                                    color = Color.White,
-                                    fontFamily = titleFont(),
-                                    fontSize = 10.sp
-                                )
-                                Text(
-                                    text = Coin().symbols,
-                                    color = Color.LightGray,
-                                    fontFamily = titleFont(),
-                                    fontSize = 10.sp
-                                )
-                            }
-                        }
-                        Row(
-                            modifier = Modifier.fillMaxWidth(0.5f),
+                        AsyncImage(
+                            model = Coin().image,
+                            contentDescription = "",
+                            placeholder = painterResource(R.drawable.star_coin),
+                            modifier = Modifier.size(80.dp)
+                        )
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .padding(start = 10.dp)
+                                .align(Alignment.CenterVertically)
                         ) {
                             Text(
                                 text = Coin().name,
