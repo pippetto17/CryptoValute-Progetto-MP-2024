@@ -33,7 +33,6 @@ import java.text.DecimalFormat
 @Composable
 fun TrendingCoinItem(
     modifier: Modifier = Modifier,
-    prefCurrency: String,
     rank: String?,
     imageURI: String?,
     symbol: String,
@@ -112,18 +111,17 @@ fun TrendingCoinItem(
                     horizontalArrangement = Arrangement.End
                 ) {
                     Text(
-                        text = if (priceFormat.format(price).length > 8) priceFormat.format(price)
-                            .substring(0, 9) else priceFormat.format(price),
+                        text = "$",
                         fontSize = 14.sp,
                         color = Color.White
                     )
                     Text(
-                        modifier = Modifier.padding(start = 5.dp),
-                        text = prefCurrency.uppercase(),
+                        text = if (priceFormat.format(price).length > 9) priceFormat.format(price).substring(0, 10)
+                        else priceFormat.format(price),
                         fontSize = 14.sp,
-                        fontStyle = FontStyle.Italic,
                         color = Color.White
                     )
+
                 }
                 Row(
                     modifier = Modifier

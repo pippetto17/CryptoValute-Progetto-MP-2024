@@ -35,6 +35,7 @@ import it.magi.stonks.composables.DropDown
 import it.magi.stonks.composables.SignButton
 import it.magi.stonks.composables.SignDivisor
 import it.magi.stonks.composables.SignField
+import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.RedStock
 import it.magi.stonks.ui.theme.titleFont
@@ -154,7 +155,10 @@ fun GoogleRegistrationScreen(navController: NavController, viewModel: Registrati
                 },
                 text = stringResource(R.string.signup_label),
                 textSize = 20.sp,
-                colors = ButtonDefaults.buttonColors(containerColor = RedStock)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = RedStock,
+                    contentColor = DarkBgColor
+                )
             )
         }
     }

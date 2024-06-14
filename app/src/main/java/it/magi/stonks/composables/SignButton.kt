@@ -48,7 +48,7 @@ fun SignButton(
                 text = text.uppercase(),
                 fontSize = textSize,
                 fontFamily = titleFont(),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
             content
         }

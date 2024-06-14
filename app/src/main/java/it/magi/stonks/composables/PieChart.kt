@@ -10,9 +10,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -142,15 +146,32 @@ fun PieChart(
 fun DetailsPieChart(
     data: Map<String, Float>,
     colors: List<Color>,
-    totalSum:Float
+    totalSum: Float
 ) {
-    Column(
+//    Column(
+//        modifier = Modifier
+//            .padding(top = 80.dp)
+//            .fillMaxWidth()
+//    ) {
+//        // create the data items
+//        data.values.forEachIndexed { index, value ->
+//            Log.d("PieChart", "passing totalSum2: $totalSum")
+//            DetailsPieChartItem(
+//                data = Pair(data.keys.elementAt(index), value),
+//                color = colors[index],
+//                totalSum = totalSum
+//            )
+//        }
+//    }
+
+    LazyColumn(
         modifier = Modifier
             .padding(top = 80.dp)
             .fillMaxWidth()
+            .height(300.dp)
     ) {
-        // create the data items
-        data.values.forEachIndexed { index, value ->
+        items(data.values.toList()) { value ->
+            val index = data.values.indexOf(value)
             Log.d("PieChart", "passing totalSum2: $totalSum")
             DetailsPieChartItem(
                 data = Pair(data.keys.elementAt(index), value),
@@ -158,7 +179,6 @@ fun DetailsPieChart(
                 totalSum = totalSum
             )
         }
-
     }
 }
 
@@ -167,7 +187,7 @@ fun DetailsPieChartItem(
     data: Pair<String, Float>,
     height: Dp = 45.dp,
     color: Color,
-    totalSum:Float
+    totalSum: Float
 ) {
     val percentage = (data.second / totalSum) * 100
     Card(
@@ -205,7 +225,11 @@ fun DetailsPieChartItem(
                     color = Color.Gray
                 )
                 Log.d("PieChart", "percentage is: $percentage")
-                Text(modifier=Modifier.padding(start = 15.dp),text = Utilities().convertToPercentage(percentage),color = Color.White)
+                Text(
+                    modifier = Modifier.padding(start = 15.dp),
+                    text = Utilities().convertToPercentage(percentage),
+                    color = Color.White
+                )
             }
 
         }

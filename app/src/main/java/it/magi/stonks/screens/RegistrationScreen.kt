@@ -42,6 +42,7 @@ import it.magi.stonks.composables.DropDown
 import it.magi.stonks.composables.SignButton
 import it.magi.stonks.composables.SignDivisor
 import it.magi.stonks.composables.SignField
+import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.RedStock
 import it.magi.stonks.ui.theme.titleFont
@@ -187,7 +188,7 @@ fun FirstRegistrationScreen(navController: NavController, viewModel: Registratio
                     onclick = { viewModel._screen.value = 2 },
                     text = stringResource(R.string.next_screen_button_label),
                     textSize = 15.sp,
-                    colors = ButtonDefaults.buttonColors(containerColor = RedStock)
+                    colors = ButtonDefaults.buttonColors(containerColor = RedStock, contentColor = DarkBgColor)
                 )
             }
         }

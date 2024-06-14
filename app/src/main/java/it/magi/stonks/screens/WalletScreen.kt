@@ -23,6 +23,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -46,6 +49,7 @@ import it.magi.stonks.composables.CoinItem
 import it.magi.stonks.composables.NewWalletDialog
 import it.magi.stonks.composables.OtherTopAppBar
 import it.magi.stonks.models.Coin
+import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.GreenStock
 import it.magi.stonks.ui.theme.titleFont
@@ -105,15 +109,26 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
             if (isLoadingWalletList) {
                 CircularProgressIndicator()
             } else {
-                ScrollableTabRow(
+                TabRow(
                     modifier = Modifier.fillMaxWidth(),
-                    selectedTabIndex = tabState
+                    selectedTabIndex = tabState,
+                    containerColor = DarkBgColor,
+                    contentColor = Color.White,
+                    indicator = { tabPositions ->
+                        if (tabState < tabPositions.size) {
+                            TabRowDefaults.SecondaryIndicator(
+                                modifier = Modifier.tabIndicatorOffset(tabPositions[tabState]),
+                                color = GreenStock
+                            )
+                        }
+                    }
                 ) {
                     (listOf("overview") + walletList).forEachIndexed { index, title ->
                         Tab(
                             text = { Text(text = title.uppercase()) },
                             selected = tabState == index,
-                            onClick = { tabState = index
+                            onClick = {
+                                tabState = index
                             })
                     }
                 }
@@ -141,8 +156,8 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                                 .height(150.dp),
                                             shape = RoundedCornerShape(10.dp),
                                             onClick = {
-                                                Log.d("changing to it", "${it+1}")
-                                                tabState = it+1
+                                                Log.d("changing to it", "${it + 1}")
+                                                tabState = it + 1
                                             }) {
                                             LaunchedEffect(key1 = true) {
                                                 viewModel.getWalletCoinsList(
@@ -170,7 +185,7 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                                                 "Adding $crypto valuex: $pricePerValue * $amount"
                                                             )
                                                             if (pricePerValue != null)
-                                                            totalValue += pricePerValue * amount.toFloat()
+                                                                totalValue += pricePerValue * amount.toFloat()
                                                         }
                                                         Log.d("WalletScreen", "Adding $crypto")
                                                     }
@@ -250,7 +265,7 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
 
                                 }
                             }
-                            if(walletList.size<2){
+                            if (walletList.size < 2) {
                                 FloatingActionButton(
                                     modifier = Modifier.padding(20.dp),
                                     onClick = { showNewWalletDialog = true },
@@ -276,17 +291,22 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                 coinsList = it
                                 isLoadingCoinsDatas = false
                             }
-                            if (isLoadingCoinsDatas||isLoadingAccountCoinsList) {
+                            if (isLoadingCoinsDatas || isLoadingAccountCoinsList) {
                                 CircularProgressIndicator()
                             } else {
-                                Text(text = "Your coins",color = Color.White,fontFamily = titleFont(),fontSize = 20.sp)
+                                Text(
+                                    text = "Your coins",
+                                    color = Color.White,
+                                    fontFamily = titleFont(),
+                                    fontSize = 20.sp
+                                )
                                 LazyColumn {
                                     Log.d("WalletScreen", "coinsList: $coinsList")
                                     items(coinsList) { coin ->
                                         CoinItem(
                                             prefCurrency = currency,
                                             rank = coin.market_cap_rank?.toInt().toString(),
-                                            marketCap = coin.market_cap ?:0f,
+                                            marketCap = coin.market_cap ?: 0f,
                                             imageURI = coin.image,
                                             symbol = coin.symbol ?: "Unknown",
                                             price = coin.current_price ?: 0.0.toFloat(),
@@ -304,11 +324,12 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                         }
 
                     }
+
                     else -> {
                         val walletIndex = tabState - 1
                         if (walletIndex in walletList.indices) {
                             val walletName = walletList[walletIndex]
-                            WalletDetailsScreen(walletName, currency,viewModel)
+                            WalletDetailsScreen(walletName, currency, viewModel)
                         } else {
                             Text(text = "Invalid wallet index")
                         }

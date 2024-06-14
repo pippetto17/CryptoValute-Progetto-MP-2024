@@ -96,12 +96,11 @@ fun TrendingScreen(
                     shortTrendingCoins ?: emptyList()
                 ) { coin ->
                     TrendingCoinItem(
-                        prefCurrency = prefCurrency,
                         rank = coin.item.market_cap_rank.toString(),
                         imageURI = coin.item.large,
                         name = coin.item.name,
                         symbol = coin.item.symbol,
-                        price = coin.item.price_btc.toFloat(),
+                        price = coin.item.data.price.toFloat(),
                         marketCap = coin.item.data.market_cap,
                         priceChangePercentage24h = coin.item.score.toFloat(),
                         onClick = {
@@ -135,12 +134,11 @@ fun TrendingScreen(
                         trendingCoins ?: emptyList()
                     ) { coin ->
                         TrendingCoinItem(
-                            prefCurrency = prefCurrency,
                             rank = coin.item.market_cap_rank.toString(),
                             imageURI = coin.item.large,
                             name = coin.item.name,
                             symbol = coin.item.symbol,
-                            price = coin.item.price_btc.toFloat(),
+                            price = coin.item.data.price.toFloat(),
                             marketCap = coin.item.data.market_cap,
                             priceChangePercentage24h = coin.item.score.toFloat(),
                             onClick = {

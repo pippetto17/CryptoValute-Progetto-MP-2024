@@ -55,6 +55,7 @@ import it.magi.stonks.activities.apiKey
 import it.magi.stonks.composables.CustomTopAppBar
 import it.magi.stonks.composables.NewWalletDialog
 import it.magi.stonks.composables.SignButton
+import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.GreenStock
 import it.magi.stonks.ui.theme.RedStock
@@ -116,9 +117,9 @@ fun BuyCoinScreen(
         containerColor = FormContainerColor
     ) { innerPadding ->
         if (showSuccesAnimation) {
-            val composition by rememberLottieComposition(spec=LottieCompositionSpec.RawRes(R.raw.added_to_wallet_animation))
-            Dialog (onDismissRequest = {showSuccesAnimation=false}){
-                LottieAnimation(composition = composition,iterations = 1)
+            val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.added_to_wallet_animation))
+            Dialog(onDismissRequest = { showSuccesAnimation = false }) {
+                LottieAnimation(composition = composition, iterations = 1)
 
             }
         }
@@ -147,7 +148,7 @@ fun BuyCoinScreen(
                         fontFamily = titleFont(),
                         textAlign = TextAlign.Center
                     )
-                    Text(text=walletState.value[selectedWallet], color = Color.White)
+                    Text(text = walletState.value[selectedWallet], color = Color.White)
                     Spacer(modifier = Modifier.height(20.dp))
                     LazyColumn {
                         items(walletState.value.size) {
@@ -209,10 +210,11 @@ fun BuyCoinScreen(
                                 FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/"),
                                 walletState.value[selectedWallet],
                                 coinId,
-                                Utilities().convertScientificToDecimal(quantityState.value).toString(),
+                                Utilities().convertScientificToDecimal(quantityState.value)
+                                    .toString(),
                             )
                             showBottomSheet = false
-                            showSuccesAnimation=true
+                            showSuccesAnimation = true
 
                         }) {
                             Text(text = "Confirm")
@@ -332,7 +334,10 @@ fun BuyCoinScreen(
                     },
                     text = "buy",
                     textSize = 15.sp,
-                    colors = ButtonDefaults.buttonColors(containerColor = RedStock)
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = RedStock,
+                        contentColor = DarkBgColor
+                    )
                 )
             }
         }

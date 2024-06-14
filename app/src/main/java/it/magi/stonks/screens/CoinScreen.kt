@@ -32,6 +32,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,6 +42,8 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import it.magi.stonks.R
 import it.magi.stonks.composables.CustomTopAppBar
+import it.magi.stonks.composables.LineChart
+import it.magi.stonks.composables.OtherDropDown
 import it.magi.stonks.composables.SignButton
 import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.FormContainerColor
@@ -50,6 +53,9 @@ import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.StonksViewModel
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.TimeZone
 
 @Composable
 fun CoinScreen(
@@ -76,17 +82,7 @@ fun CoinScreen(
     val matchResult = regex.find(coin?.image ?: "")
     val currencyImageNumber = matchResult?.groupValues?.get(1)?.toIntOrNull()
 
-    //API Request della coinMarketChart
-    viewModel.coinMarketChartDataById(
-        apiKey,
-        coinId,
-        currency,
-        7
-    )
-
-    val chartData = viewModel.getCoinMarketChart().observeAsState().value?.prices
-
-    class Coin{
+    class Coin {
         val name = coin?.name ?: ""
         val symbols = coin?.symbol?.uppercase() ?: ""
         val sparkLineURI = "https://www.coingecko.com/coins/$currencyImageNumber/sparkline.svg"
@@ -102,6 +98,47 @@ fun CoinScreen(
         val high_24h = coin?.high_24h ?: 0.0f
         val low_24h = coin?.low_24h ?: 0.0f
     }
+
+    //API Request della coinMarketChart
+    viewModel.coinMarketChartDataById(
+        apiKey,
+        coinId,
+        currency,
+        7
+    )
+
+    val chartData = viewModel.getCoinMarketChart().observeAsState().value?.prices
+
+    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault())
+    sdf.timeZone = TimeZone.getTimeZone("Europe/Rome") // Imposta il fuso orario di Roma
+
+    chartData?.forEach { tuple ->
+        val milliseconds = tuple.get(0)
+        val date = milliseconds.let { Date(it.toLong()) }
+        val formattedDate = date.let { sdf.format(it) }
+        println("Timestamp corrispondente: $formattedDate")
+    }
+
+
+//    val listOfPairs: List<Pair<Int, Double>> = chartData?.mapNotNull {
+//        if (it.size == 2) Pair(it[0].toInt(), it[1]) else null
+//    } ?: emptyList()
+//
+//    val pairs = listOf(
+//        Pair(1, 1.5),
+//        Pair(2, 1.75),
+//        Pair(3, 3.45),
+//        Pair(4, 2.25),
+//        Pair(5, 6.45),
+//        Pair(6, 3.35),
+//        Pair(7, 8.65),
+//        Pair(8, 0.15),
+//        Pair(9, 3.05),
+//        Pair(10, 4.25)
+//    )
+//
+//    Log.d("listOfPairs", listOfPairs.toString())
+//    Log.d("pairs", pairs.toString())
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -138,13 +175,8 @@ fun CoinScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier = Modifier.fillMaxWidth(),
                     ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(0.5f),
                         ) {
                             AsyncImage(
                                 model = Coin().image,
@@ -176,165 +208,169 @@ fun CoinScreen(
                             modifier = Modifier.fillMaxWidth(0.5f),
                         ) {
                             Text(
-                                text = Coin().priceInMyCurrency,
+                                text = Coin().name,
                                 color = Color.White,
-                                fontSize = 10.sp,
+                                fontFamily = titleFont(),
+                                fontSize = 20.sp
                             )
                             Text(
-                                text = currency,
-                                color = Color.White,
-                                fontStyle = FontStyle.Italic,
-                                fontSize = 10.sp,
-                                modifier = Modifier.padding(start = 5.dp)
+                                text = Coin().symbols,
+                                color = Color.LightGray,
+                                fontFamily = titleFont(),
+                                fontSize = 20.sp
                             )
                         }
                     }
-                    Spacer(modifier = Modifier.height(30.dp))
-                    Card(
-                        shape = RoundedCornerShape(15.dp),
-                        border = BorderStroke(1.dp, RedStock),
-                        colors = CardDefaults.cardColors(
-                            containerColor = DarkBgColor
-                        ),
-                        modifier = Modifier
-                            .padding(bottom = 40.dp)
-                            .fillMaxWidth()
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
                     ) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(Coin().sparkLineURI)
-                                .decoderFactory(SvgDecoder.Factory())
-                                .build(),
-                            contentDescription = "sparkLine",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(250.dp)
+                        Text(
+                            text = Coin().priceInMyCurrency,
+                            color = Color.White,
+                            fontFamily = titleFont(),
+                            fontSize = 20.sp,
+                        )
+                        Text(
+                            text = currency,
+                            color = Color.White,
+                            fontStyle = FontStyle.Italic,
+                            fontFamily = titleFont(),
+                            fontSize = 20.sp,
+                            modifier = Modifier.padding(start = 5.dp)
                         )
                     }
-                    Spacer(modifier = Modifier.height(30.dp))
-                    Card(
-                        shape = RoundedCornerShape(15.dp),
-                        border = BorderStroke(1.dp, GreenStock),
-                        colors = CardDefaults.cardColors(
-                            containerColor = DarkBgColor
-                        ),
+                }
+                Spacer(modifier = Modifier.height(30.dp))
+//                    LineChart(
+//                        data = listOfPairs,
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .height(300.dp)
+//                            .align(Alignment.CenterHorizontally)
+//                    )
+                Spacer(modifier = Modifier.height(30.dp))
+                Card(
+                    shape = RoundedCornerShape(15.dp),
+                    border = BorderStroke(1.dp, GreenStock),
+                    colors = CardDefaults.cardColors(
+                        containerColor = DarkBgColor
+                    ),
+                    modifier = Modifier
+                        .padding(bottom = 40.dp)
+                        .fillMaxWidth()
+                ) {
+                    Column(
                         modifier = Modifier
-                            .padding(bottom = 40.dp)
                             .fillMaxWidth()
+                            .padding(10.dp)
                     ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(10.dp)
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
                         ) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                TextField(
-                                    value = "Name",
-                                    modifier = Modifier.fillMaxWidth(0.3f),
-                                    onValueChange = {},
-                                    readOnly = true,
-                                    enabled = false,
-                                    textStyle = TextStyle(
-                                        color = Color.White,
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 14.sp
-                                    ),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        unfocusedContainerColor = Color.Transparent
-                                    )
+                            TextField(
+                                value = "Name",
+                                modifier = Modifier.fillMaxWidth(0.3f),
+                                onValueChange = {},
+                                readOnly = true,
+                                enabled = false,
+                                textStyle = TextStyle(
+                                    color = Color.White,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 14.sp
+                                ),
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    unfocusedContainerColor = Color.Transparent
                                 )
-                                TextField(
-                                    value = Utilities().getAccountName().uppercase(),
-                                    modifier = Modifier.fillMaxWidth(1f),
-                                    onValueChange = {},
-                                    readOnly = true,
-                                    enabled = false,
-                                    textStyle = TextStyle(
-                                        textAlign = TextAlign.End,
-                                        fontSize = 14.sp
-                                    ),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        unfocusedContainerColor = Color.Transparent
-                                    )
+                            )
+                            TextField(
+                                value = Utilities().getAccountName().uppercase(),
+                                modifier = Modifier.fillMaxWidth(1f),
+                                onValueChange = {},
+                                readOnly = true,
+                                enabled = false,
+                                textStyle = TextStyle(
+                                    textAlign = TextAlign.End,
+                                    fontSize = 14.sp
+                                ),
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    unfocusedContainerColor = Color.Transparent
                                 )
-                            }
-                            Row(
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                TextField(
-                                    value = "Surname",
-                                    modifier = Modifier.fillMaxWidth(0.4f),
-                                    onValueChange = {},
-                                    readOnly = true,
-                                    enabled = false,
-                                    textStyle = TextStyle(
-                                        color = Color.White,
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 14.sp
-                                    ),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        unfocusedContainerColor = Color.Transparent
-                                    )
+                            )
+                        }
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            TextField(
+                                value = "Surname",
+                                modifier = Modifier.fillMaxWidth(0.4f),
+                                onValueChange = {},
+                                readOnly = true,
+                                enabled = false,
+                                textStyle = TextStyle(
+                                    color = Color.White,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 14.sp
+                                ),
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    unfocusedContainerColor = Color.Transparent
                                 )
-                                TextField(
-                                    value = Utilities().getAccountSurname().uppercase(),
-                                    modifier = Modifier.fillMaxWidth(1f),
-                                    onValueChange = {},
-                                    readOnly = true,
-                                    enabled = false,
-                                    textStyle = TextStyle(
-                                        textAlign = TextAlign.End,
-                                        fontSize = 14.sp
-                                    ),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        unfocusedContainerColor = Color.Transparent
-                                    )
+                            )
+                            TextField(
+                                value = Utilities().getAccountSurname().uppercase(),
+                                modifier = Modifier.fillMaxWidth(1f),
+                                onValueChange = {},
+                                readOnly = true,
+                                enabled = false,
+                                textStyle = TextStyle(
+                                    textAlign = TextAlign.End,
+                                    fontSize = 14.sp
+                                ),
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    unfocusedContainerColor = Color.Transparent
                                 )
-                            }
-                            Row(
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                TextField(
-                                    value = "Email",
-                                    modifier = Modifier.fillMaxWidth(0.25f),
-                                    onValueChange = {},
-                                    readOnly = true,
-                                    enabled = false,
-                                    textStyle = TextStyle(
-                                        color = Color.White,
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 14.sp
-                                    ),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        unfocusedContainerColor = Color.Transparent
-                                    )
+                            )
+                        }
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            TextField(
+                                value = "Email",
+                                modifier = Modifier.fillMaxWidth(0.25f),
+                                onValueChange = {},
+                                readOnly = true,
+                                enabled = false,
+                                textStyle = TextStyle(
+                                    color = Color.White,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 14.sp
+                                ),
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    unfocusedContainerColor = Color.Transparent
                                 )
-                                TextField(
-                                    value = "gendoikari01@nerv.jp",
-                                    modifier = Modifier.fillMaxWidth(1f),
-                                    onValueChange = {},
-                                    readOnly = true,
-                                    enabled = false,
-                                    textStyle = TextStyle(
-                                        textAlign = TextAlign.End,
-                                        fontSize = 14.sp
-                                    ),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        unfocusedContainerColor = Color.Transparent
-                                    )
+                            )
+                            TextField(
+                                value = "gendoikari01@nerv.jp",
+                                modifier = Modifier.fillMaxWidth(1f),
+                                onValueChange = {},
+                                readOnly = true,
+                                enabled = false,
+                                textStyle = TextStyle(
+                                    textAlign = TextAlign.End,
+                                    fontSize = 14.sp
+                                ),
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    unfocusedContainerColor = Color.Transparent
                                 )
-                            }
+                            )
                         }
                     }
-                    Spacer(modifier = Modifier.height(120.dp))
                 }
-
+                Spacer(modifier = Modifier.height(120.dp))
             }
         }
     }
-
 }
 
 
