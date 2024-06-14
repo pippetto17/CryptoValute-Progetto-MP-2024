@@ -46,11 +46,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
-import com.airbnb.lottie.LottieComposition
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import it.magi.stonks.R
 import it.magi.stonks.activities.apiKey
@@ -84,7 +82,7 @@ fun BuyCoinScreen(
         viewModel.printResultCallback
     )
 
-    viewModel.getWalletList(
+    viewModel.getWalletsList(
         database = FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/"),
         viewModel.returnWalletListCallback
     )
@@ -324,7 +322,7 @@ fun BuyCoinScreen(
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
-                            viewModel.getWalletList(
+                            viewModel.getWalletsList(
                                 database = FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/"),
                                 viewModel.returnWalletListCallback
                             )

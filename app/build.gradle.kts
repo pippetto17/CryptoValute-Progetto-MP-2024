@@ -94,6 +94,8 @@ dependencies {
 
     //grafici
     implementation(libs.compose)
+    implementation(libs.androidx.media3.common)
+    implementation(libs.androidx.lifecycle.runtime.compose.android)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
