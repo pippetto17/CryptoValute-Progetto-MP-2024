@@ -1,8 +1,11 @@
 package it.magi.stonks.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -15,15 +18,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import it.magi.stonks.R
+import it.magi.stonks.composables.OtherTopAppBar
 import it.magi.stonks.composables.SignDivisor
+import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.SettingsViewModel
+import it.magi.stonks.viewmodels.StonksViewModel
 import kotlinx.coroutines.launch
 
 @Composable
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun OtherScreen(
     navController: NavController,
     viewModel: SettingsViewModel,
@@ -50,27 +58,38 @@ fun OtherScreen(
         )
     }
 
-    Column(
+    Scaffold (
         modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.Center
-    ) {
-        TextButton(onClick = {
-            navController.navigate("profile")
-        }) {
-            Text(text = "Profile Settings", color = Color.White)
-        }
-        SignDivisor()
-        TextButton(onClick = {
-            showDeleteDialog = true
-        }) {
-            Text(text = "Delete Account", color = Color.White)
-        }
-        SignDivisor()
-        TextButton(onClick = {
-            viewModel.logOut(context)
-        }) {
-            Text(text = "Logout", color = Color.White)
+        topBar = {
+            OtherTopAppBar(
+                navController = navController,
+            )
+        },
+        containerColor = FormContainerColor,
+        contentWindowInsets = WindowInsets(left = 0.dp, top = 0.dp, right = 0.dp, bottom = 0.dp),
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Center
+        ) {
+            TextButton(onClick = {
+                navController.navigate("profile")
+            }) {
+                Text(text = "Profile Settings", color = Color.White)
+            }
+            SignDivisor()
+            TextButton(onClick = {
+                showDeleteDialog = true
+            }) {
+                Text(text = "Delete Account", color = Color.White)
+            }
+            SignDivisor()
+            TextButton(onClick = {
+                viewModel.logOut(context)
+            }) {
+                Text(text = "Logout", color = Color.White)
+            }
         }
     }
 }

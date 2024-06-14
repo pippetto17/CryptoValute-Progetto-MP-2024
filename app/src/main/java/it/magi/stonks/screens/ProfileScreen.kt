@@ -86,7 +86,7 @@ fun ProfileScreen(navController: NavController, viewModel: SettingsViewModel) {
         },
         containerColor = FormContainerColor,
         contentWindowInsets = WindowInsets(left = 0.dp, top = 0.dp, right = 0.dp, bottom = 0.dp),
-    ) {innerPadding ->
+    ) { innerPadding ->
         Column(
             modifier = Modifier.fillMaxSize().padding(innerPadding),
             horizontalAlignment = CenterHorizontally,

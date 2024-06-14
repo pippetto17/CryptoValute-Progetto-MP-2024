@@ -104,3 +104,39 @@ fun CustomTopAppBar(
         )
     )
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun OtherTopAppBar(
+    modifier: Modifier = Modifier,
+    navController: NavController
+) {
+    CenterAlignedTopAppBar(
+        modifier = modifier,
+        navigationIcon = {},
+        title = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically),
+                    text = stringResource(R.string.app_name),
+                    fontFamily = titleFont()
+                )
+                Image(
+                    modifier = Modifier
+                        .size(35.dp)
+                        .padding(start = 10.dp),
+                    painter = painterResource(R.drawable.app_logo),
+                    contentDescription = stringResource(R.string.app_name) + " logo"
+                )
+            }
+        },
+        actions = {},
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = DarkBgColor,
+            titleContentColor = Color.White
+        )
+    )
+}

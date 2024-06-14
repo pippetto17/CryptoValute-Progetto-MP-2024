@@ -39,6 +39,7 @@ import it.magi.stonks.R
 import it.magi.stonks.activities.apiKey
 import it.magi.stonks.composables.CoinItem
 import it.magi.stonks.composables.CustomTopAppBar
+import it.magi.stonks.composables.OtherTopAppBar
 import it.magi.stonks.models.Coin
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.titleFont
@@ -55,7 +56,7 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
     var tabState by remember { mutableIntStateOf(0) }
     //values
     var walletList by remember { mutableStateOf(listOf<String>()) }
-    var allAccounCoins by remember { mutableStateOf("") }
+    var allAccountCoins by remember { mutableStateOf("") }
     var coinsList by remember { mutableStateOf<List<Coin>>(emptyList()) }
     //loading flags
     var isLoadingWalletList by remember { mutableStateOf(true) }
@@ -75,10 +76,8 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            CustomTopAppBar(
-                navController = navController,
-                viewModel = StonksViewModel(application = application),
-                isHome = false
+            OtherTopAppBar(
+                navController = navController
             )
         },
         containerColor = FormContainerColor,
@@ -240,10 +239,10 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                             Spacer(modifier = Modifier.height(10.dp))
                             viewModel.getAllCoinsFromAllWallets(database) {
                                 Log.d("WalletScreen", "getAllCoinsIdFromWallets: $it")
-                                allAccounCoins = it
+                                allAccountCoins = it
                                 isLoadingAccountCoinsList = false
                             }
-                            viewModel.filterCoinsApiRequest(apiKey, currency, allAccounCoins) {
+                            viewModel.filterCoinsApiRequest(apiKey, currency, allAccountCoins) {
                                 coinsList = it
                                 isLoadingCoinsDatas = false
                             }

@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import it.magi.stonks.composables.CustomScrollableTabRow
 import it.magi.stonks.composables.CustomTopAppBar
+import it.magi.stonks.composables.OtherTopAppBar
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.viewmodels.StonksViewModel
 
@@ -28,7 +29,10 @@ fun HomeScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            CustomTopAppBar(navController = navController, viewModel = viewModel)
+            if (tabState != 1)
+                OtherTopAppBar(navController = navController)
+            else
+                CustomTopAppBar(navController = navController, viewModel = viewModel)
         },
         containerColor = FormContainerColor,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),

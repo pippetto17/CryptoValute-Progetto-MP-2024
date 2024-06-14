@@ -159,6 +159,17 @@ class Utilities {
     fun convertScientificToDecimal(scientificNumber: String): Double {
         return scientificNumber.toDouble()
     }
+
+    fun isFirstRun(context: Context): Boolean {
+        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val isFirstRun = sharedPreferences.getBoolean("first_run", true)
+
+        if (isFirstRun) {
+            sharedPreferences.edit().putBoolean("first_run", false).apply()
+        }
+
+        return isFirstRun
+    }
 }
 
 class DecimalFormatter(
