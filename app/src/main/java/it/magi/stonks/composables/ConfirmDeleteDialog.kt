@@ -19,7 +19,7 @@ fun ConfirmDeleteDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        title = { Text("Delete Account") },
+        title = { Text(stringResource(R.string.confirm_delete_dialog_title)) },
         text = { Text(text = stringResource(id = R.string.confirm_delete_account_text)) },
         dismissButton = {
             Button(

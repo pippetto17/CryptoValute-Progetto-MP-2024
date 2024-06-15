@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -153,7 +154,7 @@ fun CoinScreen(
         floatingActionButton = {
             SignButton(
                 onclick = { navController.navigate("buycoin/$coinId") },
-                text = "Add to Wallet"
+                text = stringResource(id = R.string.coin_screen_add_to_wallet)
             )
         },
         floatingActionButtonPosition = FabPosition.Center,
@@ -253,7 +254,7 @@ fun CoinScreen(
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             TextField(
-                                value = "Name",
+                                value = stringResource(id = R.string.name),
                                 modifier = Modifier.fillMaxWidth(0.3f),
                                 onValueChange = {},
                                 readOnly = true,
@@ -286,7 +287,7 @@ fun CoinScreen(
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             TextField(
-                                value = "Surname",
+                                value = stringResource(id = R.string.surname),
                                 modifier = Modifier.fillMaxWidth(0.4f),
                                 onValueChange = {},
                                 readOnly = true,
@@ -319,7 +320,7 @@ fun CoinScreen(
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             TextField(
-                                value = "Email",
+                                value = stringResource(id = R.string.email),
                                 modifier = Modifier.fillMaxWidth(0.25f),
                                 onValueChange = {},
                                 readOnly = true,

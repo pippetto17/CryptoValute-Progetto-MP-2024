@@ -17,10 +17,10 @@ import it.magi.stonks.composables.NFTItem
 import it.magi.stonks.viewmodels.StonksViewModel
 
 @Composable
-fun NFTScreen(viewModel: StonksViewModel) {
+fun NFTScreen(viewModel: StonksViewModel, currency: String) {
     val context = LocalContext.current
     val apiKey = stringResource(R.string.api_key)
-    val currency = "usd"
+    val currency = currency
     Log.d("CryptoScreen", "currency preference: $currency")
     viewModel.NFtsApiRequest(
         apiKey = apiKey

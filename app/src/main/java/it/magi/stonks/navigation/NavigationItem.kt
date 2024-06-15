@@ -1,5 +1,7 @@
 package it.magi.stonks.navigation
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.ui.graphics.vector.ImageVector
 import it.magi.stonks.R
 
@@ -11,5 +13,5 @@ sealed class NavigationItem(var route: String, val icon: NavigationIcon, var tit
     data object Stonks : NavigationItem("stonks", ResourceIcon(R.drawable.ic_stock_chart), "Stonks")
     data object Wallet : NavigationItem("wallet", ResourceIcon(R.drawable.ic_wallet), "Wallet")
     data object News : NavigationItem("news", ResourceIcon(R.drawable.ic_newspaper), "News")
-    data object Settings : NavigationItem("settings", ResourceIcon(R.drawable.ic_settings_navigation), "Settings")
+    data object Account : NavigationItem("profile", ImageVectorIcon(Icons.Filled.AccountCircle), "Account")
 }

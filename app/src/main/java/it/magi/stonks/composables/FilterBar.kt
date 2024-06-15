@@ -13,9 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import it.magi.stonks.R
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.viewmodels.StonksViewModel
 
@@ -37,7 +39,7 @@ fun FilterBar(
         shape = RoundedCornerShape(10.dp),
         placeholder = {
             Text(
-                text = "Filter like: bitcoin ethereum...",
+                text = stringResource(R.string.filter_bar_default_string),
             )
         },
         singleLine = true,

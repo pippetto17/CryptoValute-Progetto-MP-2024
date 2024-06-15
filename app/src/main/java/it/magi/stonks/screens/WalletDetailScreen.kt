@@ -125,7 +125,7 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp
             )
-            Text(text = "Avaliable balance", color = Color.White)
+            Text(text = stringResource(R.string.wallet_detail_screen_available_balance), color = Color.White)
         }
         if (isCoinListLoading) {
             CircularProgressIndicator()

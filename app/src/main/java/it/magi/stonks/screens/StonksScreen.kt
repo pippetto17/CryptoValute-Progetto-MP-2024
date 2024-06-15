@@ -59,7 +59,7 @@ fun HomeScreen(
                 }
 
                 2 -> {
-                    NFTScreen(viewModel)
+                    NFTScreen(viewModel, prefCurrency)
                 }
 
                 3 -> {

@@ -57,5 +57,35 @@
     <string name="signup_with_google_subtitle">with Google</string>
     <string name="filter">Filter</string>
     <string name="db_url">https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/</string>
+    <string name="profile_screen_your_information">Your information</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="email">Email</string>
+    <string name="profile_screen_button_logout">Logout</string>
+    <string name="profile_screen_button_delete_account">Delete Account</string>
+    <string name="confirm_delete_dialog_title">Delete Account</string>
+    <string name="confirm_email_dialog_title">Confirm Email</string>
+    <string name="dialog_new_wallet_name_placeholder">Insert new wallet name</string>
+    <string name="dialog_new_wallet_name_label">Wallet name</string>
+    <string name="dialog_new_wallet_name_create">Create</string>
+    <string name="filter_bar_default_string">Filter like: bitcoin ethereum...</string>
+    <string name="currency">Currency</string>
+    <string name="buy_coin_screen_choose_wallet">Choose a wallet to add this coin</string>
+    <string name="coin_screen_add_to_wallet">Add to Wallet</string>
+    <string name="crypto_list_screen_price_market_cap">Price\nMarket cap</string>
+    <string name="crypto_list_screen_trend">Trend</string>
+    <string name="crypto_list_screen_24_h">24 H</string>
+    <string name="login_screen_sign_up_for_free">Sign up for free</string>
+    <string name="onboarding_screen_button_next">Next</string>
+    <string name="onboarding_screen_button_previous">Previous</string>
+    <string name="onboarding_screen_button_get_started">Get Started</string>
+    <string name="trending_screen_subtitle_coins">Here are the trending coins today</string>
+    <string name="trending_screen_subtitle_nfts">And here are the trending NFTs</string>
+    <string name="wallet_detail_screen_available_balance">Available balance</string>
+    <string name="wallet_screen_value">"Value: "</string>
+    <string name="wallet_screen_coins">"Coins: "</string>
+    <string name="wallet_screen_stocks">"Stocks: "</string>
+    <string name="wallet_screen_your_coins">Your coins</string>
+    <string name="wallet_screen_invalid">Invalid wallet index</string>
 
 </resources>

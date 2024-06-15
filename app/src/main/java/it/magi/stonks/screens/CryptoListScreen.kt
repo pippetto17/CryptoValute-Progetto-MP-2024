@@ -27,11 +27,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import it.magi.stonks.R
 import it.magi.stonks.activities.apiKey
 import it.magi.stonks.composables.CoinItem
 import it.magi.stonks.ui.theme.CoinContainerColor
@@ -90,7 +92,7 @@ fun CryptoListScreen(
                 )
             }
             Text(
-                "Currency",
+                text = stringResource(id = R.string.currency),
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
@@ -99,7 +101,7 @@ fun CryptoListScreen(
                     .width(70.dp)
             )
             Text(
-                "Price\nMarket cap",
+                stringResource(R.string.crypto_list_screen_price_market_cap),
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
@@ -109,7 +111,7 @@ fun CryptoListScreen(
                     .width(100.dp)
             )
             Text(
-                "Trend",
+                stringResource(R.string.crypto_list_screen_trend),
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
@@ -119,7 +121,7 @@ fun CryptoListScreen(
                     .padding(start = 10.dp, end = 10.dp)
             )
             Text(
-                "24 H",
+                stringResource(R.string.crypto_list_screen_24_h),
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,

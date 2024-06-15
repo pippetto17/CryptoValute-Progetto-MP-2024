@@ -215,12 +215,12 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                                         .padding(start = 15.dp)
                                                 ) {
                                                     Text(
-                                                        text = "VALUE: ",
+                                                        text = stringResource(id = R.string.wallet_screen_value).uppercase(),
                                                         color = Color.White,
                                                         fontSize = 15.sp
                                                     )
                                                     Text(
-                                                        text = totalValue.toString() + currency.uppercase(),
+                                                        text = totalValue.toString() + " " + currency.uppercase(),
                                                         color = Color.White,
                                                         fontSize = 15.sp
                                                     )
@@ -232,7 +232,7 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                                         .padding(start = 15.dp)
                                                 ) {
                                                     Text(
-                                                        text = "COINS: ",
+                                                        text = stringResource(id = R.string.wallet_screen_coins),
                                                         color = Color.White,
                                                         fontSize = 15.sp
                                                     )
@@ -249,7 +249,7 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                                         .padding(start = 15.dp)
                                                 ) {
                                                     Text(
-                                                        text = "STOCKS: ",
+                                                        text = stringResource(id = R.string.wallet_screen_stocks),
                                                         color = Color.White,
                                                         fontSize = 15.sp
                                                     )
@@ -295,7 +295,7 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                 CircularProgressIndicator()
                             } else {
                                 Text(
-                                    text = "Your coins",
+                                    text = stringResource(id = R.string.wallet_screen_your_coins),
                                     color = Color.White,
                                     fontFamily = titleFont(),
                                     fontSize = 20.sp
@@ -331,7 +331,7 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                             val walletName = walletList[walletIndex]
                             WalletDetailsScreen(walletName, currency, viewModel)
                         } else {
-                            Text(text = "Invalid wallet index")
+                            Text(text = stringResource(id = R.string.wallet_screen_invalid))
                         }
                     }
                 }

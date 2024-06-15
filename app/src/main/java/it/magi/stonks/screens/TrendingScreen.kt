@@ -22,9 +22,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import it.magi.stonks.R
 import it.magi.stonks.activities.apiKey
 import it.magi.stonks.composables.TrendingCoinItem
 import it.magi.stonks.composables.TrendingNFTItem
@@ -83,7 +85,7 @@ fun TrendingScreen(
         )
         if (!expandedNFt) {
             Text(
-                "Here are the trending coins today",
+                stringResource(R.string.trending_screen_subtitle_coins),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 20.dp, start = 10.dp, end = 10.dp),
@@ -150,10 +152,10 @@ fun TrendingScreen(
             }
         }
         Text(
-            "And here are the trending NFTs",
+            stringResource(R.string.trending_screen_subtitle_nfts),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top= 30.dp, start = 10.dp, end = 10.dp),
+                .padding(top = 30.dp, start = 10.dp, end = 10.dp),
             color = Color.White,
             fontSize = 15.sp,
             fontFamily = titleFont()

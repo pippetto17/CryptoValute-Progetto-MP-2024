@@ -46,8 +46,8 @@ fun NewWalletDialog(
                     onValueChange = {
                         viewModel._newWalletName.value = it
                     },
-                    placeholder = { Text("Insert new wallet name") },
-                    label = { Text("Wallet name") })
+                    placeholder = { Text(stringResource(R.string.dialog_new_wallet_name_placeholder)) },
+                    label = { Text(stringResource(R.string.dialog_new_wallet_name_label)) })
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -61,7 +61,7 @@ fun NewWalletDialog(
                     }
                     onDismissRequest()
                 }) {
-                    Text("Create")
+                    Text(stringResource(R.string.dialog_new_wallet_name_create))
                     viewModel.getWalletsList(
                         database = FirebaseDatabase.getInstance("https://criptovalute-b1e06-default-rtdb.europe-west1.firebasedatabase.app/"),
                         viewModel.returnWalletListCallback

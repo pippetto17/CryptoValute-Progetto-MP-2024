@@ -27,11 +27,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import it.magi.stonks.R
 import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.viewmodels.SettingsViewModel
 
@@ -65,7 +67,7 @@ fun OtherDropDown(
         ) {
             Row {
                 TextField(
-                    value = "Currency",
+                    value = stringResource(R.string.currency),
                     modifier = Modifier.fillMaxWidth(0.6f),
                     onValueChange = {},
                     readOnly = true,

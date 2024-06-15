@@ -21,7 +21,7 @@ fun ConfirmEmailDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        title = { Text("Confirm Email") },
+        title = { Text(stringResource(R.string.confirm_email_dialog_title)) },
         text = { Text(text = stringResource(id = R.string.email_sent_dialog_text)) },
         dismissButton = {
             Button(

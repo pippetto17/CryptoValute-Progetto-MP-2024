@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import it.magi.stonks.R
@@ -54,7 +55,7 @@ fun FirstOnBoarding(navController: NavController) {
                     navController.navigate("onboarding2")
                 }) {
                     Text(
-                        text = "Next",
+                        text = stringResource(R.string.onboarding_screen_button_next),
                         color = Color.White
                     )
                 }
@@ -94,7 +95,7 @@ fun SecondOnBoarding(navController: NavController) {
                     navController.navigate("onboarding1")
                 }) {
                     Text(
-                        text = "Previous",
+                        text = stringResource(R.string.onboarding_screen_button_previous),
                         color = Color(0xFF566286)
                     )
                 }
@@ -102,7 +103,7 @@ fun SecondOnBoarding(navController: NavController) {
                     navController.navigate("onboarding3")
                 }) {
                     Text(
-                        text = "Next",
+                        text = stringResource(R.string.onboarding_screen_button_next),
                         color = Color(0xFF566286)
                     )
                 }
@@ -142,7 +143,7 @@ fun ThirdOnBoarding(navController: NavController) {
                     navController.navigate("onboarding2")
                 }) {
                     Text(
-                        text = "Previous",
+                        text = stringResource(R.string.onboarding_screen_button_previous),
                         color = Color(0xFF566286)
                     )
                 }
@@ -150,7 +151,7 @@ fun ThirdOnBoarding(navController: NavController) {
                     navController.navigate("onboarding4")
                 }) {
                     Text(
-                        text = "Next",
+                        text = stringResource(R.string.onboarding_screen_button_next),
                         color = Color(0xFF566286)
                     )
                 }
@@ -190,7 +191,7 @@ fun FourthOnBoarding(navController: NavController) {
                     navController.navigate("onboarding3")
                 }) {
                     Text(
-                        text = "Previous",
+                        text = stringResource(R.string.onboarding_screen_button_previous),
                         color = Color(0xFF566286)
                     )
                 }
@@ -198,7 +199,7 @@ fun FourthOnBoarding(navController: NavController) {
                     navController.navigate("onboarding5")
                 }) {
                     Text(
-                        text = "Next",
+                        text = stringResource(R.string.onboarding_screen_button_next),
                         color = Color(0xFF566286)
                     )
                 }
@@ -238,7 +239,7 @@ fun FifthOnBoarding(navController: NavController) {
                     navController.navigate("onboarding4")
                 }) {
                     Text(
-                        text = "Previous",
+                        text = stringResource(R.string.onboarding_screen_button_previous),
                         color = Color(0xFF566286)
                     )
                 }
@@ -246,7 +247,7 @@ fun FifthOnBoarding(navController: NavController) {
                     navController.navigate("onboarding6")
                 }) {
                     Text(
-                        text = "Next",
+                        text = stringResource(R.string.onboarding_screen_button_next),
                         color = Color(0xFF566286)
                     )
                 }
@@ -286,7 +287,7 @@ fun SixthOnBoarding(navController: NavController) {
                     navController.navigate("onboarding5")
                 }) {
                     Text(
-                        text = "Previous",
+                        text = stringResource(R.string.onboarding_screen_button_previous),
                         color = Color(0xFF566286)
                     )
                 }
@@ -294,7 +295,7 @@ fun SixthOnBoarding(navController: NavController) {
                     navController.navigate("login")
                 }) {
                     Text(
-                        text = "Get Started",
+                        text = stringResource(R.string.onboarding_screen_button_get_started),
                         color = Color(0xFF566286)
                     )
                 }

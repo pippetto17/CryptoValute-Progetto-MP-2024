@@ -157,7 +157,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(40.dp))
             SignButton(
                 onclick = { navController.navigate("registration") },
-                text = "Sign up for free",
+                text = stringResource(R.string.login_screen_sign_up_for_free),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = RedStock,
                     contentColor = DarkBgColor
