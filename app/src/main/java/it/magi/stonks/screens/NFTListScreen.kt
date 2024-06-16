@@ -18,9 +18,9 @@ import it.magi.stonks.composables.NFTItem
 import it.magi.stonks.viewmodels.StonksViewModel
 
 @Composable
-fun NFTListScreen(navController: NavController, viewModel: StonksViewModel, currency: String) {
+fun NFTListScreen(navController: NavController, viewModel: StonksViewModel, prefCurrency: String) {
     val apiKey = stringResource(R.string.api_key)
-    Log.d("CryptoScreen", "currency preference: $currency")
+    Log.d("CryptoScreen", "currency preference: $prefCurrency")
     viewModel.NFtsApiRequest(
         apiKey = apiKey
     )
@@ -34,8 +34,8 @@ fun NFTListScreen(navController: NavController, viewModel: StonksViewModel, curr
         LazyColumn {
             items(nfts.value ?: emptyList()) { nft ->
                 NFTItem(
-                    name = nft.name,
                     symbol = nft.symbol,
+                    name = nft.name,
                     onClick = {navController.navigate("nft/${nft.id}")}
                 )
             }

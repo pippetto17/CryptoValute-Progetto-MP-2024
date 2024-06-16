@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -13,8 +12,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,7 +24,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
@@ -38,18 +34,19 @@ import it.magi.stonks.ui.theme.RedStock
 import it.magi.stonks.utilities.Utilities
 
 @Composable
-fun NFTItem(
-    symbol: String,
+fun ExchangeItem(
+    modifier: Modifier = Modifier,
     name: String,
-    onClick: () -> Unit
+    rank: String,
+    id: String,
+    imageURI: String?,
+    price: Float,
+    trust: Int,
 ) {
     Card(
-        Modifier
+        modifier
             .fillMaxWidth()
-            .padding(5.dp)
-            .clickable {
-                onClick()
-            },
+            .padding(5.dp),
         colors = CardDefaults.cardColors(
             containerColor = CoinContainerColor
         )
@@ -58,9 +55,16 @@ fun NFTItem(
             modifier = Modifier
                 .padding(5.dp)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            Text(
+                modifier = Modifier.width(50.dp),
+                textAlign = TextAlign.Center,
+                text = rank,
+                fontSize = 15.sp,
+                color = Color.White
+            )
             Box(
                 modifier = Modifier
                     .width(70.dp),
@@ -73,15 +77,21 @@ fun NFTItem(
                         .width(50.dp)
                         .wrapContentHeight()
                 ) {
-                    Text(
-                        text = symbol.uppercase(),
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
+                    AsyncImage(
+                        model = imageURI,
+                        contentDescription = "exchangeImage",
+                        placeholder = painterResource(R.drawable.star_coin),
+                        modifier = Modifier.size(25.dp)
                     )
                 }
             }
-            Spacer(modifier = Modifier.width(70.dp))
+            Text(
+                modifier = Modifier.width(90.dp),
+                textAlign = TextAlign.Center,
+                text = name,
+                fontSize = 13.sp,
+                color = Color.White
+            )
             Column(
                 modifier = Modifier.width(100.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -90,16 +100,27 @@ fun NFTItem(
                 Row(
                     modifier = Modifier
                         .width(100.dp),
-                    horizontalArrangement = Arrangement.Center
+                    horizontalArrangement = Arrangement.End
                 ) {
                     Text(
-                        text = name,
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Bold,
+                        text = price.toString(),
+                        fontSize = 12.sp,
                         color = Color.White
                     )
                 }
             }
+            Text(
+                modifier = Modifier
+                    .width(70.dp),
+                text = "$trust/10",
+                fontSize = 15.sp,
+                textAlign = TextAlign.Center,
+                color = when (trust) {
+                    in 7..10 -> GreenStock
+                    in 5..6 -> Color.Yellow
+                    else -> RedStock
+                }
+            )
         }
     }
 }

@@ -9,8 +9,8 @@ data class Exchange (
     val url: String,
     val image: String,
     val hasTradingIncentive: Boolean,
-    val trustScore: Float,
-    val trustScoreRank: Float,
-    val tradeVolume24hBtc: Float,
-    val tradeVolume24hBtcNormalized: Float
+    val trust_score: Int,
+    val trust_score_rank: Int,
+    val trade_volume_24h_btc: Float,
+    val trade_volume_24h_btc_normalized: Float
 )

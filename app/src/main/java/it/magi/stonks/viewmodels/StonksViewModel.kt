@@ -48,6 +48,14 @@ class StonksViewModel(application: Application) : AndroidViewModel(application) 
         return trendingList
     }
 
+    fun getExchangesList(): LiveData<List<Exchange>> {
+        return exchangesList
+    }
+
+    fun getExchangeData(): LiveData<ExchangeData> {
+        return exchangeData
+    }
+
     fun getCoinsList(): LiveData<List<Coin>> {
         Log.d("API", "getCoinsList: ${coinsList.value}")
         return coinsList
