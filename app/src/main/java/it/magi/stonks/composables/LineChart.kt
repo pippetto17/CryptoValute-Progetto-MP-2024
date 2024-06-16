@@ -1,14 +1,18 @@
 package it.magi.stonks.composables
 
 import android.graphics.Paint.Align
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -26,24 +30,28 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlin.math.round
 import kotlin.math.roundToInt
-
+import kotlin.math.roundToLong
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ShowLineChartPreview() {
     val chartData = listOf(
-        Pair(1, 1.5),
-        Pair(2, 1.75),
-        Pair(3, 3.45),
-        Pair(4, 2.25),
-        Pair(5, 6.45),
-        Pair(6, 3.35),
-        Pair(7, 8.65),
-        Pair(8, 0.15),
-        Pair(9, 3.05),
-        Pair(10, 4.25)
+        Pair(1.0, 1.5),
+        Pair(2.0, 1.75),
+        Pair(3.0, 3.45),
+        Pair(4.0, 2.25),
+        Pair(5.0, 6.45),
+        Pair(6.0, 3.35),
+        Pair(7.0, 8.65),
+        Pair(8.0, 0.15),
+        Pair(9.0, 3.05),
+        Pair(10.0, 4.25)
     )
 
     Column(
@@ -65,14 +73,15 @@ fun ShowLineChartPreview() {
 
 @Composable
 fun LineChart(
-    data: List<Pair<Int, Double>> = emptyList(),
+    data: List<Pair<Double, Double>> = emptyList(),
     modifier: Modifier = Modifier
 ) {
     val spacingFromLeft = 80f
     val graphColor = Color.Green   //color for your graph
     val transparentGraphColor = remember { graphColor.copy(alpha = 0.5f) }
-    val upperValue = remember { (data.maxOfOrNull { it.second }?.plus(1))?.roundToInt() ?: 0 }
-    val lowerValue = remember { (data.minOfOrNull { it.second }?.toInt() ?: 0) }
+    val upperValue = remember(data) { data.maxOfOrNull { it.second } ?: 0.0 }
+    val lowerValue = remember(data) { data.minOfOrNull { it.second } ?: 0.0 }
+    val percentageFormat = DecimalFormat("0.000")
     val density = LocalDensity.current
 
     //paint for the text shown in data values
@@ -81,13 +90,16 @@ fun LineChart(
     textPaint.textAlign = Align.CENTER
     textPaint.textSize = density.run { 12.sp.toPx() }
 
+
     Canvas(modifier = modifier) {
         val spacePerData = (size.width - spacingFromLeft) / data.size
 
         //loop through each index by step of 1
         //data shown horizontally
         (data.indices step 1).forEach { i ->
-            val hour = data[i].first
+            val date = Date(data[i].first.toLong())
+            val format = SimpleDateFormat("HH", Locale.getDefault())
+            val hour = format.format(date)
             drawContext.canvas.nativeCanvas.apply {
                 drawText(
                     hour.toString(),
@@ -100,11 +112,19 @@ fun LineChart(
 
         val priceStep = (upperValue - lowerValue) / 5f
         //data shown vertically
-        (0..4).forEach { i ->
+        (data.indices step 1).forEach { i ->
             drawContext.canvas.nativeCanvas.apply {
+
                 drawText(
-                    round(lowerValue + priceStep * i).toString(),
-                    30f,
+                   when (i) {
+                        0 -> "0.0"
+                        1 -> percentageFormat.format((upperValue / 4)).toString()
+                        2 -> percentageFormat.format((upperValue / 3)).toString()
+                        3 -> percentageFormat.format((upperValue / 2)).toString()
+                        4 -> percentageFormat.format(upperValue).toString()
+                        else -> ""
+                    },
+                    40f,
                     size.height - spacingFromLeft - i * size.height / 5f,
                     textPaint
                 )
@@ -137,14 +157,18 @@ fun LineChart(
                 val info = data[i]
                 val x1 = spacingFromLeft + i * spacePerData
                 val y1 =
-                    (upperValue - info.second).toFloat() / upperValue * height - spacingFromLeft
+                    ((upperValue - info.second).toFloat() / upperValue * height - spacingFromLeft).toFloat()
 
                 if (i == 0) {
                     moveTo(x1, y1)
                 }
                 lineTo(x1, y1)
 
-                //drawCircle(color = Color.Black, radius = 5f, center = Offset(x1,y1)) //Uncomment it to see the end points
+                drawCircle(
+                    color = Color.Black,
+                    radius = 5f,
+                    center = Offset(x1, y1)
+                ) //Uncomment it to see the end points
             }
         }
 
@@ -158,22 +182,21 @@ fun LineChart(
 
                 val x1 = spacingFromLeft + i * spacePerData
                 val y1 =
-                    (upperValue - data[i].second).toFloat() / upperValue * height - spacingFromLeft
+                    height  - (height* (data[i].second / 5)).toFloat()
                 val x2 = spacingFromLeft + (i + 1) * spacePerData
                 val y2 =
-                    (upperValue - nextInfo.second).toFloat() / upperValue * height - spacingFromLeft
+                    (upperValue - nextInfo.second).toFloat() / upperValue * height
+                Log.d("LineChart","($x1 $y1) to  ($x2 $y2)")
                 if (i == 0) {
                     moveTo(x1, y1)
                 } else {
                     medX = (x1 + x2) / 2f
-                    medY = (y1 + y2) / 2f
+                    medY = (y1 + y2).toFloat() / 2f
                     quadraticBezierTo(x1 = x1, y1 = y1, x2 = medX, y2 = medY)
+                    Log.d("LineChart"," med ($x1 $y1) to  avg($medX $medY)")
 
                 }
 
-                //drawCircle(color = Color.White, radius = 5f, center = Offset(x1,y1))
-                //drawCircle(color = Color.Magenta, radius = 9f, center = Offset(medX,medY))
-                //drawCircle(color = Color.Blue, radius = 7f, center = Offset(x2,y2))  //Uncomment these to see the control Points
             }
         }
 
@@ -207,4 +230,6 @@ fun LineChart(
         )
 
     }
+
+
 }

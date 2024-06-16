@@ -14,18 +14,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import it.magi.stonks.R
 
 @Composable
 fun NFTItem(
     symbol: String,
     name: String,
+    onClick: () -> Unit
 ) {
     Card(
         Modifier
             .fillMaxWidth()
             .padding(5.dp)
-            .clickable {},
+            .clickable {
+                       onClick()
+            },
     ) {
         Row(
             modifier = Modifier

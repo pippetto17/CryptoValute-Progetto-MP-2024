@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -101,8 +102,6 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
             isCoinListLoading = false
         }
     }
-
-
     Text(
         text = walletName,
         fontFamily = titleFont(),
@@ -125,7 +124,10 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp
             )
-            Text(text = stringResource(R.string.wallet_detail_screen_available_balance), color = Color.White)
+            Text(
+                text = stringResource(R.string.wallet_detail_screen_available_balance),
+                color = Color.White
+            )
         }
         if (isCoinListLoading) {
             CircularProgressIndicator()
@@ -177,8 +179,67 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
                 PieChart(
                     data = Utilities().convertMapIntoPairs(coinsWithPriceList)
                 )
-            }
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    if (isWalletDatasLoading) {
+                        CircularProgressIndicator()
+                    } else {
+                        Log.d(
+                            "WalletScreen",
+                            "PieChart datas: ${Utilities().convertMapIntoPairs(coinsWithPriceList)}"
+                        )
+                        PieChart(
+                            data = Utilities().convertMapIntoPairs(coinsWithPriceList)
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                    }
+                }
+                /*Card() {
+                LazyColumn(
+                    modifier = Modifier
+                        .wrapContentHeight()
 
+                ) {
+                    items(walletCoins.size) { it ->
+                        val name = walletCoins.keys.elementAt(it)
+                        var coin by remember { mutableStateOf<List<Coin>>(emptyList()) }
+                        LaunchedEffect(walletName) {
+                            coin = emptyList()
+                            viewModel.filterCoinsApiRequest(apiKey, currency, name) {
+                                Log.d("WalletScreen", "Coin Lazy Column: $it")
+                                coin = it
+                                isCoinDatasLoading = false
+                            }
+                        }
+                        if (isCoinDatasLoading) {
+                            CircularProgressIndicator()
+                        } else {
+                            if (coin.isNotEmpty()) {
+                                Log.d(
+                                    "AIUT",
+                                    "Value: $name Coin to WalletCoinItem: ${coin[0].name}"
+                                )
+                                WalletCoinItem(
+                                    prefCurrency = currency,
+                                    id = name,
+                                    imageURI = coin[0].image,
+                                    name = walletCoins.keys.elementAt(it),
+                                    amount = walletCoins.values.elementAt(it),
+                                    symbol = coin[0].symbol ?: "",
+                                    price = coin[0].current_price ?: 0f,
+                                ) {
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }*/
+
+            }
         }
     }
 }

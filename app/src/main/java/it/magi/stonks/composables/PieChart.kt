@@ -215,20 +215,22 @@ fun DetailsPieChart(
 //        }
 //    }
 
-    LazyColumn(
-        modifier = Modifier
-            .padding(top = 80.dp)
-            .fillMaxWidth()
-            .height(300.dp)
-    ) {
-        items(data.values.toList()) { value ->
-            val index = data.values.indexOf(value)
-            Log.d("PieChart", "passing totalSum2: $totalSum")
-            DetailsPieChartItem(
-                data = Pair(data.keys.elementAt(index), value),
-                color = colors[index],
-                totalSum = totalSum
-            )
+    Card(Modifier.padding(10.dp)) {
+        LazyColumn(
+            modifier = Modifier
+                .padding(top = 80.dp)
+                .fillMaxWidth()
+                .height(300.dp)
+        ) {
+            items(data.values.toList()) { value ->
+                val index = data.values.indexOf(value)
+                Log.d("PieChart", "passing totalSum2: $totalSum")
+                DetailsPieChartItem(
+                    data = Pair(data.keys.elementAt(index), value),
+                    color = colors[index],
+                    totalSum = totalSum
+                )
+            }
         }
     }
 }
@@ -241,48 +243,42 @@ fun DetailsPieChartItem(
     totalSum: Float
 ) {
     val percentage = (data.second / totalSum) * 100
-    Card(
-        modifier = Modifier
-            .padding(vertical = 10.dp, horizontal = 40.dp),
+
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        Box(
+            modifier = Modifier
+                .background(
+                    color = color,
+                    shape = RoundedCornerShape(10.dp)
+                )
+                .size(height)
+        )
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            Box(
-                modifier = Modifier
-                    .background(
-                        color = color,
-                        shape = RoundedCornerShape(10.dp)
-                    )
-                    .size(height)
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                modifier = Modifier.padding(start = 15.dp),
+                text = data.first,
+                fontWeight = FontWeight.Medium,
+                fontSize = 22.sp,
+                color = Color.Black
             )
-
-            Column(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    modifier = Modifier.padding(start = 15.dp),
-                    text = data.first,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 22.sp,
-                    color = Color.Black
-                )
-                Text(
-                    modifier = Modifier.padding(start = 15.dp),
-                    text = data.second.toString(),
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 22.sp,
-                    color = Color.Gray
-                )
-                Log.d("PieChart", "percentage is: $percentage")
-                Text(
-                    modifier = Modifier.padding(start = 15.dp),
-                    text = Utilities().convertToPercentage(percentage),
-                    color = Color.White
-                )
-            }
-
+            Text(
+                modifier = Modifier.padding(start = 15.dp),
+                text = data.second.toString(),
+                fontWeight = FontWeight.Medium,
+                fontSize = 22.sp,
+                color = Color.Gray
+            )
+            Log.d("PieChart", "percentage is: $percentage")
+            Text(
+                modifier = Modifier.padding(start = 15.dp),
+                text = Utilities().convertToPercentage(percentage),
+                color = Color.White
+            )
         }
 
     }

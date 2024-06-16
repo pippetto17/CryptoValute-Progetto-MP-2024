@@ -15,7 +15,7 @@ import it.magi.stonks.models.CoinMarketChart
 import it.magi.stonks.models.Exchange
 import it.magi.stonks.models.ExchangeData
 import it.magi.stonks.models.NFT
-import it.magi.stonks.models.NFTData
+import it.magi.stonks.models.NFTCollection
 import it.magi.stonks.models.TrendingList
 import it.magi.stonks.utilities.Utilities
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,11 +32,11 @@ class StonksViewModel(application: Application) : AndroidViewModel(application) 
 
     private var nftList = MutableLiveData<List<NFT>>()
 
-    private var nftData = MutableLiveData<NFTData>()
-
     private var trendingList = MutableLiveData<TrendingList>()
 
     private var marketChartById= MutableLiveData<CoinMarketChart>()
+
+    private var nftData = MutableLiveData<NFTCollection>()
 
 
 
@@ -53,10 +53,15 @@ class StonksViewModel(application: Application) : AndroidViewModel(application) 
         return coinsList
     }
 
+    fun getNFTData(): LiveData<NFTCollection> {
+        return nftData
+    }
+
 
     fun getNFTsList(): LiveData<List<NFT>> {
         return nftList
     }
+
 
     fun getCoinMarketChart(): LiveData<CoinMarketChart> {
         return marketChartById
@@ -166,7 +171,7 @@ class StonksViewModel(application: Application) : AndroidViewModel(application) 
         Log.d("API", "returning all nftList: ${nftList.value}")
     }
 
-    fun filterNFTApiRequest(apiKey: String, id: String, ) {
+    fun NFTDataByIdApiRequest(apiKey: String, id: String, onResult: (data: NFTCollection)->Unit ) {
         val url = "https://api.coingecko.com/api/v3/nfts/$id?x_cg_demo_api_key=$apiKey"
         Log.d("API", "fetching NFT by id url: $url")
 
@@ -176,10 +181,11 @@ class StonksViewModel(application: Application) : AndroidViewModel(application) 
                 Log.d("API", "fetch NFT by id Request Successful, response: $response ")
                 Log.d("API", "response type: ${response}")
                 val gson = Gson()
-                val nftType = object : TypeToken<NFT>() {}.type
+                val nftType = object : TypeToken<NFTCollection>() {}.type
 
-                val value = gson.fromJson<NFTData>(response, nftType)
+                val value = gson.fromJson<NFTCollection>(response, nftType)
                 nftData.value = value
+                onResult(value)
                 Log.d("API", "value: ${nftData.value}")
 
             },

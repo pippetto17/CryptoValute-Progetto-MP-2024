@@ -1,7 +1,9 @@
 package it.magi.stonks.screens
 
 import android.webkit.WebView
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -59,6 +61,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.TimeZone
 
+
 @Composable
 fun CoinScreen(
     navController: NavController,
@@ -101,36 +104,28 @@ fun CoinScreen(
     val chartData = viewModel.getCoinMarketChart().observeAsState().value?.prices
 
     val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault())
-    sdf.timeZone = TimeZone.getTimeZone("Europe/Rome") // Imposta il fuso orario di Roma
-
-    chartData?.forEach { tuple ->
-        val milliseconds = tuple.get(0)
-        val date = milliseconds.let { Date(it.toLong()) }
-        val formattedDate = date.let { sdf.format(it) }
-        println("Timestamp corrispondente: $formattedDate")
-    }
+    sdf.timeZone = TimeZone.getTimeZone("Europe/Rome")
 
 
-//    val listOfPairs: List<Pair<Int, Double>> = chartData?.mapNotNull {
-//        if (it.size == 2) Pair(it[0].toInt(), it[1]) else null
-//    } ?: emptyList()
-//
-//    val pairs = listOf(
-//        Pair(1, 1.5),
-//        Pair(2, 1.75),
-//        Pair(3, 3.45),
-//        Pair(4, 2.25),
-//        Pair(5, 6.45),
-//        Pair(6, 3.35),
-//        Pair(7, 8.65),
-//        Pair(8, 0.15),
-//        Pair(9, 3.05),
-//        Pair(10, 4.25)
-//    )
-//
-//    Log.d("listOfPairs", listOfPairs.toString())
-//    Log.d("pairs", pairs.toString())
+    val listOfPairs: List<Pair<Double, Double>> = chartData?.mapNotNull {
+        if (it.size == 2) Pair(it[0], it[1]) else null
+    } ?: emptyList()
 
+    val dummy=listOf(
+        Pair(0.0, 1.0),
+        Pair(2.0, 2.0),
+        Pair(3.0, 3.0),
+        Pair(4.0, 4.0),
+        Pair(5.0, 5.0),
+        Pair(6.0, 4.0),
+        Pair(7.0, 4.0),
+        Pair(7.0, 3.0),
+        Pair(7.0, 2.0),
+        Pair(7.0, 5.0),
+        Pair(8.0, 4.0),
+        Pair(9.0, 4.0),
+        Pair(10.0, 4.0),
+    )
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -217,13 +212,24 @@ fun CoinScreen(
                     }
                 }
                 Spacer(modifier = Modifier.height(30.dp))
-//                    LineChart(
-//                        data = listOfPairs,
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .height(300.dp)
-//                            .align(Alignment.CenterHorizontally)
-//                    )
+
+                if(listOfPairs.isEmpty()){
+
+                }
+                else{
+                    Row (modifier = Modifier.padding(5.dp)
+                        .fillMaxWidth()){
+                        LineChart(
+                            data = dummy,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(300.dp)
+                        )
+                    }
+
+                }
+                
+
                 Spacer(modifier = Modifier.height(30.dp))
                 Card(
                     shape = RoundedCornerShape(15.dp),

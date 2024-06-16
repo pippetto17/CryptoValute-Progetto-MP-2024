@@ -21,12 +21,15 @@ import it.magi.stonks.navigation.NavigationItem
 import it.magi.stonks.screen.BuyCoinScreen
 import it.magi.stonks.screens.CoinScreen
 import it.magi.stonks.screens.HomeScreen
+import it.magi.stonks.screens.NFTListScreen
+import it.magi.stonks.screens.NFTScreen
 import it.magi.stonks.screens.NewsScreen
 import it.magi.stonks.screens.ProfileScreen
 import it.magi.stonks.screens.WalletScreen
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.StonksTheme
 import it.magi.stonks.utilities.Utilities
+import it.magi.stonks.viewmodels.NewsViewModel
 import it.magi.stonks.viewmodels.SettingsViewModel
 import it.magi.stonks.viewmodels.StonksViewModel
 import it.magi.stonks.viewmodels.WalletViewModel
@@ -73,7 +76,10 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(NavigationItem.News.route) {
-                            NewsScreen(navController = navController)
+                            NewsScreen(
+                                navController = navController,
+                                viewModel = NewsViewModel(application)
+                            )
                         }
                         composable(NavigationItem.Account.route) {
                             ProfileScreen(
@@ -100,6 +106,25 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
+
+                        composable(
+                            "nft/{nftId}",
+                            arguments = listOf(
+                                navArgument("nftId") {
+                                    type = NavType.StringType
+                                }
+                            )
+                        ) { backStackEntry ->
+                            val nftId = backStackEntry.arguments?.getString("nftId")
+                            if (nftId != null) {
+                                NFTScreen(
+                                    navController = navController,
+                                    viewModel = StonksViewModel(application),
+                                    nftId=nftId,
+                                )
+                            }
+                        }
+
                         composable(
                             "buycoin/{coinId}",
                             arguments = listOf(

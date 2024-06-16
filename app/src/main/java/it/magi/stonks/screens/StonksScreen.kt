@@ -59,7 +59,7 @@ fun HomeScreen(
                 }
 
                 2 -> {
-                    NFTScreen(viewModel, prefCurrency)
+                    NFTListScreen(navController,viewModel, prefCurrency)
                 }
 
                 3 -> {
