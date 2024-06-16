@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -38,11 +39,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -158,7 +162,7 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                             CircularProgressIndicator()
                         } else {
 
-                            LazyColumn() {
+                            LazyRow {
                                 items(walletList.size) {
                                     var totalValue by remember { mutableStateOf(0.0) }
                                     var coinsAmount by remember { mutableStateOf(0.0) }
@@ -173,14 +177,15 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                             modifier = Modifier
                                                 .background(
                                                     brush = Brush.linearGradient(
-                                                        colors = if(it == 0) randomGradient.value else randomGradient2.value,
-                                                    )
+                                                        colors = if (it == 0) randomGradient.value else randomGradient2.value,
+                                                    ),
+                                                    shape = RoundedCornerShape(10.dp),
                                                 )
                                         ) {
                                             Card(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
-                                                    .height(150.dp),
+                                                    .height(200.dp),
                                                 colors = CardDefaults.cardColors(containerColor = Color.Transparent),
                                                 shape = RoundedCornerShape(10.dp),
                                                 onClick = {
@@ -221,13 +226,20 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                                 Column(
                                                     Modifier
                                                         .fillMaxSize()
-                                                        .padding(5.dp)
+                                                        .padding(20.dp)
                                                 ) {
                                                     Text(
                                                         text = walletList[it].uppercase(),
-                                                        color = Color.White,
-                                                        fontFamily = titleFont(),
-                                                        fontSize = 25.sp
+                                                        style = TextStyle(
+                                                            fontSize = 25.sp,
+                                                            shadow = Shadow(
+                                                                color = Color.Gray,
+                                                                offset = Offset(5f, 5f),
+                                                                blurRadius = 3f
+                                                            ),
+                                                            color = Color.White,
+                                                            fontFamily = titleFont(),
+                                                        )
                                                     )
                                                 }
                                                 Spacer(modifier = Modifier.height(10.dp))
