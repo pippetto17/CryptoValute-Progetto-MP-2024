@@ -209,19 +209,6 @@ fun BuyCoinScreen(
                             )
                         }
                     }
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(20.dp), horizontalArrangement = Arrangement.End
-                    ) {
-                        Button(onClick = {
-
-
-                        }) {
-                            Text(text = "Confirm")
-                        }
-                    }
-
                 }
             }
         }

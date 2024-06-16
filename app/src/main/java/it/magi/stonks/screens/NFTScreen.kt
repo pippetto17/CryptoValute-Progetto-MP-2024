@@ -36,7 +36,7 @@ fun NFTScreen(viewModel: StonksViewModel, currency: String) {
             items(coins.value ?: emptyList()) { coin ->
                 NFTItem(
                     name = coin.name,
-                    symbol = coin.symbol
+                    symbol = coin.symbol,
                 )
             }
         }
