@@ -25,6 +25,7 @@ import it.magi.stonks.models.Image
 import it.magi.stonks.models.MarketCap
 import it.magi.stonks.models.PriceChange
 import it.magi.stonks.models.Volume24h
+import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.viewmodels.StonksViewModel
 
 @Composable
@@ -33,14 +34,10 @@ fun NFTScreen(
     viewModel: StonksViewModel,
     nftId: String
 ) {
-    var dataLoading by remember { mutableStateOf(false) }
-    LaunchedEffect(key1 = true) {
-        dataLoading = true
-        viewModel.NFTDataByIdApiRequest(apiKey, nftId) {
-            Log.d("NFTScreen", "Success $it")
-            dataLoading = false
-        }
+    viewModel.NFTDataByIdApiRequest(apiKey, nftId) {
+        Log.d("NFTScreen", "Success $it")
     }
+
     val nftData = viewModel.getNFTData().observeAsState().value
 
     class NFT {
@@ -59,20 +56,19 @@ fun NFTScreen(
         val volume24h = nftData?.volume24h ?: ""
         val links = nftData?.links ?: ""
     }
-    Scaffold { innerPadding ->
+    Scaffold(
+        containerColor = FormContainerColor
+    ) { innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            if (dataLoading) {
-                CircularProgressIndicator()
-            } else {
-                Log.d("NFTScreen", "nftid ${NFT().id}")
-                Column {
-                    Text(text = NFT().id, color = Color.White)
-                }
+            Log.d("NFTScreen", "nftid ${NFT().id}")
+            Column {
+                Text(text = NFT().id, color = Color.White)
             }
+
         }
     }
 }

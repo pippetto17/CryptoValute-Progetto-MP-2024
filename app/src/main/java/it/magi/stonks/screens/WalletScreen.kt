@@ -48,6 +48,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -194,7 +195,8 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                                 onClick = {
                                                     Log.d("changing to it", "${it + 1}")
                                                     tabState = it + 1
-                                                }){
+                                                }
+                                            ) {
                                                 LaunchedEffect(key1 = true) {
                                                     viewModel.getWalletCoinsList(
                                                         database,
@@ -227,10 +229,12 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                                     }
                                                 }
                                                 Column(
-                                                    Modifier
+                                                    modifier = Modifier
                                                         .fillMaxSize()
-                                                        .padding(20.dp)
+                                                        .padding(20.dp),
+                                                    verticalArrangement = Arrangement.SpaceEvenly
                                                 ) {
+                                                    //Wallet Name
                                                     Text(
                                                         text = walletList[it].uppercase(),
                                                         style = TextStyle(
@@ -245,94 +249,45 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                                         )
                                                     )
                                                     Spacer(modifier = Modifier.height(10.dp))
-                                                    Row(
+                                                    //Details
+                                                    Column(
                                                         modifier = Modifier
                                                             .fillMaxWidth()
                                                             .padding(start = 15.dp)
                                                     ) {
-                                                        Text(
-                                                            text = stringResource(id = R.string.wallet_screen_value).uppercase(),
-                                                            color = Color.White,
-                                                            fontSize = 15.sp
-                                                        )
-                                                        Text(
-                                                            text = totalValue.toString() + " " + currency.uppercase(),
-                                                            color = Color.White,
-                                                            fontSize = 15.sp
-                                                        )
-                                                    }
-                                                    Spacer(modifier = Modifier.height(5.dp))
-                                                    Row(
-                                                        modifier = Modifier
-                                                            .fillMaxWidth()
-                                                            .padding(start = 15.dp)
-                                                    ) {
-                                                        Text(
-                                                            text = stringResource(id = R.string.wallet_screen_coins),
-                                                            color = Color.White,
-                                                            fontSize = 15.sp
-                                                        )
-                                                        Text(
-                                                            text = coinsNumber.toString(),
-                                                            color = Color.White,
-                                                            fontSize = 15.sp
-                                                        )
-                                                    }
-                                                    Spacer(modifier = Modifier.height(5.dp))
-                                                    Row(
-                                                        modifier = Modifier
-                                                            .fillMaxWidth()
-                                                            .padding(start = 15.dp)
-                                                    ) {
-                                                        Text(
-                                                            text = stringResource(id = R.string.wallet_screen_stocks),
-                                                            color = Color.White,
-                                                            fontSize = 15.sp
-                                                        )
-                                                        Text(
-                                                            text = coinsAmount.toString(),
-                                                            color = Color.White,
-                                                            fontSize = 15.sp
-                                                        )
+                                                        //Total Value
                                                         Row(
                                                             modifier = Modifier
                                                                 .fillMaxWidth()
-                                                                .padding(5.dp)
                                                         ) {
                                                             Text(
-                                                                text = walletList[it].uppercase(),
+                                                                text = stringResource(id = R.string.wallet_screen_value).uppercase(),
                                                                 color = Color.White,
-                                                                fontFamily = titleFont(),
-                                                                fontSize = 25.sp
+                                                                fontWeight = FontWeight.Bold,
+                                                                fontSize = 15.sp
                                                             )
-                                                        }
-                                                        Spacer(modifier = Modifier.height(10.dp))
-                                                        Row(
-                                                            modifier = Modifier
-                                                                .fillMaxWidth()
-                                                                .padding(start = 15.dp)
-                                                        ) {
                                                             Text(
-                                                                text = "VALUE: ",
+                                                                text = totalValue.toString(),
                                                                 color = Color.White,
                                                                 fontSize = 15.sp
                                                             )
                                                             Text(
-                                                                text = totalValue.toString() + currency.uppercase(),
+                                                                modifier = Modifier.padding(start = 5.dp),
+                                                                text = currency.uppercase(),
                                                                 color = Color.White,
                                                                 fontSize = 15.sp
                                                             )
                                                         }
-                                                        Spacer(modifier = Modifier.height(5.dp))
+                                                        //coins number
                                                         Row(
                                                             modifier = Modifier
                                                                 .fillMaxWidth()
-                                                                .padding(start = 15.dp)
                                                         ) {
                                                             Text(
-                                                                text = "COINS: ",
+                                                                text = stringResource(id = R.string.wallet_screen_coins),
                                                                 color = Color.White,
-                                                                fontSize = 15.sp
+                                                                fontSize = 15.sp,
+                                                                fontWeight = FontWeight.Bold,
                                                             )
                                                             Text(
                                                                 text = coinsNumber.toString(),
@@ -340,16 +295,16 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                                                 fontSize = 15.sp
                                                             )
                                                         }
-                                                        Spacer(modifier = Modifier.height(5.dp))
+                                                        //stocks number
                                                         Row(
                                                             modifier = Modifier
                                                                 .fillMaxWidth()
-                                                                .padding(start = 15.dp)
                                                         ) {
                                                             Text(
-                                                                text = "STOCKS: ",
+                                                                text = stringResource(id = R.string.wallet_screen_stocks),
                                                                 color = Color.White,
-                                                                fontSize = 15.sp
+                                                                fontSize = 15.sp,
+                                                                fontWeight = FontWeight.Bold,
                                                             )
                                                             Text(
                                                                 text = coinsAmount.toString(),

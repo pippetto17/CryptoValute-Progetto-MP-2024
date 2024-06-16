@@ -77,7 +77,6 @@ dependencies {
     // Android 13 and below.
     implementation(libs.androidx.credentials.play.services.auth.v130beta01)
 
-    implementation(libs.googleid)
     implementation(libs.firebase.database)
 
     //api calls

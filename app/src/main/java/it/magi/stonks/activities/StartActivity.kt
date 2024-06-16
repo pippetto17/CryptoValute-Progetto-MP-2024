@@ -18,8 +18,6 @@ import androidx.credentials.GetCredentialRequest
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.android.libraries.identity.googleid.GetGoogleIdOption
-import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import it.magi.stonks.screens.FifthOnBoarding
@@ -103,56 +101,56 @@ class StartActivity : ComponentActivity() {
                         composable("login") {
                             LoginScreen(
                                 onSignInClick = {
-                                    val googleIdOption = GetGoogleIdOption
-                                        .Builder()
-                                        .setFilterByAuthorizedAccounts(true)
-                                        .setServerClientId(WEB_CLIENT_ID)
-                                        .setNonce("")
-                                        .build()
-
-                                    val request = GetCredentialRequest
-                                        .Builder()
-                                        .addCredentialOption(googleIdOption)
-                                        .build()
-                                    scope.launch {
-                                        try {
-                                            val result =
-                                                credentialManager.getCredential(context, request)
-                                            val credential = result.credential
-                                            val googleIdTokenCredential =
-                                                GoogleIdTokenCredential.createFrom(credential.data)
-                                            val googleIdToken = googleIdTokenCredential.idToken
-
-                                            val firebaseCredential =
-                                                GoogleAuthProvider.getCredential(
-                                                    googleIdToken,
-                                                    null
-                                                )
-
-                                            auth.signInWithCredential(firebaseCredential)
-                                                .addOnCompleteListener { task ->
-                                                    if (task.isSuccessful) {
-                                                        ContextCompat.startActivity(
-                                                            context,
-                                                            Intent(
-                                                                context,
-                                                                MainActivity::class.java
-                                                            ),
-                                                            null
-                                                        )
-                                                        navController.navigate("google_registration")
-                                                    }
-                                                }
-
-                                        } catch (e: Exception) {
-                                            Log.d("Login", "signInWithGoogle:failure $e")
-                                            Toast.makeText(
-                                                context,
-                                                "Authentication failed.",
-                                                Toast.LENGTH_SHORT,
-                                            ).show()
-                                        }
-                                    }
+//                                    val googleIdOption = GetGoogleIdOption
+//                                        .Builder()
+//                                        .setFilterByAuthorizedAccounts(true)
+//                                        .setServerClientId(WEB_CLIENT_ID)
+//                                        .setNonce("")
+//                                        .build()
+//
+//                                    val request = GetCredentialRequest
+//                                        .Builder()
+//                                        .addCredentialOption(googleIdOption)
+//                                        .build()
+//                                    scope.launch {
+//                                        try {
+//                                            val result =
+//                                                credentialManager.getCredential(context, request)
+//                                            val credential = result.credential
+//                                            val googleIdTokenCredential =
+//                                                GoogleIdTokenCredential.createFrom(credential.data)
+//                                            val googleIdToken = googleIdTokenCredential.idToken
+//
+//                                            val firebaseCredential =
+//                                                GoogleAuthProvider.getCredential(
+//                                                    googleIdToken,
+//                                                    null
+//                                                )
+//
+//                                            auth.signInWithCredential(firebaseCredential)
+//                                                .addOnCompleteListener { task ->
+//                                                    if (task.isSuccessful) {
+//                                                        ContextCompat.startActivity(
+//                                                            context,
+//                                                            Intent(
+//                                                                context,
+//                                                                MainActivity::class.java
+//                                                            ),
+//                                                            null
+//                                                        )
+//                                                        navController.navigate("google_registration")
+//                                                    }
+//                                                }
+//
+//                                        } catch (e: Exception) {
+//                                            Log.d("Login", "signInWithGoogle:failure $e")
+//                                            Toast.makeText(
+//                                                context,
+//                                                "Authentication failed.",
+//                                                Toast.LENGTH_SHORT,
+//                                            ).show()
+//                                        }
+//                                    }
                                 },
                                 navController = navController,
                                 viewModel = LoginViewModel(),

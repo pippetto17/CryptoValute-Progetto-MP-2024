@@ -1,9 +1,5 @@
 package it.magi.stonks.screens
 
-import android.webkit.WebView
-import android.util.Log
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,15 +12,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FabPosition
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -33,11 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.intl.Locale
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -46,20 +34,12 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import it.magi.stonks.R
 import it.magi.stonks.composables.CustomTopAppBar
-import it.magi.stonks.composables.LineChart
-import it.magi.stonks.composables.OtherDropDown
 import it.magi.stonks.composables.SignButton
-import it.magi.stonks.ui.theme.DarkBgColor
+import it.magi.stonks.models.SparkLine
 import it.magi.stonks.ui.theme.FormContainerColor
-import it.magi.stonks.ui.theme.GreenStock
-import it.magi.stonks.ui.theme.RedStock
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.StonksViewModel
-import java.text.DecimalFormat
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.TimeZone
 
 
 @Composable
@@ -83,14 +63,37 @@ fun CoinScreen(
         val name = coin?.name ?: ""
         val symbols = coin?.symbol?.uppercase() ?: ""
         val sparkLineURI = Utilities().sparklineURI(coin?.image)
-        val current_price = coin?.current_price ?: 0.0f
-        val priceInMyCurrency = Utilities().formatPrice(current_price)
+        val currentPrice = coin?.current_price ?: 0.0f
+        val priceInMyCurrency = Utilities().formatPrice(currentPrice)
         val image = coin?.image ?: ""
         val market_cap = coin?.market_cap ?: 0.0f
-        val market_cap_rank = coin?.market_cap_rank ?: 0.0f
+        val market_cap_rank = coin?.market_cap_rank ?: 0
+        val fully_diluted_valuation = coin?.fully_diluted_valuation ?: 0.0f
         val total_volume = coin?.total_volume ?: 0.0f
         val high_24h = coin?.high_24h ?: 0.0f
         val low_24h = coin?.low_24h ?: 0.0f
+        val price_change_24h = coin?.price_change_24h ?: 0.0f
+        val price_change_percentage_24h = coin?.price_change_percentage_24h ?: 0.0f
+        val market_cap_change_24h = coin?.market_cap_change_24h ?: 0.0f
+        val market_cap_change_percentage_24h = coin?.market_cap_change_percentage_24h ?: 0.0f
+        val circulating_supply = coin?.circulating_supply ?: 0.0f
+        val total_supply = coin?.total_supply ?: 0.0f
+        val max_supply = coin?.max_supply ?: 0.0f
+        val ath = coin?.ath ?: 0.0f
+        val ath_change_percentage = coin?.ath_change_percentage ?: 0.0f
+        val ath_date = coin?.ath_date ?: ""
+        val atl = coin?.atl ?: 0.0f
+        val atl_change_percentage = coin?.atl_change_percentage ?: 0.0f
+        val atl_date = coin?.atl_date ?: ""
+        val roi = coin?.roi ?: ""
+        val last_updated = coin?.last_updated ?: ""
+        val price_change_percentage_1h_in_currency = coin?.price_change_percentage_1h_in_currency
+        val price_change_percentage_24h_in_currency = coin?.price_change_percentage_24h_in_currency
+        val price_change_percentage_7d_in_currency = coin?.price_change_percentage_7d_in_currency
+        val price_change_percentage_14d_in_currency = coin?.price_change_percentage_14d_in_currency
+        val price_change_percentage_30d_in_currency = coin?.price_change_percentage_30d_in_currency
+        val price_change_percentage_200d_in_currency = coin?.price_change_percentage_200d_in_currency
+        val price_change_percentage_1y_in_currency = coin?.price_change_percentage_1y_in_currency
     }
 
     //API Request della coinMarketChart
@@ -102,30 +105,10 @@ fun CoinScreen(
     )
 
     val chartData = viewModel.getCoinMarketChart().observeAsState().value?.prices
-
-    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault())
-    sdf.timeZone = TimeZone.getTimeZone("Europe/Rome")
-
-
     val listOfPairs: List<Pair<Double, Double>> = chartData?.mapNotNull {
         if (it.size == 2) Pair(it[0], it[1]) else null
     } ?: emptyList()
 
-    val dummy=listOf(
-        Pair(0.0, 1.0),
-        Pair(2.0, 2.0),
-        Pair(3.0, 3.0),
-        Pair(4.0, 4.0),
-        Pair(5.0, 5.0),
-        Pair(6.0, 4.0),
-        Pair(7.0, 4.0),
-        Pair(7.0, 3.0),
-        Pair(7.0, 2.0),
-        Pair(7.0, 5.0),
-        Pair(8.0, 4.0),
-        Pair(9.0, 4.0),
-        Pair(10.0, 4.0),
-    )
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -139,7 +122,12 @@ fun CoinScreen(
         floatingActionButton = {
             SignButton(
                 onclick = { navController.navigate("buycoin/$coinId") },
-                text = stringResource(id = R.string.coin_screen_add_to_wallet)
+                text = stringResource(id = R.string.coin_screen_add_to_wallet),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 80.dp, end = 80.dp)
+                    .height(40.dp),
+                textSize = 15.sp
             )
         },
         floatingActionButtonPosition = FabPosition.Center,
@@ -177,10 +165,9 @@ fun CoinScreen(
                                 .align(Alignment.CenterVertically)
                         ) {
                             Text(
-                                text = Coin().name,
+                                text = "name: " + Coin().name,
                                 color = Color.White,
-                                fontFamily = titleFont(),
-                                fontSize = 20.sp
+                                fontSize = 12.sp
                             )
                             Text(
                                 text = Coin().symbols,
@@ -210,144 +197,55 @@ fun CoinScreen(
                             modifier = Modifier.padding(start = 5.dp)
                         )
                     }
-                }
-                Spacer(modifier = Modifier.height(30.dp))
-
-                if(listOfPairs.isEmpty()){
-
-                }
-                else{
-                    Row (modifier = Modifier.padding(5.dp)
-                        .fillMaxWidth()){
-                        LineChart(
-                            data = dummy,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(300.dp)
-                        )
-                    }
-
-                }
-                
-
-                Spacer(modifier = Modifier.height(30.dp))
-                Card(
-                    shape = RoundedCornerShape(15.dp),
-                    border = BorderStroke(1.dp, GreenStock),
-                    colors = CardDefaults.cardColors(
-                        containerColor = DarkBgColor
-                    ),
-                    modifier = Modifier
-                        .padding(bottom = 40.dp)
-                        .fillMaxWidth()
-                ) {
-                    Column(
+                    Spacer(modifier = Modifier.height(20.dp))
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(Coin().sparkLineURI)
+                            .decoderFactory(SvgDecoder.Factory())
+                            .build(),
+                        contentDescription = "sparkLine",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(10.dp)
-                    ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            TextField(
-                                value = stringResource(id = R.string.name),
-                                modifier = Modifier.fillMaxWidth(0.3f),
-                                onValueChange = {},
-                                readOnly = true,
-                                enabled = false,
-                                textStyle = TextStyle(
-                                    color = Color.White,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 14.sp
-                                ),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    unfocusedContainerColor = Color.Transparent
-                                )
-                            )
-                            TextField(
-                                value = Utilities().getAccountName().uppercase(),
-                                modifier = Modifier.fillMaxWidth(1f),
-                                onValueChange = {},
-                                readOnly = true,
-                                enabled = false,
-                                textStyle = TextStyle(
-                                    textAlign = TextAlign.End,
-                                    fontSize = 14.sp
-                                ),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    unfocusedContainerColor = Color.Transparent
-                                )
-                            )
-                        }
-                        Row(
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            TextField(
-                                value = stringResource(id = R.string.surname),
-                                modifier = Modifier.fillMaxWidth(0.4f),
-                                onValueChange = {},
-                                readOnly = true,
-                                enabled = false,
-                                textStyle = TextStyle(
-                                    color = Color.White,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 14.sp
-                                ),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    unfocusedContainerColor = Color.Transparent
-                                )
-                            )
-                            TextField(
-                                value = Utilities().getAccountSurname().uppercase(),
-                                modifier = Modifier.fillMaxWidth(1f),
-                                onValueChange = {},
-                                readOnly = true,
-                                enabled = false,
-                                textStyle = TextStyle(
-                                    textAlign = TextAlign.End,
-                                    fontSize = 14.sp
-                                ),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    unfocusedContainerColor = Color.Transparent
-                                )
-                            )
-                        }
-                        Row(
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            TextField(
-                                value = stringResource(id = R.string.email),
-                                modifier = Modifier.fillMaxWidth(0.25f),
-                                onValueChange = {},
-                                readOnly = true,
-                                enabled = false,
-                                textStyle = TextStyle(
-                                    color = Color.White,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 14.sp
-                                ),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    unfocusedContainerColor = Color.Transparent
-                                )
-                            )
-                            TextField(
-                                value = "gendoikari01@nerv.jp",
-                                modifier = Modifier.fillMaxWidth(1f),
-                                onValueChange = {},
-                                readOnly = true,
-                                enabled = false,
-                                textStyle = TextStyle(
-                                    textAlign = TextAlign.End,
-                                    fontSize = 14.sp
-                                ),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    unfocusedContainerColor = Color.Transparent
-                                )
-                            )
+                            .height(200.dp)
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Card {
+                        Column(){
+                            Text(text = "name: ${coin?.name}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "symbol: ${coin?.symbol}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "marketCap: ${coin?.market_cap}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "marketCapRank: ${coin?.market_cap_rank}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "fullyDilutedValuation: ${coin?.fully_diluted_valuation}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "totalVolume: ${coin?.total_volume}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "high24h: ${coin?.high_24h}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "low24h: ${coin?.low_24h}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "price_change_24h: ${coin?.price_change_24h ?: 0.0f}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "price_change_percentage_24h: ${coin?.price_change_percentage_24h ?: 0.0f}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "market_cap_change_24h: ${coin?.market_cap_change_24h ?: 0.0f}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "market_cap_change_percentage_24h: ${coin?.market_cap_change_percentage_24h ?: 0.0f}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "circulating_supply: ${coin?.circulating_supply ?: 0.0f}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "total_supply: ${coin?.total_supply ?: 0.0f}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "max_supply: ${coin?.max_supply ?: 0.0f}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "ath: ${coin?.ath ?: 0.0f}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "ath_change_percentage: ${coin?.ath_change_percentage ?: 0.0f}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "ath_date: ${coin?.ath_date ?: ""}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "atl: ${coin?.atl ?: 0.0f}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "atl_change_percentage: ${coin?.atl_change_percentage ?: 0.0f}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "atl_date: ${coin?.atl_date ?: ""}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "roi: ${coin?.roi ?: ""}", color = Color.White, fontSize = 12.sp)
+                            Text(text = "last_updated: ${coin?.last_updated ?: ""}", color = Color.White, fontSize = 12.sp)
+                            coin?.price_change_percentage_1h_in_currency?.let { Text(text = "price_change_percentage_1h_in_currency: $it", color = Color.White, fontSize = 12.sp) }
+                            coin?.price_change_percentage_24h_in_currency?.let { Text(text = "price_change_percentage_24h_in_currency: $it", color = Color.White, fontSize = 12.sp) }
+                            coin?.price_change_percentage_7d_in_currency?.let { Text(text = "price_change_percentage_7d_in_currency: $it", color = Color.White, fontSize = 12.sp) }
+                            coin?.price_change_percentage_14d_in_currency?.let { Text(text = "price_change_percentage_14d_in_currency: $it", color = Color.White, fontSize = 12.sp) }
+                            coin?.price_change_percentage_30d_in_currency?.let { Text(text = "price_change_percentage_30d_in_currency: $it", color = Color.White, fontSize = 12.sp) }
+                            coin?.price_change_percentage_200d_in_currency?.let { Text(text = "price_change_percentage_200d_in_currency: $it", color = Color.White, fontSize = 12.sp) }
+                            coin?.price_change_percentage_1y_in_currency?.let { Text(text = "price_change_percentage_1y_in_currency: $it", color = Color.White, fontSize = 12.sp) }
                         }
                     }
+
+                    Spacer(modifier = Modifier.height(120.dp))
                 }
-                Spacer(modifier = Modifier.height(120.dp))
             }
         }
     }

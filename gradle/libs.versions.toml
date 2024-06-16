@@ -15,7 +15,6 @@ credentialsPlayServicesAuth = "1.3.0-beta01"
 credentialsVersion = "1.3.0-beta01"
 firebaseBom = "33.0.0"
 firebaseBomVersion = "32.8.0"
-googleid = "<latest version>"
 kotlin = "1.9.0"
 coreKtx = "1.10.1"
 junit = "4.13.2"
@@ -67,7 +66,6 @@ converter-gson = { module = "com.squareup.retrofit:converter-gson", version.ref 
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-bom-v3280 = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBomVersion" }
 google-firebase-auth = { module = "com.google.firebase:firebase-auth" }
-googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

@@ -83,8 +83,8 @@
     <string name="trending_screen_subtitle_nfts">And here are the trending NFTs</string>
     <string name="wallet_detail_screen_available_balance">Available balance</string>
     <string name="wallet_screen_value">"Value: "</string>
-    <string name="wallet_screen_coins">"Coins: "</string>
-    <string name="wallet_screen_stocks">"Stocks: "</string>
+    <string name="wallet_screen_coins">"Coins number: "</string>
+    <string name="wallet_screen_stocks">"Total stocks: "</string>
     <string name="wallet_screen_your_coins">Your coins</string>
     <string name="wallet_screen_invalid">Invalid wallet index</string>
     <string name="exchange_screen_exchange">Exchange</string>

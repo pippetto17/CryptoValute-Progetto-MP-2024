@@ -32,7 +32,6 @@ fun SignButton(
         contentColor = DarkBgColor
     ),
     textSize: TextUnit = sign_button_size,
-    content: (@Composable () -> Unit)? = null
 ) {
     Button(
         shape = RoundedCornerShape(15.dp),
@@ -50,7 +49,6 @@ fun SignButton(
                 fontFamily = titleFont(),
                 textAlign = TextAlign.Center,
             )
-            content
         }
 
     }

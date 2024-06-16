@@ -57,15 +57,12 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
     var walletCoins by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
     var coinsWithPriceList by remember { mutableStateOf<Map<String, Float>>(emptyMap()) }
 
-
-
     LaunchedEffect(walletName) {
         isWalletDatasLoading = true
         isCoinListLoading = true
         totalValue = 0f
         coinsAmount = 0f
         coinsNumber = 0f
-        walletCoins = emptyMap()
         viewModel.getWalletCoinsList(
             database,
             walletName,
