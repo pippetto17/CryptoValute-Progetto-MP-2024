@@ -18,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import it.magi.stonks.composables.ConfirmDeleteDialog
 import it.magi.stonks.composables.ConfirmEmailDialog
+import it.magi.stonks.composables.DataPoint
+import it.magi.stonks.models.CoinMarketChart
 import it.magi.stonks.viewmodels.RegistrationViewModel
 import java.text.DecimalFormat
 

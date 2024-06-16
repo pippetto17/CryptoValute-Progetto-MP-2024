@@ -8,8 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.common.collect.ImmutableList
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import it.magi.stonks.composables.DataPoint
 import it.magi.stonks.models.Coin
 import it.magi.stonks.models.CoinMarketChart
 import it.magi.stonks.models.Exchange
@@ -219,8 +221,8 @@ class StonksViewModel(application: Application) : AndroidViewModel(application) 
         Log.d("API", "returning trendingList: ${coinsList.value}")
     }
 
-    fun coinMarketChartDataById(apiKey: String,id: String,currency: String,days: Int){
-        val url="https://api.coingecko.com/api/v3/coins/$id/market_chart??x_cg_demo_api_key=$apiKey&vs_currency=$currency&days=$days"
+    fun coinMarketChartDataById(apiKey: String,id: String,days: Int,onResult: (data: CoinMarketChart)->Unit){
+        val url="https://api.coingecko.com/api/v3/coins/$id/market_chart??x_cg_demo_api_key=$apiKey&vs_currency=usd&days=$days"
         val stringRequest = StringRequest(Request.Method.GET, url,
             { response ->
                 Log.d("API", " Market chart by id Request Successful, response: $response ")
@@ -236,4 +238,18 @@ class StonksViewModel(application: Application) : AndroidViewModel(application) 
         requestQueue.add(stringRequest)
         Log.d("API-Chart", "returning market chart by id: ${marketChartById.value}")
     }
+
+    fun graphFormat(amount: Double): String {
+        val formattedAmount = String.format("$%,.2f", amount)
+        return formattedAmount
+    }
+
+    fun formatCoinMarketChartData(chartApiResponse: CoinMarketChart): ImmutableList<DataPoint> {
+        return ImmutableList.copyOf(chartApiResponse.prices.map { price ->
+            val formattedPrice = graphFormat(price[1])
+            DataPoint(y = price[1], xLabel = null, yLabel = formattedPrice)
+        })
+    }
+
+
 }

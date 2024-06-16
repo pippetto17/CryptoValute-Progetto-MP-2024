@@ -1,15 +1,20 @@
 package it.magi.stonks.screens
 
+import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -34,12 +39,14 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import it.magi.stonks.R
 import it.magi.stonks.composables.CustomTopAppBar
+import it.magi.stonks.composables.LineChartGithub
 import it.magi.stonks.composables.SignButton
 import it.magi.stonks.models.SparkLine
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.StonksViewModel
+import okhttp3.internal.toImmutableList
 
 
 @Composable
@@ -92,7 +99,8 @@ fun CoinScreen(
         val price_change_percentage_7d_in_currency = coin?.price_change_percentage_7d_in_currency
         val price_change_percentage_14d_in_currency = coin?.price_change_percentage_14d_in_currency
         val price_change_percentage_30d_in_currency = coin?.price_change_percentage_30d_in_currency
-        val price_change_percentage_200d_in_currency = coin?.price_change_percentage_200d_in_currency
+        val price_change_percentage_200d_in_currency =
+            coin?.price_change_percentage_200d_in_currency
         val price_change_percentage_1y_in_currency = coin?.price_change_percentage_1y_in_currency
     }
 
@@ -100,14 +108,15 @@ fun CoinScreen(
     viewModel.coinMarketChartDataById(
         apiKey,
         coinId,
-        currency,
         7
-    )
+    ) {
+        Log.d("CoinMarketChart", "value: $it")
+    }
 
-    val chartData = viewModel.getCoinMarketChart().observeAsState().value?.prices
-    val listOfPairs: List<Pair<Double, Double>> = chartData?.mapNotNull {
-        if (it.size == 2) Pair(it[0], it[1]) else null
-    } ?: emptyList()
+    val chartApiResponse = viewModel.getCoinMarketChart().observeAsState().value
+    if (chartApiResponse != null) {
+        val chartData = viewModel.formatCoinMarketChartData(chartApiResponse)
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -198,53 +207,196 @@ fun CoinScreen(
                         )
                     }
                     Spacer(modifier = Modifier.height(20.dp))
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(Coin().sparkLineURI)
-                            .decoderFactory(SvgDecoder.Factory())
-                            .build(),
-                        contentDescription = "sparkLine",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp)
-                    )
+                    if (chartApiResponse != null) {
+                        val chartData = viewModel.formatCoinMarketChartData(chartApiResponse)
+                        val graphColor = if(Coin().price_change_24h > 0) Color.Green else Color.Red
+                        Log.d("CoinMarketChart", "immutablelist: $chartData")
+
+                        Column(modifier = Modifier.fillMaxWidth().requiredHeight(190.dp)){
+                            LineChartGithub(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(),
+                                data = chartData,
+                                graphColor = graphColor,
+                                showDashedLine = true
+                            )
+                        }
+
+
+                    }
                     Spacer(modifier = Modifier.height(20.dp))
                     Card {
-                        Column(){
-                            Text(text = "name: ${coin?.name}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "symbol: ${coin?.symbol}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "marketCap: ${coin?.market_cap}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "marketCapRank: ${coin?.market_cap_rank}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "fullyDilutedValuation: ${coin?.fully_diluted_valuation}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "totalVolume: ${coin?.total_volume}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "high24h: ${coin?.high_24h}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "low24h: ${coin?.low_24h}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "price_change_24h: ${coin?.price_change_24h ?: 0.0f}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "price_change_percentage_24h: ${coin?.price_change_percentage_24h ?: 0.0f}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "market_cap_change_24h: ${coin?.market_cap_change_24h ?: 0.0f}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "market_cap_change_percentage_24h: ${coin?.market_cap_change_percentage_24h ?: 0.0f}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "circulating_supply: ${coin?.circulating_supply ?: 0.0f}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "total_supply: ${coin?.total_supply ?: 0.0f}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "max_supply: ${coin?.max_supply ?: 0.0f}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "ath: ${coin?.ath ?: 0.0f}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "ath_change_percentage: ${coin?.ath_change_percentage ?: 0.0f}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "ath_date: ${coin?.ath_date ?: ""}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "atl: ${coin?.atl ?: 0.0f}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "atl_change_percentage: ${coin?.atl_change_percentage ?: 0.0f}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "atl_date: ${coin?.atl_date ?: ""}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "roi: ${coin?.roi ?: ""}", color = Color.White, fontSize = 12.sp)
-                            Text(text = "last_updated: ${coin?.last_updated ?: ""}", color = Color.White, fontSize = 12.sp)
-                            coin?.price_change_percentage_1h_in_currency?.let { Text(text = "price_change_percentage_1h_in_currency: $it", color = Color.White, fontSize = 12.sp) }
-                            coin?.price_change_percentage_24h_in_currency?.let { Text(text = "price_change_percentage_24h_in_currency: $it", color = Color.White, fontSize = 12.sp) }
-                            coin?.price_change_percentage_7d_in_currency?.let { Text(text = "price_change_percentage_7d_in_currency: $it", color = Color.White, fontSize = 12.sp) }
-                            coin?.price_change_percentage_14d_in_currency?.let { Text(text = "price_change_percentage_14d_in_currency: $it", color = Color.White, fontSize = 12.sp) }
-                            coin?.price_change_percentage_30d_in_currency?.let { Text(text = "price_change_percentage_30d_in_currency: $it", color = Color.White, fontSize = 12.sp) }
-                            coin?.price_change_percentage_200d_in_currency?.let { Text(text = "price_change_percentage_200d_in_currency: $it", color = Color.White, fontSize = 12.sp) }
-                            coin?.price_change_percentage_1y_in_currency?.let { Text(text = "price_change_percentage_1y_in_currency: $it", color = Color.White, fontSize = 12.sp) }
+                        Column() {
+                            Text(
+                                text = "name: ${coin?.name}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "symbol: ${coin?.symbol}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "marketCap: ${coin?.market_cap}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "marketCapRank: ${coin?.market_cap_rank}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "fullyDilutedValuation: ${coin?.fully_diluted_valuation}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "totalVolume: ${coin?.total_volume}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "high24h: ${coin?.high_24h}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "low24h: ${coin?.low_24h}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "price_change_24h: ${coin?.price_change_24h ?: 0.0f}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "price_change_percentage_24h: ${coin?.price_change_percentage_24h ?: 0.0f}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "market_cap_change_24h: ${coin?.market_cap_change_24h ?: 0.0f}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "market_cap_change_percentage_24h: ${coin?.market_cap_change_percentage_24h ?: 0.0f}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "circulating_supply: ${coin?.circulating_supply ?: 0.0f}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "total_supply: ${coin?.total_supply ?: 0.0f}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "max_supply: ${coin?.max_supply ?: 0.0f}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "ath: ${coin?.ath ?: 0.0f}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "ath_change_percentage: ${coin?.ath_change_percentage ?: 0.0f}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "ath_date: ${coin?.ath_date ?: ""}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "atl: ${coin?.atl ?: 0.0f}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "atl_change_percentage: ${coin?.atl_change_percentage ?: 0.0f}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "atl_date: ${coin?.atl_date ?: ""}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "roi: ${coin?.roi ?: ""}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "last_updated: ${coin?.last_updated ?: ""}",
+                                color = Color.White,
+                                fontSize = 12.sp
+                            )
+                            coin?.price_change_percentage_1h_in_currency?.let {
+                                Text(
+                                    text = "price_change_percentage_1h_in_currency: $it",
+                                    color = Color.White,
+                                    fontSize = 12.sp
+                                )
+                            }
+                            coin?.price_change_percentage_24h_in_currency?.let {
+                                Text(
+                                    text = "price_change_percentage_24h_in_currency: $it",
+                                    color = Color.White,
+                                    fontSize = 12.sp
+                                )
+                            }
+                            coin?.price_change_percentage_7d_in_currency?.let {
+                                Text(
+                                    text = "price_change_percentage_7d_in_currency: $it",
+                                    color = Color.White,
+                                    fontSize = 12.sp
+                                )
+                            }
+                            coin?.price_change_percentage_14d_in_currency?.let {
+                                Text(
+                                    text = "price_change_percentage_14d_in_currency: $it",
+                                    color = Color.White,
+                                    fontSize = 12.sp
+                                )
+                            }
+                            coin?.price_change_percentage_30d_in_currency?.let {
+                                Text(
+                                    text = "price_change_percentage_30d_in_currency: $it",
+                                    color = Color.White,
+                                    fontSize = 12.sp
+                                )
+                            }
+                            coin?.price_change_percentage_200d_in_currency?.let {
+                                Text(
+                                    text = "price_change_percentage_200d_in_currency: $it",
+                                    color = Color.White,
+                                    fontSize = 12.sp
+                                )
+                            }
+                            coin?.price_change_percentage_1y_in_currency?.let {
+                                Text(
+                                    text = "price_change_percentage_1y_in_currency: $it",
+                                    color = Color.White,
+                                    fontSize = 12.sp
+                                )
+                            }
                         }
                     }
 
                     Spacer(modifier = Modifier.height(120.dp))
+
                 }
             }
         }

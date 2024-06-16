@@ -45,7 +45,6 @@ import it.magi.stonks.viewmodels.WalletViewModel
 @Composable
 fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletViewModel) {
     val database = FirebaseDatabase.getInstance(stringResource(id = R.string.db_url))
-    Log.d("WalletScreen", "currency: $currency")
 
     var isWalletDatasLoading by remember { mutableStateOf(true) }
     var isCoinListLoading by remember { mutableStateOf(true) }
@@ -57,12 +56,13 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
     var walletCoins by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
     var coinsWithPriceList by remember { mutableStateOf<Map<String, Float>>(emptyMap()) }
 
-    LaunchedEffect(walletName) {
+    LaunchedEffect(key1=walletName) {
         isWalletDatasLoading = true
         isCoinListLoading = true
         totalValue = 0f
         coinsAmount = 0f
         coinsNumber = 0f
+        coinsWithPriceList = emptyMap()
         viewModel.getWalletCoinsList(
             database,
             walletName,
@@ -130,42 +130,6 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
             CircularProgressIndicator()
         } else {
             Spacer(modifier = Modifier.height(20.dp))
-//            LazyColumn(
-//                modifier = Modifier
-//                    .wrapContentHeight()
-//            ) {
-//                items(walletCoins.size) { it ->
-//                    val name = walletCoins.keys.elementAt(it)
-//                    var coin by remember { mutableStateOf<List<Coin>>(emptyList()) }
-//                    LaunchedEffect(walletName) {
-//                        coin = emptyList()
-//                        viewModel.filterCoinsApiRequest(apiKey, currency, name) {
-//                            Log.d("WalletScreen", "Coin Lazy Column: $it")
-//                            coin = it
-//                            isCoinDatasLoading = false
-//                        }
-//                    }
-//                    if (isCoinDatasLoading) {
-//                        CircularProgressIndicator()
-//                    } else {
-//                        if (coin.isNotEmpty()) {
-//                            Log.d("AIUT", "Value: $name Coin to WalletCoinItem: ${coin[0].name}")
-//                            WalletCoinItem(
-//                                prefCurrency = currency,
-//                                id = name,
-//                                imageURI = coin[0].image,
-//                                name = walletCoins.keys.elementAt(it),
-//                                amount = walletCoins.values.elementAt(it),
-//                                symbol = coin[0].symbol ?: "",
-//                                price = coin[0].current_price ?: 0f,
-//                            ) {
-//
-//                            }
-//                        }
-//                    }
-//
-//                }
-//            }
             if (isWalletDatasLoading) {
                 CircularProgressIndicator()
             } else {
