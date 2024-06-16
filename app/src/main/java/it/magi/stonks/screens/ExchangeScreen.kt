@@ -88,7 +88,7 @@ fun ExchangeScreen(viewModel: StonksViewModel)
             }
             Spacer(modifier = Modifier.width(25.dp))
             Text(
-                text = "Exchange",
+                text = stringResource(R.string.exchange_screen_exchange),
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
@@ -98,7 +98,7 @@ fun ExchangeScreen(viewModel: StonksViewModel)
             )
             Spacer(modifier = Modifier.width(70.dp))
             Text(
-                text = "Volume",
+                text = stringResource(R.string.exchange_screen_volume),
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
@@ -108,7 +108,7 @@ fun ExchangeScreen(viewModel: StonksViewModel)
                     .padding(start = 10.dp, end = 10.dp)
             )
             Text(
-                text = "Trust",
+                text = stringResource(R.string.exchange_screen_trust),
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,

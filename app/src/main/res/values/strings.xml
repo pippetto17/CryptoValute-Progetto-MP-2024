@@ -87,5 +87,8 @@
     <string name="wallet_screen_stocks">"Stocks: "</string>
     <string name="wallet_screen_your_coins">Your coins</string>
     <string name="wallet_screen_invalid">Invalid wallet index</string>
+    <string name="exchange_screen_exchange">Exchange</string>
+    <string name="exchange_screen_volume">Volume</string>
+    <string name="exchange_screen_trust">Trust</string>
 
 </resources>
