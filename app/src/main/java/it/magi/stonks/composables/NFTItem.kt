@@ -81,15 +81,15 @@ fun NFTItem(
                     )
                 }
             }
-            Spacer(modifier = Modifier.width(70.dp))
+            Spacer(modifier = Modifier.width(30.dp))
             Column(
-                modifier = Modifier.width(100.dp),
+                modifier = Modifier.width(200.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 Row(
                     modifier = Modifier
-                        .width(100.dp),
+                        .width(200.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(

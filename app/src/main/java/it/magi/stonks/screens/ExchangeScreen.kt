@@ -86,7 +86,7 @@ fun ExchangeScreen(viewModel: StonksViewModel)
                         .wrapContentHeight(Alignment.CenterVertically),
                 )
             }
-            Spacer(modifier = Modifier.width(25.dp))
+            Spacer(modifier = Modifier.width(15.dp))
             Text(
                 text = stringResource(R.string.exchange_screen_exchange),
                 fontSize = 13.sp,
@@ -96,7 +96,7 @@ fun ExchangeScreen(viewModel: StonksViewModel)
                 modifier = Modifier
                     .width(70.dp)
             )
-            Spacer(modifier = Modifier.width(70.dp))
+            Spacer(modifier = Modifier.width(110.dp))
             Text(
                 text = stringResource(R.string.exchange_screen_volume),
                 fontSize = 13.sp,
@@ -104,7 +104,7 @@ fun ExchangeScreen(viewModel: StonksViewModel)
                 color = Color.White,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .width(100.dp)
+                    .width(70.dp)
                     .padding(start = 10.dp, end = 10.dp)
             )
             Text(
