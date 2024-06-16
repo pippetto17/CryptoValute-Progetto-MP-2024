@@ -1,5 +1,6 @@
 package it.magi.stonks.screens
 
+import android.webkit.WebView
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -75,23 +76,12 @@ fun CoinScreen(
     )
     val coin = viewModel.getCoinsList().observeAsState().value?.get(0)
 
-    val percentageFormat = DecimalFormat("0.0")
-    val priceFormat = DecimalFormat("0.0#######")
-
-    val regex = Regex("/(\\d+)/")
-
-    val matchResult = regex.find(coin?.image ?: "")
-    val currencyImageNumber = matchResult?.groupValues?.get(1)?.toIntOrNull()
-
     class Coin {
         val name = coin?.name ?: ""
         val symbols = coin?.symbol?.uppercase() ?: ""
-        val sparkLineURI = "https://www.coingecko.com/coins/$currencyImageNumber/sparkline.svg"
+        val sparkLineURI = Utilities().sparklineURI(coin?.image)
         val current_price = coin?.current_price ?: 0.0f
-        val priceInMyCurrency =
-            if (priceFormat.format(current_price).length > 8) priceFormat.format(
-                current_price
-            ).substring(0, 9) else priceFormat.format(current_price)
+        val priceInMyCurrency = Utilities().formatPrice(current_price)
         val image = coin?.image ?: ""
         val market_cap = coin?.market_cap ?: 0.0f
         val market_cap_rank = coin?.market_cap_rank ?: 0.0f

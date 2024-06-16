@@ -32,6 +32,7 @@ import it.magi.stonks.R
 import it.magi.stonks.ui.theme.CoinContainerColor
 import it.magi.stonks.ui.theme.GreenStock
 import it.magi.stonks.ui.theme.RedStock
+import it.magi.stonks.utilities.Utilities
 import java.text.DecimalFormat
 
 @Composable
@@ -44,8 +45,6 @@ fun TrendingNFTItem(
     floorPrice24HPercentage: Float,
     id: String
 ) {
-    val percentageFormat = DecimalFormat("0.0")
-    val priceFormat = DecimalFormat("0.0#######")
 
     Card(
         modifier
@@ -130,10 +129,7 @@ fun TrendingNFTItem(
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
-                    text = if (priceFormat.format(floorPriceInNativeCurrency).length > 8) priceFormat.format(
-                        floorPriceInNativeCurrency
-                    )
-                        .substring(0, 9) else priceFormat.format(floorPriceInNativeCurrency),
+                    text = Utilities().formatPrice(floorPriceInNativeCurrency),
                     fontSize = 14.sp,
                     color = Color.White
                 )
@@ -147,10 +143,7 @@ fun TrendingNFTItem(
             }
             Text(
                 modifier = Modifier.width(80.dp),
-                text = if (floorPrice24HPercentage >= 0)
-                    "▲" + percentageFormat.format(floorPrice24HPercentage).toString() + "%"
-                else "▼" + percentageFormat.format(floorPrice24HPercentage).toString()
-                    .substring(1) + "%",
+                text = Utilities().percentageFormat(floorPrice24HPercentage),
                 fontSize = 14.sp,
                 textAlign = TextAlign.Center,
                 color = if (floorPrice24HPercentage >= 0) GreenStock else RedStock

@@ -31,7 +31,9 @@ import it.magi.stonks.R
 import it.magi.stonks.ui.theme.CoinContainerColor
 import it.magi.stonks.ui.theme.GreenStock
 import it.magi.stonks.ui.theme.RedStock
+import it.magi.stonks.utilities.Utilities
 import java.text.DecimalFormat
+import java.util.Locale
 
 @Composable
 fun CoinItem(
@@ -47,15 +49,6 @@ fun CoinItem(
 
     onClick: () -> Unit
 ) {
-    val percentageFormat = DecimalFormat("0.0")
-    val priceFormat = DecimalFormat("0.0#######")
-
-    val regex = Regex("/(\\d+)/")
-
-    val matchResult = regex.find(imageURI ?: "")
-    val currencyImageNumber = matchResult?.groupValues?.get(1)?.toIntOrNull()
-
-    val sparkLineURI = "https://www.coingecko.com/coins/$currencyImageNumber/sparkline.svg"
     Card(
         modifier
             .fillMaxWidth()
@@ -116,8 +109,7 @@ fun CoinItem(
                     horizontalArrangement = Arrangement.End
                 ) {
                     Text(
-                        text = if (priceFormat.format(price).length > 8) priceFormat.format(price)
-                            .substring(0, 9) else priceFormat.format(price),
+                        text = Utilities().formatPrice(price),
                         fontSize = 12.sp,
                         color = Color.White
                     )
@@ -135,9 +127,7 @@ fun CoinItem(
                     horizontalArrangement = Arrangement.End
                 ) {
                     Text(
-                        text = if (priceFormat.format(marketCap).length > 8) priceFormat.format(
-                            marketCap
-                        ).substring(0, 9) else priceFormat.format(marketCap),
+                        text = Utilities().formatPrice(marketCap),
                         fontSize = 12.sp,
                         color = Color.White
                     )
@@ -152,7 +142,7 @@ fun CoinItem(
             }
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(sparkLineURI)
+                    .data(Utilities().sparklineURI(imageURI))
                     .decoderFactory(SvgDecoder.Factory())
                     .build(),
                 contentDescription = "sparkLine",
@@ -163,10 +153,7 @@ fun CoinItem(
             Text(
                 modifier = Modifier
                     .width(70.dp),
-                text = if (priceChangePercentage24h >= 0)
-                    "▲" + percentageFormat.format(priceChangePercentage24h).toString() + "%"
-                else "▼" + percentageFormat.format(priceChangePercentage24h).toString()
-                    .substring(1) + "%",
+                text = Utilities().percentageFormat(priceChangePercentage24h),
                 fontSize = 15.sp,
                 textAlign = TextAlign.Center,
                 color = if (priceChangePercentage24h >= 0) GreenStock else RedStock

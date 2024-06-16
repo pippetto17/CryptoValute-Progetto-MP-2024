@@ -19,6 +19,7 @@ import com.google.firebase.database.ValueEventListener
 import it.magi.stonks.composables.ConfirmDeleteDialog
 import it.magi.stonks.composables.ConfirmEmailDialog
 import it.magi.stonks.viewmodels.RegistrationViewModel
+import java.text.DecimalFormat
 
 class Utilities {
 
@@ -177,6 +178,40 @@ class Utilities {
         }
 
         return isFirstRun
+    }
+
+    fun sparklineURI(imageURI: String?): String {
+        val regex = Regex("/(\\d+)/")
+        val matchResult = regex.find(imageURI ?: "")
+        val currencyImageNumber = matchResult?.groupValues?.get(1)?.toIntOrNull()
+        val sparkLineURI = "https://www.coingecko.com/coins/$currencyImageNumber/sparkline.svg"
+        return sparkLineURI
+    }
+
+
+    fun formatPrice(price: Float): String {
+        val priceFormat = DecimalFormat("#,##0.############")
+        val formattedPrice = priceFormat.format(price)
+        val priceWithSwappedSymbols =
+            formattedPrice
+                .replace(",", "temp")
+                .replace(".", ",")
+                .replace("temp", ".")
+        return if (priceWithSwappedSymbols.length > 8) {
+            priceWithSwappedSymbols.substring(0, 9)
+        } else {
+            priceWithSwappedSymbols
+        }
+    }
+
+    fun percentageFormat(percentage: Float): String {
+        val percentageFormat = DecimalFormat("0.0")
+        val formattedPercentage = percentageFormat.format(percentage)
+        return if (percentage >= 0) {
+            "▲$formattedPercentage%"
+        } else {
+            "▼${formattedPercentage.substring(1)}%"
+        }
     }
 }
 

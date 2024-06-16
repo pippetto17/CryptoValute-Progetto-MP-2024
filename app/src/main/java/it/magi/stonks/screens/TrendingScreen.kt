@@ -70,6 +70,8 @@ fun TrendingScreen(
     val greetings = listOf("👋", "👊", "✌️", "🤙", "🫡", "🖖", "🙋‍♂️")
     val randomString = remember { mutableStateOf(greetings.random()) }
 
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()

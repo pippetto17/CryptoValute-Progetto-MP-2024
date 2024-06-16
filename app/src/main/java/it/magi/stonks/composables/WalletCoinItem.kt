@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import it.magi.stonks.R
 import it.magi.stonks.ui.theme.CoinContainerColor
+import it.magi.stonks.utilities.Utilities
 import java.text.DecimalFormat
 
 @Composable
@@ -92,8 +93,7 @@ fun WalletCoinItem(
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
-                    text = if (priceFormat.format(price).length > 8) priceFormat.format(price)
-                        .substring(0, 9) else priceFormat.format(price),
+                    text = Utilities().formatPrice(price),
                     fontSize = 15.sp,
                     color = Color.White
                 )

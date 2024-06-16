@@ -28,6 +28,7 @@ import it.magi.stonks.R
 import it.magi.stonks.ui.theme.CoinContainerColor
 import it.magi.stonks.ui.theme.GreenStock
 import it.magi.stonks.ui.theme.RedStock
+import it.magi.stonks.utilities.Utilities
 import java.text.DecimalFormat
 
 @Composable
@@ -42,8 +43,6 @@ fun TrendingCoinItem(
     priceChangePercentage24h: Float,
     onClick: () -> Unit
 ) {
-    val percentageFormat = DecimalFormat("0.0")
-    val priceFormat = DecimalFormat("0.0#######")
 
     Card(
         modifier
@@ -116,8 +115,7 @@ fun TrendingCoinItem(
                         color = Color.White
                     )
                     Text(
-                        text = if (priceFormat.format(price).length > 9) priceFormat.format(price).substring(0, 10)
-                        else priceFormat.format(price),
+                        text = Utilities().formatPrice(price),
                         fontSize = 14.sp,
                         color = Color.White
                     )
@@ -138,10 +136,7 @@ fun TrendingCoinItem(
 
             Text(
                 modifier = Modifier.width(50.dp),
-                text = if (priceChangePercentage24h >= 0)
-                    "▲" + percentageFormat.format(priceChangePercentage24h).toString() + "%"
-                else "▼" + percentageFormat.format(priceChangePercentage24h).toString()
-                    .substring(1) + "%",
+                text = Utilities().percentageFormat(priceChangePercentage24h),
                 fontSize = 15.sp,
                 textAlign = TextAlign.Center,
                 color = if (priceChangePercentage24h >= 0) GreenStock else RedStock

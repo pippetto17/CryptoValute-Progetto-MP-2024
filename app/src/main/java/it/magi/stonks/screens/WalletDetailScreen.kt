@@ -134,7 +134,6 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
 //            LazyColumn(
 //                modifier = Modifier
 //                    .wrapContentHeight()
-//
 //            ) {
 //                items(walletCoins.size) { it ->
 //                    val name = walletCoins.keys.elementAt(it)

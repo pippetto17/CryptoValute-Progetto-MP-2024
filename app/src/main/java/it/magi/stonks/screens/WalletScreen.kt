@@ -2,6 +2,8 @@ package it.magi.stonks.screens
 
 import android.app.Application
 import android.util.Log
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +19,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -35,6 +38,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -82,8 +86,23 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
         }
     }
 
-
-
+    val gradients = listOf(
+        listOf(Color.Blue, Color(0xFF9E45CE)),
+        listOf(Color.Red, Color.Yellow),
+        listOf(Color.Green, Color(0xFFFF9800)),
+        listOf(Color(0xFFFF88F9), Color.Cyan),
+        listOf(Color(0xFF9E45CE), Color(255, 215, 0)),
+        listOf(Color.Blue, Color.Gray),
+        listOf(Color.Green, Color(0xFF662F18)),
+        listOf(Color.Red, Color(0xFF1F295F)),
+        listOf(Color.Yellow, Color(0xFF2196F3)),
+        listOf(Color(0xFFFF9800), Color(0xFFFF88F9)),
+        listOf(Color.Red, Color.DarkGray),
+        listOf(Color.Green, Color.Cyan),
+        listOf(Color.Green, Color.LightGray),
+    )
+    val randomGradient = remember { mutableStateOf(gradients.random()) }
+    val randomGradient2 = remember { mutableStateOf(gradients.random()) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -150,55 +169,58 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                             .width(400.dp)
                                             .padding(20.dp)
                                     ) {
-                                        Card(
+                                        Box(
                                             modifier = Modifier
-                                                .fillMaxWidth()
-                                                .height(150.dp),
-                                            shape = RoundedCornerShape(10.dp),
-                                            onClick = {
-                                                Log.d("changing to it", "${it + 1}")
-                                                tabState = it + 1
-                                            }) {
-                                            LaunchedEffect(key1 = true) {
-                                                viewModel.getWalletCoinsList(
-                                                    database,
-                                                    walletList[it]
-                                                ) { walletDetails ->
-                                                    Log.d(
-                                                        "WalletScreen",
-                                                        "WalletDetails: $walletDetails"
+                                                .background(
+                                                    brush = Brush.linearGradient(
+                                                        colors = if(it == 0) randomGradient.value else randomGradient2.value,
                                                     )
-                                                    for ((crypto, amount) in walletDetails) {
-                                                        coinsNumber += 1
-                                                        coinsAmount += amount.toFloat()
+                                                )
+                                        ) {
+                                            Card(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .height(150.dp),
+                                                colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+                                                shape = RoundedCornerShape(10.dp),
+                                                onClick = {
+                                                    Log.d("changing to it", "${it + 1}")
+                                                    tabState = it + 1
+                                                }) {
+                                                LaunchedEffect(key1 = true) {
+                                                    viewModel.getWalletCoinsList(
+                                                        database,
+                                                        walletList[it]
+                                                    ) { walletDetails ->
                                                         Log.d(
                                                             "WalletScreen",
-                                                            "${walletList[it]}Adding $crypto  + $amount"
+                                                            "WalletDetails: $walletDetails"
                                                         )
-                                                        viewModel.coinPriceApiRequest(
-                                                            apiKey,
-                                                            crypto.lowercase(),
-                                                            currency
-                                                        ) { pricePerValue ->
+                                                        for ((crypto, amount) in walletDetails) {
+                                                            coinsNumber += 1
+                                                            coinsAmount += amount.toFloat()
                                                             Log.d(
                                                                 "WalletScreen",
-                                                                "Adding $crypto valuex: $pricePerValue * $amount"
+                                                                "${walletList[it]}Adding $crypto  + $amount"
                                                             )
-                                                            if (pricePerValue != null)
+                                                            viewModel.coinPriceApiRequest(
+                                                                apiKey,
+                                                                crypto.lowercase(),
+                                                                currency
+                                                            ) { pricePerValue ->
+                                                                Log.d(
+                                                                    "WalletScreen",
+                                                                    "Adding $crypto valuex: $pricePerValue * $amount"
+                                                                )
                                                                 totalValue += pricePerValue * amount.toFloat()
+                                                            }
+                                                            Log.d("WalletScreen", "Adding $crypto")
                                                         }
-                                                        Log.d("WalletScreen", "Adding $crypto")
                                                     }
                                                 }
-                                            }
-                                            Column(
-                                                Modifier
-                                                    .fillMaxSize()
-                                                    .padding(5.dp)
-                                            ) {
-                                                Row(
-                                                    modifier = Modifier
-                                                        .fillMaxWidth()
+                                                Column(
+                                                    Modifier
+                                                        .fillMaxSize()
                                                         .padding(5.dp)
                                                 ) {
                                                     Text(
@@ -258,6 +280,69 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                                         color = Color.White,
                                                         fontSize = 15.sp
                                                     )
+                                                    Row(
+                                                        modifier = Modifier
+                                                            .fillMaxWidth()
+                                                            .padding(5.dp)
+                                                    ) {
+                                                        Text(
+                                                            text = walletList[it].uppercase(),
+                                                            color = Color.White,
+                                                            fontFamily = titleFont(),
+                                                            fontSize = 25.sp
+                                                        )
+                                                    }
+                                                    Spacer(modifier = Modifier.height(10.dp))
+                                                    Row(
+                                                        modifier = Modifier
+                                                            .fillMaxWidth()
+                                                            .padding(start = 15.dp)
+                                                    ) {
+                                                        Text(
+                                                            text = "VALUE: ",
+                                                            color = Color.White,
+                                                            fontSize = 15.sp
+                                                        )
+                                                        Text(
+                                                            text = totalValue.toString() + currency.uppercase(),
+                                                            color = Color.White,
+                                                            fontSize = 15.sp
+                                                        )
+                                                    }
+                                                    Spacer(modifier = Modifier.height(5.dp))
+                                                    Row(
+                                                        modifier = Modifier
+                                                            .fillMaxWidth()
+                                                            .padding(start = 15.dp)
+                                                    ) {
+                                                        Text(
+                                                            text = "COINS: ",
+                                                            color = Color.White,
+                                                            fontSize = 15.sp
+                                                        )
+                                                        Text(
+                                                            text = coinsNumber.toString(),
+                                                            color = Color.White,
+                                                            fontSize = 15.sp
+                                                        )
+                                                    }
+                                                    Spacer(modifier = Modifier.height(5.dp))
+                                                    Row(
+                                                        modifier = Modifier
+                                                            .fillMaxWidth()
+                                                            .padding(start = 15.dp)
+                                                    ) {
+                                                        Text(
+                                                            text = "STOCKS: ",
+                                                            color = Color.White,
+                                                            fontSize = 15.sp
+                                                        )
+                                                        Text(
+                                                            text = coinsAmount.toString(),
+                                                            color = Color.White,
+                                                            fontSize = 15.sp
+                                                        )
+                                                    }
                                                 }
                                             }
                                         }
