@@ -50,7 +50,6 @@ import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import it.magi.stonks.R
-import it.magi.stonks.composables.CustomTopAppBar
 import it.magi.stonks.composables.OtherDropDown
 import it.magi.stonks.composables.OtherTopAppBar
 import it.magi.stonks.composables.SignButton

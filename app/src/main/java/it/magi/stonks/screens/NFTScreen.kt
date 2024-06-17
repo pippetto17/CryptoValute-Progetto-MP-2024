@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build.VERSION.SDK_INT
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,10 +24,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SegmentedButtonDefaults.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -53,14 +50,7 @@ import coil.request.ImageRequest
 import it.magi.stonks.R
 import it.magi.stonks.activities.apiKey
 import it.magi.stonks.composables.CustomTopAppBar
-import it.magi.stonks.composables.TrendingNFTItem
-import it.magi.stonks.models.Explorer
-import it.magi.stonks.models.FloorPrice
-import it.magi.stonks.models.Image
 import it.magi.stonks.models.Links
-import it.magi.stonks.models.MarketCap
-import it.magi.stonks.models.PriceChange
-import it.magi.stonks.models.Volume24h
 import it.magi.stonks.ui.theme.CoinContainerColor
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.GreenStock

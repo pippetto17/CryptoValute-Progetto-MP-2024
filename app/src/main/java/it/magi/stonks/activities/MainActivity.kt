@@ -21,7 +21,6 @@ import it.magi.stonks.navigation.NavigationItem
 import it.magi.stonks.screen.BuyCoinScreen
 import it.magi.stonks.screens.CoinScreen
 import it.magi.stonks.screens.HomeScreen
-import it.magi.stonks.screens.NFTListScreen
 import it.magi.stonks.screens.NFTScreen
 import it.magi.stonks.screens.NewsScreen
 import it.magi.stonks.screens.ProfileScreen

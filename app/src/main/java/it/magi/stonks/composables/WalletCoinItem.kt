@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import it.magi.stonks.R
-import it.magi.stonks.ui.theme.CoinContainerColor
 import it.magi.stonks.utilities.Utilities
 import java.text.DecimalFormat
 

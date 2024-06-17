@@ -32,10 +32,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import it.magi.stonks.R
 import it.magi.stonks.activities.apiKey
-import it.magi.stonks.composables.CoinItem
 import it.magi.stonks.composables.ExchangeItem
 import it.magi.stonks.ui.theme.CoinContainerColor
 import it.magi.stonks.viewmodels.StonksViewModel
@@ -104,7 +102,7 @@ fun ExchangeScreen(viewModel: StonksViewModel)
                 color = Color.White,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .width(70.dp)
+                    .width(100.dp)
                     .padding(start = 10.dp, end = 10.dp)
             )
             Text(

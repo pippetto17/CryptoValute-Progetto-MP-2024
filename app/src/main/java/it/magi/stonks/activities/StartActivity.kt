@@ -2,8 +2,6 @@ package it.magi.stonks.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -13,13 +11,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
-import androidx.credentials.GetCredentialRequest
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import it.magi.stonks.screens.FifthOnBoarding
 import it.magi.stonks.screens.FirstOnBoarding
 import it.magi.stonks.screens.FourthOnBoarding
@@ -33,7 +28,6 @@ import it.magi.stonks.ui.theme.StonksTheme
 import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.LoginViewModel
 import it.magi.stonks.viewmodels.RegistrationViewModel
-import kotlinx.coroutines.launch
 
 private const val WEB_CLIENT_ID =
     "407431367773-nlg80561qd2gecmiqjul5js5v4bp6ptk.apps.googleusercontent.com"

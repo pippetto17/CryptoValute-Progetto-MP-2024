@@ -26,9 +26,9 @@ data class Article(
     val language: String,
     val country: List<String>,
     val category: List<String>,
-    @SerializedName("ai_tag") val aiTag: String?,
-    val sentiment: String?,
-    @SerializedName("sentiment_stats") val sentimentStats: String?,
+    @SerializedName("ai_tag") val aiTag: Any?,
+    val sentiment: Any?,
+    @SerializedName("sentiment_stats") val sentimentStats: Any?,
     @SerializedName("ai_region") val aiRegion: String?,
     @SerializedName("ai_org") val aiOrg: String?,
     val sponsor: Boolean?
