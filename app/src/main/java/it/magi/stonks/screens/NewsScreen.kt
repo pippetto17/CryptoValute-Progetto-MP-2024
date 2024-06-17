@@ -42,13 +42,21 @@ fun NewsScreen(navController: NavController, viewModel: NewsViewModel) {
         containerColor = FormContainerColor,
         contentWindowInsets = WindowInsets(left = 0.dp, top = 0.dp, right = 0.dp, bottom = 0.dp),
     ) { innerPadding ->
-    AndroidView(
-        modifier = Modifier.fillMaxSize().padding(innerPadding),
-        factory = { context ->
-            WebView(context).apply {
-                webViewClient = WebViewClient()
-                loadUrl(url)
+
+        AndroidView(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            factory = { context ->
+                WebView(context).apply {
+                    try {
+                        webViewClient = WebViewClient()
+                        loadUrl(url)
+                    } catch (e: Exception) {
+                        Log.e("WebView", e.message.toString())
+                    }
+                }
             }
-        }
-    )}
+        )
+    }
 }

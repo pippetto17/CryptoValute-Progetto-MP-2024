@@ -80,7 +80,7 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
                 ) { pricePerValue ->
                     Log.d("WalletScreen", "Price per value $crypto value: $pricePerValue * $amount")
                     totalValue += pricePerValue * amount.toFloat()
-                    coinsWithPriceList += mapOf(crypto to pricePerValue)
+                    coinsWithPriceList += mapOf(crypto to (pricePerValue * amount.toFloat()))
                 }
             }
             isWalletDatasLoading = false
@@ -203,6 +203,7 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
                                 currency = currency,
                                 walletName = walletName,
                                 viewModel = viewModel,
+                                totalSum = totalValue,
                                 database = database
                             )
 

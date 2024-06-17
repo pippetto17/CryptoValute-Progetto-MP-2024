@@ -51,11 +51,11 @@ fun PieChart(
     animDuration: Int = 1000,
     currency: String,
     viewModel: WalletViewModel,
+    totalSum: Float,
     walletName: String,
     database: FirebaseDatabase
 ) {
 
-    val totalSum = data.values.sum()
     val floatValue = mutableListOf<Float>()
 
     var isCoinDatasLoading by remember { mutableStateOf(false) }
@@ -68,7 +68,8 @@ fun PieChart(
     }
 
     data.values.forEachIndexed { index, values ->
-        floatValue.add(index, 360 * values.toFloat() / totalSum.toFloat())
+        Log.d("AIUT", "Value: $values")
+        floatValue.add(index, 360 * values / totalSum.toFloat())
     }
 
     val colors = List(data.size) {
@@ -247,7 +248,7 @@ fun DetailsPieChartItem(
         }
         Text(
             text = Utilities().formatExponentialPriceToReadable(
-                (amount * data.second).toString()) + " " + currency.uppercase()
+                data.second.toString()) + " " + currency.uppercase()
             , // Multiplication
             color = Color.White,
             fontSize = 14.sp

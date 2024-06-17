@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -116,11 +118,24 @@ fun BuyCoinScreen(
         },
         containerColor = FormContainerColor
     ) { innerPadding ->
-        if (showSuccesAnimation) {
-            val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.added_to_wallet_animation))
-            Dialog(onDismissRequest = { showSuccesAnimation = false }) {
-                LottieAnimation(composition = composition, iterations = 1)
+        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.added_to_wallet_animation))
 
+        if (showSuccesAnimation) {
+            Dialog(onDismissRequest = { showSuccesAnimation = false }) {
+                Box(
+                    modifier = Modifier
+                        .size(200.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    LottieAnimation(
+                        composition = composition,
+                        iterations = 1,
+                        modifier = Modifier.fillMaxSize(),
+                        maintainOriginalImageBounds = true,
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.Crop  // Adjust scale if needed
+                    )
+                }
             }
         }
         if (showNewWalletDialog) {
@@ -226,12 +241,12 @@ fun BuyCoinScreen(
             )
             Text(text = coinId, fontSize = 30.sp, fontFamily = titleFont(), color = Color.White)
             Text(
-                text = "Valore per azione ${Utilities().convertScientificToDecimal(coinPriceState.value.toString())}$currency",
+                text = "Valore per azione ${Utilities().formatExponentialPriceToReadable(coinPriceState.value.toString())}$currency",
                 color = Color.White
             )
             Column(verticalArrangement = Arrangement.SpaceBetween) {
                 TextField(
-                    modifier = Modifier.padding(5.dp),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
                     value = quantityState.value,
                     label = { Text("Amount") },
                     onValueChange = { newValue ->
@@ -251,11 +266,12 @@ fun BuyCoinScreen(
                             }
                         }
                     },
+                    singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
                 )
                 Spacer(modifier = Modifier.height(15.dp))
                 TextField(
-                    modifier = Modifier.padding(5.dp),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
                     value = totalSpentState.value,
                     label = { Text("Total spent") },
                     onValueChange = { newValue ->
@@ -274,6 +290,7 @@ fun BuyCoinScreen(
                             }
                         }
                     },
+                    singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
                 )
             }
