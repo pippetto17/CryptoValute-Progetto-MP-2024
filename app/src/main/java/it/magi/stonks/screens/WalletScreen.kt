@@ -63,6 +63,7 @@ import it.magi.stonks.ui.theme.DarkBgColor
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.GreenStock
 import it.magi.stonks.ui.theme.titleFont
+import it.magi.stonks.ui.theme.walletFont
 import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.WalletViewModel
 
@@ -261,21 +262,18 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                                                 .fillMaxWidth()
                                                         ) {
                                                             Text(
-                                                                text = stringResource(id = R.string.wallet_screen_value).uppercase(),
-                                                                color = Color.White,
-                                                                fontWeight = FontWeight.Bold,
-                                                                fontSize = 15.sp
-                                                            )
-                                                            Text(
                                                                 text = totalValue.toString(),
                                                                 color = Color.White,
-                                                                fontSize = 15.sp
+                                                                fontSize = 20.sp,
+                                                                fontWeight = FontWeight.Bold,
+                                                                fontFamily = walletFont()
                                                             )
                                                             Text(
                                                                 modifier = Modifier.padding(start = 5.dp),
                                                                 text = currency.uppercase(),
                                                                 color = Color.White,
-                                                                fontSize = 15.sp
+                                                                fontSize = 20.sp,
+                                                                fontFamily = walletFont()
                                                             )
                                                         }
                                                         //coins number
@@ -288,6 +286,7 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                                                 color = Color.White,
                                                                 fontSize = 15.sp,
                                                                 fontWeight = FontWeight.Bold,
+                                                                fontFamily = walletFont()
                                                             )
                                                             Text(
                                                                 text = coinsNumber.toString(),
@@ -305,6 +304,7 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                                                                 color = Color.White,
                                                                 fontSize = 15.sp,
                                                                 fontWeight = FontWeight.Bold,
+                                                                fontFamily = walletFont()
                                                             )
                                                             Text(
                                                                 text = coinsAmount.toString(),

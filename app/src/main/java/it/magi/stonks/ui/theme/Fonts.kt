@@ -12,3 +12,11 @@ fun titleFont(): FontFamily {
         Font("Heavitas.ttf", assets)
     )
 }
+
+@Composable
+fun walletFont(): FontFamily {
+    val assets = LocalContext.current.assets
+    return FontFamily(
+        Font("OCR-a.ttf", assets)
+    )
+}

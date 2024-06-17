@@ -90,5 +90,8 @@
     <string name="exchange_screen_exchange">Exchange</string>
     <string name="exchange_screen_volume">Volume</string>
     <string name="exchange_screen_trust">Trust</string>
+    <string name="nft_screen_description">Description</string>
+    <string name="market_data_title">Market Data</string>
+    <string name="nft_screen_links_title">Links</string>
 
 </resources>

@@ -173,6 +173,9 @@ fun TrendingScreen(
                     floorPriceInNativeCurrency = nft.floor_price_in_native_currency.toFloat(),
                     floorPrice24HPercentage = nft.floor_price_24h_percentage_change.toFloat(),
                     id = nft.id,
+                    onClick = {
+                        navController.navigate("nft/${nft.id}")
+                    }
                 )
             }
         }
@@ -207,6 +210,9 @@ fun TrendingScreen(
                         floorPriceInNativeCurrency = nft.floor_price_in_native_currency.toFloat(),
                         floorPrice24HPercentage = nft.floor_price_24h_percentage_change.toFloat(),
                         id = nft.id,
+                        onClick = {
+                            navController.navigate("nft/${nft.id}")
+                        }
                     )
                 }
             }

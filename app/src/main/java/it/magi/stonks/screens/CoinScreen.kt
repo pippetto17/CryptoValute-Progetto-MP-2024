@@ -239,7 +239,9 @@ fun CoinScreen(
                         val graphColor = if(Coin().price_change_24h > 0) Color.Green else Color.Red
                         Log.d("CoinMarketChart", "immutablelist: $chartData")
 
-                        Column(modifier = Modifier.fillMaxWidth().requiredHeight(190.dp)){
+                        Column(modifier = Modifier
+                            .fillMaxWidth()
+                            .requiredHeight(190.dp)){
                             LineChartGithub(
                                 Modifier
                                     .fillMaxWidth()
@@ -254,7 +256,7 @@ fun CoinScreen(
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(
-                        "Market Data",
+                        stringResource(id = R.string.market_data_title),
                         color = RedStock,
                         fontSize = 20.sp,
                         fontFamily = titleFont(),

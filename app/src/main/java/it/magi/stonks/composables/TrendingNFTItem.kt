@@ -1,6 +1,7 @@
 package it.magi.stonks.composables
 
 import android.os.Build.VERSION.SDK_INT
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,13 +44,17 @@ fun TrendingNFTItem(
     nativeCurrency: String,
     floorPriceInNativeCurrency: Float,
     floorPrice24HPercentage: Float,
-    id: String
+    id: String,
+    onClick: () -> Unit
 ) {
 
     Card(
         modifier
             .fillMaxWidth()
-            .padding(5.dp),
+            .padding(5.dp)
+            .clickable {
+                onClick()
+            },
         colors = CardDefaults.cardColors(
             containerColor = CoinContainerColor
         )

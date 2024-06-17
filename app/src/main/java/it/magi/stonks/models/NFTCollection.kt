@@ -1,5 +1,6 @@
 package it.magi.stonks.models
 
+
 data class NFTCollection(
     val id: String,
     val contract_address: String,
