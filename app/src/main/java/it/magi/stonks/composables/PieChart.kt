@@ -8,8 +8,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,15 +17,16 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import it.magi.stonks.ui.theme.walletFont
+import com.google.firebase.database.FirebaseDatabase
+import it.magi.stonks.activities.apiKey
+import it.magi.stonks.models.Coin
 import it.magi.stonks.utilities.Utilities
-import java.math.BigDecimal
+import it.magi.stonks.viewmodels.WalletViewModel
 import kotlin.random.Random
 
 @Composable
@@ -35,11 +35,23 @@ fun PieChart(
     radiusOuter: Dp = 140.dp,
     chartBarWidth: Dp = 50.dp,
     animDuration: Int = 1000,
-    currency: String
+    currency: String,
+    viewModel: WalletViewModel,
+    walletName: String,
+    database: FirebaseDatabase
 ) {
 
     val totalSum = data.values.sum()
     val floatValue = mutableListOf<Float>()
+
+    var isCoinDatasLoading by remember { mutableStateOf(false) }
+    var isCoinListLoading by remember { mutableStateOf(false) }
+    var walletCoins by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
+
+    viewModel.getWalletCoinsList(database, walletName) {
+        walletCoins = it
+        isCoinListLoading = false
+    }
 
     data.values.forEachIndexed { index, values ->
         floatValue.add(index, 360 * values.toFloat() / totalSum.toFloat())
@@ -101,14 +113,51 @@ fun PieChart(
             }
         }
     }
-
-    Log.d("PieChart", "passing totalSum1: $totalSum")
     DetailsPieChart(
         data = data,
         colors = colors,
         totalSum = totalSum,
-        currency = currency
+        currency = currency,
+        walletCoins = walletCoins
     )
+    Column(
+        modifier = Modifier
+            .wrapContentHeight()
+    ) {
+        walletCoins.keys.forEachIndexed { index, name ->
+            var coin by remember { mutableStateOf<List<Coin>>(emptyList()) }
+            LaunchedEffect(walletName) {
+                coin = emptyList()
+                viewModel.filterCoinsApiRequest(apiKey, currency, name) {
+                    Log.d("WalletScreen", "Coin Lazy Column: $it")
+                    coin = it
+                    isCoinDatasLoading = false
+                }
+            }
+            if (isCoinDatasLoading) {
+                CircularProgressIndicator()
+            } else {
+                if (coin.isNotEmpty()) {
+                    Log.d(
+                        "AIUT",
+                        "Value: $name Coin to WalletCoinItem: ${coin[0].name}"
+                    )
+                    WalletCoinItem(
+                        prefCurrency = currency,
+                        id = name,
+                        imageURI = coin[0].image,
+                        name = walletCoins.keys.elementAt(index),
+                        amount = walletCoins.values.elementAt(index),
+                        symbol = coin[0].symbol ?: "",
+                        price = coin[0].current_price ?: 0f,
+                    ) {
+
+                    }
+                }
+            }
+        }
+    }
+
 
 }
 
@@ -117,20 +166,22 @@ fun DetailsPieChart(
     data: Map<String, Float>,
     colors: List<Color>,
     totalSum: Float,
-    currency: String
+    currency: String,
+    walletCoins: Map<String, String>
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
-        data.values.forEachIndexed { index, value ->
-            Log.d("PieChart", "passing totalSum2: $totalSum")
+        data.keys.forEachIndexed { index, key ->
+            val amount = walletCoins[key]?.toFloatOrNull() ?: 0f
             DetailsPieChartItem(
-                data = Pair(data.keys.elementAt(index), value),
+                data = Pair(key, data[key] ?: 0f),
                 color = colors[index],
                 totalSum = totalSum,
-                currency = currency
+                currency = currency,
+                amount = amount
             )
         }
     }
@@ -142,7 +193,8 @@ fun DetailsPieChartItem(
     height: Dp = 45.dp,
     color: Color,
     totalSum: Float,
-    currency: String
+    currency: String,
+    amount: Float
 ) {
     val percentage = (data.second / totalSum) * 100
 
@@ -162,7 +214,10 @@ fun DetailsPieChartItem(
                 .size(16.dp)
         )
 
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier.wrapContentWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Text(
                 modifier = Modifier.padding(start = 15.dp),
                 text = data.first.uppercase(),
@@ -177,19 +232,12 @@ fun DetailsPieChartItem(
                 fontSize = 14.sp
             )
         }
-        Row(){
-            Text(
-                text = Utilities().formatExponentialPriceToReadable(data.second.toString()),
-                color = Color.White,
-                fontSize = 14.sp
-            )
-            Text(
-                text = currency.uppercase(),
-                color = Color.White,
-                fontSize = 14.sp
-            )
-        }
-
-
+        Text(
+            text = Utilities().formatExponentialPriceToReadable(
+                (amount * data.second).toString()) + " " + currency.uppercase()
+            , // Multiplication
+            color = Color.White,
+            fontSize = 14.sp
+        )
     }
 }

@@ -27,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.text.font.FontStyle
 import com.google.firebase.database.FirebaseDatabase
 import it.magi.stonks.R
+import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.WalletViewModel
 
 @Composable
@@ -122,7 +123,7 @@ fun WalletCard(
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(
-                                text = totalValue.toString(),
+                                text = Utilities().formatExponentialPriceToReadable(totalValue.toString()),
                                 style = TextStyle(
                                     fontSize = 22.sp,
                                     shadow = Shadow(

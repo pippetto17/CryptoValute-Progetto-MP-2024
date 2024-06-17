@@ -45,7 +45,6 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
 
     var isWalletDatasLoading by remember { mutableStateOf(true) }
     var isCoinListLoading by remember { mutableStateOf(true) }
-    var isCoinDatasLoading by remember { mutableStateOf(false) }
     var coinsNumber by remember { mutableStateOf(0f) }
     var coinsAmount by remember { mutableStateOf(0f) }
     var totalValue by remember { mutableStateOf(0f) }
@@ -124,7 +123,7 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
                     CircularProgressIndicator()
                 } else {
                     Text(
-                        text = "$totalValue ${currency.uppercase()}",
+                        text = Utilities().formatExponentialPriceToReadable(totalValue.toString()) + " " + currency.uppercase(),
                         style = TextStyle(
                             fontSize = 30.sp,
                             shadow = Shadow(
@@ -194,44 +193,11 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
                             PieChart(
                                 data = Utilities().convertMapIntoPairs(coinsWithPriceList),
                                 currency = currency,
+                                walletName = walletName,
+                                viewModel = viewModel,
+                                database = database
                             )
-                            Column(
-                                modifier = Modifier
-                                    .wrapContentHeight()
-                            ) {
-                                walletCoins.keys.forEachIndexed { index, name ->
-                                    var coin by remember { mutableStateOf<List<Coin>>(emptyList()) }
-                                    LaunchedEffect(walletName) {
-                                        coin = emptyList()
-                                        viewModel.filterCoinsApiRequest(apiKey, currency, name) {
-                                            Log.d("WalletScreen", "Coin Lazy Column: $it")
-                                            coin = it
-                                            isCoinDatasLoading = false
-                                        }
-                                    }
-                                    if (isCoinDatasLoading) {
-                                        CircularProgressIndicator()
-                                    } else {
-                                        if (coin.isNotEmpty()) {
-                                            Log.d(
-                                                "AIUT",
-                                                "Value: $name Coin to WalletCoinItem: ${coin[0].name}"
-                                            )
-                                            WalletCoinItem(
-                                                prefCurrency = currency,
-                                                id = name,
-                                                imageURI = coin[0].image,
-                                                name = walletCoins.keys.elementAt(index),
-                                                amount = walletCoins.values.elementAt(index),
-                                                symbol = coin[0].symbol ?: "",
-                                                price = coin[0].current_price ?: 0f,
-                                            ) {
 
-                                            }
-                                        }
-                                    }
-                                }
-                            }
 
                         }
                         Spacer(modifier = Modifier.height(100.dp))
