@@ -59,13 +59,11 @@ fun TrendingScreen(
     val shortTrendingCoins = trendingList.value?.coins?.subList(0, 3)
     val trendingCoins = trendingList.value?.coins?.subList(3, trendingList.value?.coins?.size ?: 15)
 
-
     val shortTrendingNFT = trendingList.value?.nfts?.subList(0, 3)
     val trendingNFT = trendingList.value?.nfts?.subList(3, trendingList.value?.nfts?.size ?: 15)
 
     Log.d("nft", shortTrendingNFT.toString())
     var expandedCoin by remember { mutableStateOf(false) }
-
     var expandedNFt by remember { mutableStateOf(false) }
 
     val accountName = Utilities().getAccountName()
@@ -75,12 +73,13 @@ fun TrendingScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(10.dp)
     ) {
         Text(
             text = "Hi $accountName ${randomString.value}",
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp),
+                .padding(vertical = 10.dp),
             color = Color.White,
             fontSize = 30.sp,
             fontFamily = titleFont()
@@ -90,12 +89,12 @@ fun TrendingScreen(
                 stringResource(R.string.trending_screen_subtitle_coins),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 20.dp, start = 10.dp, end = 10.dp),
+                    .padding(vertical = 20.dp),
                 color = Color.White,
                 fontSize = 15.sp,
                 fontFamily = titleFont()
             )
-            LazyColumn {
+            LazyColumn(modifier = Modifier.weight(1f)) {
                 items(
                     shortTrendingCoins ?: emptyList()
                 ) { coin ->
@@ -121,19 +120,20 @@ fun TrendingScreen(
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 5.dp, end = 5.dp)
+                    .padding(vertical = 5.dp)
                     .clickable { expandedCoin = !expandedCoin },
             ) {
                 Text(
                     modifier = Modifier
-                        .align(Alignment.CenterHorizontally),
+                        .align(Alignment.CenterHorizontally)
+                        .padding(5.dp),
                     text = if (expandedCoin) "See less ▲" else "See more ▼",
                     fontFamily = titleFont(),
                     fontSize = 12.sp
                 )
             }
             if (expandedCoin) {
-                LazyColumn {
+                LazyColumn() {
                     items(
                         trendingCoins ?: emptyList()
                     ) { coin ->
@@ -157,12 +157,12 @@ fun TrendingScreen(
             stringResource(R.string.trending_screen_subtitle_nfts),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 30.dp, start = 10.dp, end = 10.dp),
+                .padding(vertical = 30.dp),
             color = Color.White,
             fontSize = 15.sp,
             fontFamily = titleFont()
         )
-        LazyColumn {
+        LazyColumn(modifier = Modifier.weight(1f)) {
             items(
                 shortTrendingNFT ?: emptyList()
             ) { nft ->
@@ -187,19 +187,20 @@ fun TrendingScreen(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 5.dp, end = 5.dp)
+                .padding(vertical = 5.dp)
                 .clickable { expandedNFt = !expandedNFt },
         ) {
             Text(
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally),
+                    .align(Alignment.CenterHorizontally)
+                    .padding(5.dp),
                 text = if (expandedNFt) "See less ▲" else "See more ▼",
                 fontFamily = titleFont(),
                 fontSize = 12.sp
             )
         }
         if (expandedNFt) {
-            LazyColumn {
+            LazyColumn() {
                 items(
                     trendingNFT ?: emptyList()
                 ) { nft ->

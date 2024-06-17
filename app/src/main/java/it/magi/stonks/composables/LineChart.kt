@@ -25,7 +25,7 @@ data class DataPoint(
 
 
 @Composable
-fun LineChartGithub(
+fun LineChart(
     modifier: Modifier = Modifier,
     data: ImmutableList<DataPoint>,
     graphColor: Color,

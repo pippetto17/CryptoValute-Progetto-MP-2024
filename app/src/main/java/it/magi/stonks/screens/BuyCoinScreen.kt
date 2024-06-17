@@ -126,6 +126,7 @@ fun BuyCoinScreen(
         }
         if (showNewWalletDialog) {
             NewWalletDialog(
+                navController = navController,
                 onDismissRequest = { showNewWalletDialog = false },
                 viewModel = viewModel
             )

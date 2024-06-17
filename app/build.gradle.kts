@@ -91,9 +91,6 @@ dependencies {
 
     implementation (libs.lottie.compose.v641)
 
-    //grafici
-    implementation ("co.yml:ycharts:2.1.0")
-
     implementation(libs.compose)
     implementation(libs.androidx.media3.common)
     implementation(libs.androidx.lifecycle.runtime.compose.android)

@@ -1,8 +1,6 @@
 package it.magi.stonks.screens
 
 import android.util.Log
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,7 +18,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
@@ -30,7 +27,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -39,20 +35,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import coil.decode.SvgDecoder
-import coil.request.ImageRequest
 import it.magi.stonks.R
 import it.magi.stonks.composables.CustomTopAppBar
-import it.magi.stonks.composables.LineChartGithub
+import it.magi.stonks.composables.LineChart
 import it.magi.stonks.composables.SignButton
-import it.magi.stonks.models.SparkLine
 import it.magi.stonks.ui.theme.CoinContainerColor
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.ui.theme.RedStock
 import it.magi.stonks.ui.theme.titleFont
 import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.StonksViewModel
-import okhttp3.internal.toImmutableList
 
 
 @Composable
@@ -77,30 +69,48 @@ fun CoinScreen(
         val symbols = coin?.symbol?.uppercase() ?: ""
         val sparkLineURI = Utilities().sparklineURI(coin?.image)
         val currentPrice = coin?.current_price ?: 0.0f
-        val priceInMyCurrency = Utilities().formatPrice(currentPrice)
+        val priceInMyCurrency = Utilities().formatItemPrice(currentPrice)
         val image = coin?.image ?: ""
         val price_change_24h = coin?.price_change_24h ?: 0.0f
     }
 
     val items = listOf(
-        "Market cap" to (coin?.market_cap?.toString() ?: "N/A"),
-        "Market cap rank" to (coin?.market_cap_rank?.toString() ?: "N/A"),
-        "Fully diluted valuation" to (coin?.fully_diluted_valuation?.toString() ?: "N/A"),
+        "Market cap" to (Utilities().formatExponentialPriceToReadable(
+            coin?.market_cap?.toString() ?: "0.0"
+        )),
+        "Market cap rank" to (coin?.market_cap_rank?.toInt().toString()),
+        "Fully diluted valuation" to (Utilities().formatExponentialPriceToReadable(
+            coin?.fully_diluted_valuation?.toString() ?: "0.0"
+        )),
         "Total volume" to (coin?.total_volume?.toString() ?: "N/A"),
         "High 24h" to (coin?.high_24h?.toString() ?: "N/A"),
         "Low 24h" to (coin?.low_24h?.toString() ?: "N/A"),
         "Price change 24h" to (coin?.price_change_24h?.toString() ?: "0.0"),
-        "Price change percentage 24h" to ((coin?.price_change_percentage_24h?.toString() ?: "0.0") + "%"),
+        "Price change percentage 24h" to (Utilities().percentageFormat(
+            coin?.price_change_percentage_24h ?: 0.0f
+        )),
         "Market cap change 24h" to (coin?.market_cap_change_24h?.toString() ?: "0.0"),
-        "Market cap change percentage 24h" to ((coin?.market_cap_change_percentage_24h?.toString() ?: "0.0") + "%"),
-        "Circulating supply" to (coin?.circulating_supply?.toString() ?: "0.0"),
-        "Total supply" to (coin?.total_supply?.toString() ?: "0.0"),
-        "Max supply" to (coin?.max_supply?.toString() ?: "0.0"),
+        "Market cap change percentage 24h" to (Utilities().percentageFormat(
+            coin?.market_cap_change_percentage_24h ?: 0.0f
+        )),
+        "Circulating supply" to (Utilities().formatExponentialPriceToReadable(
+            coin?.circulating_supply?.toString() ?: "0.0"
+        )),
+        "Total supply" to (Utilities().formatExponentialPriceToReadable(
+            coin?.total_supply?.toString() ?: "0.0"
+        )),
+        "Max supply" to (Utilities().formatExponentialPriceToReadable(
+            coin?.max_supply?.toString() ?: "0.0"
+        )),
         "ATH" to (coin?.ath?.toString() ?: "0.0"),
-        "ATH change percentage" to ((coin?.ath_change_percentage?.toString() ?: "0.0") + "%"),
+        "ATH change percentage" to (Utilities().percentageFormat(
+            coin?.ath_change_percentage ?: 0.0f
+        )),
         "ATH date" to (coin?.ath_date ?: ""),
         "ATL" to (coin?.atl?.toString() ?: "0.0"),
-        "ATL change percentage" to ((coin?.atl_change_percentage?.toString() ?: "0.0") + "%"),
+        "ATL change percentage" to (Utilities().percentageFormat(
+            coin?.atl_change_percentage ?: 0.0f
+        )),
         "ATL date" to (coin?.atl_date ?: ""),
         "Last updated" to (coin?.last_updated ?: "")
     )
@@ -122,7 +132,7 @@ fun CoinScreen(
     }
 
     @Composable
-    fun DataDivider(){
+    fun DataDivider() {
         HorizontalDivider(
             color = Color.LightGray,
             thickness = 1.dp,
@@ -236,13 +246,15 @@ fun CoinScreen(
                     Spacer(modifier = Modifier.height(20.dp))
                     if (chartApiResponse != null) {
                         val chartData = viewModel.formatCoinMarketChartData(chartApiResponse)
-                        val graphColor = if(Coin().price_change_24h > 0) Color.Green else Color.Red
+                        val graphColor = if (Coin().price_change_24h > 0) Color.Green else Color.Red
                         Log.d("CoinMarketChart", "immutablelist: $chartData")
 
-                        Column(modifier = Modifier
-                            .fillMaxWidth()
-                            .requiredHeight(190.dp)){
-                            LineChartGithub(
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .requiredHeight(190.dp)
+                        ) {
+                            LineChart(
                                 Modifier
                                     .fillMaxWidth()
                                     .fillMaxHeight(),
@@ -251,8 +263,6 @@ fun CoinScreen(
                                 showDashedLine = true
                             )
                         }
-
-
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(
@@ -265,7 +275,7 @@ fun CoinScreen(
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(10.dp),
+                            .padding(horizontal = 10.dp),
                         colors = CardDefaults.cardColors(
                             containerColor = CoinContainerColor
                         ),
@@ -333,8 +343,8 @@ fun CoinScreen(
                                 DataDivider()
                             }
                         }
-                        Spacer(modifier = Modifier.height(80.dp))
                     }
+                    Spacer(modifier = Modifier.height(80.dp))
                 }
             }
         }

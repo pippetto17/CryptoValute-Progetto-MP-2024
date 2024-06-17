@@ -21,7 +21,7 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun getLatestNewsApiRequest(apiKey: String,onResult: (News) -> Unit) {
-        val url ="https://newsdata.io/api/1/latest?apikey=$apiKey&language=en"
+        val url ="https://newsdata.io/api/1/latest?apikey=$apiKey"
         val stringRequest = StringRequest(
             Request.Method.GET, url,
             { response ->

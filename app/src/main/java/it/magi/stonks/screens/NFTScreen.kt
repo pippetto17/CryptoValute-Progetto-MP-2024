@@ -278,13 +278,14 @@ fun NFTScreen(
                             Text(
                                 text = nft.name,
                                 color = Color.White,
-                                fontSize = 25.sp
+                                fontFamily = titleFont(),
+                                fontSize = 20.sp
                             )
                             Text(
                                 text = nft.symbol,
                                 color = Color.LightGray,
                                 fontFamily = titleFont(),
-                                fontSize = 30.sp
+                                fontSize = 20.sp
                             )
                         }
                     }

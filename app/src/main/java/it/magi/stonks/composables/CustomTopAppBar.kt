@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.Close
@@ -25,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import it.magi.stonks.R
 import it.magi.stonks.ui.theme.DarkBgColor
@@ -66,12 +68,14 @@ fun CustomTopAppBar(
             if (!showSearchBar) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.wrapContentHeight()
                 ) {
                     Text(
                         modifier = Modifier
                             .align(Alignment.CenterVertically),
                         text = stringResource(R.string.app_name),
                         fontFamily = titleFont(),
+                        fontSize = 25.sp
                     )
                     Image(
                         modifier = Modifier
@@ -116,13 +120,15 @@ fun OtherTopAppBar(
         navigationIcon = {},
         title = {
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.Bottom,
+                modifier = Modifier.wrapContentHeight()
             ) {
                 Text(
                     modifier = Modifier
                         .align(Alignment.CenterVertically),
                     text = stringResource(R.string.app_name),
-                    fontFamily = titleFont()
+                    fontFamily = titleFont(),
+                    fontSize = 25.sp
                 )
                 Image(
                     modifier = Modifier

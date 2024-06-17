@@ -44,11 +44,13 @@ class LoginViewModel : ViewModel() {
                             ).show()
                         } else {
                             Log.d("Login", "Login successful")
-                            startActivity(
-                                context,
-                                Intent(context, MainActivity::class.java),
-                                null
-                            )
+
+                            val intent = Intent(context, MainActivity::class.java).apply {
+                                flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            }
+                            context.startActivity(intent)
+
                         }
                     } else {
                         Log.d("Login", "signInWithEmail:failure", task.exception)

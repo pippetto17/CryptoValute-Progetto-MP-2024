@@ -18,10 +18,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import it.magi.stonks.composables.ConfirmDeleteDialog
 import it.magi.stonks.composables.ConfirmEmailDialog
-import it.magi.stonks.composables.DataPoint
-import it.magi.stonks.models.CoinMarketChart
 import it.magi.stonks.viewmodels.RegistrationViewModel
 import java.text.DecimalFormat
+import java.util.Locale
 
 class Utilities {
 
@@ -191,7 +190,7 @@ class Utilities {
     }
 
 
-    fun formatPrice(price: Float): String {
+    fun formatItemPrice(price: Float): String {
         val priceFormat = DecimalFormat("#,##0.############")
         val formattedPrice = priceFormat.format(price)
         val priceWithSwappedSymbols =
@@ -205,6 +204,21 @@ class Utilities {
             priceWithSwappedSymbols
         }
     }
+
+    fun formatExponentialPriceToReadable(price: String): String {
+        // Converte la stringa esponenziale in un numero Double
+        val doublePrice = price.toDouble()
+
+        // Configura il formato desiderato, ad esempio con due cifre decimali
+        val pattern = "#,##0.00"
+        val decimalFormat = DecimalFormat(
+            pattern,
+            java.text.DecimalFormatSymbols(Locale.ITALY)
+        )
+
+        return decimalFormat.format(doublePrice)
+    }
+
 
     fun percentageFormat(percentage: Float): String {
         val percentageFormat = DecimalFormat("0.0")

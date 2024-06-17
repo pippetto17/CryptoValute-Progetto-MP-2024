@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -29,7 +28,6 @@ import it.magi.stonks.ui.theme.CoinContainerColor
 import it.magi.stonks.ui.theme.GreenStock
 import it.magi.stonks.ui.theme.RedStock
 import it.magi.stonks.utilities.Utilities
-import java.text.DecimalFormat
 
 @Composable
 fun TrendingCoinItem(
@@ -115,7 +113,7 @@ fun TrendingCoinItem(
                         color = Color.White
                     )
                     Text(
-                        text = Utilities().formatPrice(price),
+                        text = Utilities().formatItemPrice(price),
                         fontSize = 14.sp,
                         color = Color.White
                     )

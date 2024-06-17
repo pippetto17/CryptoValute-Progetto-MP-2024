@@ -50,7 +50,7 @@ fun WalletCoinItem(
             .padding(5.dp)
             .clickable { onClick() },
         colors = CardDefaults.cardColors(
-            containerColor = CoinContainerColor
+            containerColor = Color(0xFF424E6D)
         )
     ) {
         Row(
@@ -93,7 +93,7 @@ fun WalletCoinItem(
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
-                    text = Utilities().formatPrice(price),
+                    text = Utilities().formatItemPrice(price),
                     fontSize = 15.sp,
                     color = Color.White
                 )

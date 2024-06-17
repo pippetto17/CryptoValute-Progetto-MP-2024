@@ -32,8 +32,6 @@ import it.magi.stonks.ui.theme.CoinContainerColor
 import it.magi.stonks.ui.theme.GreenStock
 import it.magi.stonks.ui.theme.RedStock
 import it.magi.stonks.utilities.Utilities
-import java.text.DecimalFormat
-import java.util.Locale
 
 @Composable
 fun CoinItem(
@@ -109,7 +107,7 @@ fun CoinItem(
                     horizontalArrangement = Arrangement.End
                 ) {
                     Text(
-                        text = Utilities().formatPrice(price),
+                        text = Utilities().formatItemPrice(price),
                         fontSize = 12.sp,
                         color = Color.White
                     )
@@ -127,7 +125,7 @@ fun CoinItem(
                     horizontalArrangement = Arrangement.End
                 ) {
                     Text(
-                        text = Utilities().formatPrice(marketCap),
+                        text = Utilities().formatItemPrice(marketCap),
                         fontSize = 12.sp,
                         color = Color.White
                     )

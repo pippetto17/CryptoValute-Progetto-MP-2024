@@ -34,7 +34,6 @@ import it.magi.stonks.ui.theme.CoinContainerColor
 import it.magi.stonks.ui.theme.GreenStock
 import it.magi.stonks.ui.theme.RedStock
 import it.magi.stonks.utilities.Utilities
-import java.text.DecimalFormat
 
 @Composable
 fun TrendingNFTItem(
@@ -134,7 +133,7 @@ fun TrendingNFTItem(
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
-                    text = Utilities().formatPrice(floorPriceInNativeCurrency),
+                    text = Utilities().formatItemPrice(floorPriceInNativeCurrency),
                     fontSize = 14.sp,
                     color = Color.White
                 )

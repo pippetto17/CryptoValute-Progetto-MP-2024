@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import it.magi.stonks.R
@@ -23,6 +24,7 @@ import it.magi.stonks.viewmodels.WalletViewModel
 
 @Composable
 fun NewWalletDialog(
+    navController: NavController,
     onDismissRequest: () -> Unit,
     viewModel: WalletViewModel
 ) {
@@ -57,6 +59,9 @@ fun NewWalletDialog(
                             newWalletNameState.value,
                             FirebaseDatabase.getInstance(databaseUrl), FirebaseAuth.getInstance()
                         )
+                        navController.navigate("wallet") {
+                            popUpTo("wallet") { inclusive = true }
+                        }
                     } catch (e: Exception) {
                     }
                     onDismissRequest()

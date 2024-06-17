@@ -13,5 +13,5 @@ sealed class NavigationItem(var route: String, val icon: NavigationIcon, var tit
     data object Stonks : NavigationItem("stonks", ResourceIcon(R.drawable.ic_stock_chart), "Stonks")
     data object Wallet : NavigationItem("wallet", ResourceIcon(R.drawable.ic_wallet), "Wallet")
     data object News : NavigationItem("news", ResourceIcon(R.drawable.ic_newspaper), "News")
-    data object Account : NavigationItem("profile", ImageVectorIcon(Icons.Filled.AccountCircle), "Account")
+    data object Account : NavigationItem("profile", ResourceIcon(R.drawable.ic_user_nav), "Account")
 }
