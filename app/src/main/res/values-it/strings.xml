@@ -36,7 +36,7 @@
     <string name="filter_bar_default_string">Filtra come: bitcoin ethereum...</string>
     <string name="currency">Valuta</string>
     <string name="buy_coin_screen_choose_wallet">Scegli un portafoglio per aggiungere questa moneta</string>
-    <string name="coin_screen_add_to_wallet">Aggiungi al portafoglio</string>
+    <string name="coin_screen_add_to_wallet">Compra</string>
     <string name="crypto_list_screen_price_market_cap">Prezzo\nMarket cap</string>
     <string name="login_screen_sign_up_for_free">Iscriviti gratis</string>
     <string name="onboarding_screen_button_next">Prossima</string>

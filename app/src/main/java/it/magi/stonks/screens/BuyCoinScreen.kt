@@ -118,7 +118,7 @@ fun BuyCoinScreen(
         },
         containerColor = FormContainerColor
     ) { innerPadding ->
-        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.added_to_wallet_animation))
+        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.buy_animation))
 
         if (showSuccesAnimation) {
             Dialog(onDismissRequest = { showSuccesAnimation = false }) {
