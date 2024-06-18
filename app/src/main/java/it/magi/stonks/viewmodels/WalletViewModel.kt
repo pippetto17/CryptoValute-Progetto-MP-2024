@@ -275,5 +275,32 @@ class WalletViewModel(application: Application) : AndroidViewModel(application) 
             }
         })
     }
+    fun deleteCrypto(walletName: String, cryptoName: String) {
+        val email = FirebaseAuth.getInstance().currentUser?.email ?: ""
+        val database = FirebaseDatabase.getInstance()
+        val userRef = database.getReference("users").child(Utilities().convertDotsToCommas(email).lowercase())
+
+        userRef.child("wallets").orderByChild("walletName").equalTo(walletName)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    for (walletSnapshot in dataSnapshot.children) {
+                        walletSnapshot.child("crypto").child(cryptoName).ref.removeValue()
+                            .addOnSuccessListener {
+                                // Crypto removed successfully
+                                println("Crypto $cryptoName removed from wallet $walletName.")
+                            }
+                            .addOnFailureListener { exception ->
+                                // Failed to remove crypto
+                                println("Failed to remove crypto: ${exception.message}")
+                            }
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    // Handle possible errors.
+                    println("Database error: ${databaseError.message}")
+                }
+            })
+    }
 
 }

@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.google.firebase.database.FirebaseDatabase
 import it.magi.stonks.activities.apiKey
 import it.magi.stonks.models.Coin
@@ -53,7 +54,8 @@ fun PieChart(
     viewModel: WalletViewModel,
     totalSum: Float,
     walletName: String,
-    database: FirebaseDatabase
+    database: FirebaseDatabase,
+    navController: NavController
 ) {
 
     val floatValue = mutableListOf<Float>()
@@ -133,7 +135,8 @@ fun PieChart(
         colors = colors,
         totalSum = totalSum,
         currency = currency,
-        walletCoins = walletCoins
+        walletCoins = walletCoins,
+        navController = navController
     )
     Column(
         modifier = Modifier
@@ -165,9 +168,18 @@ fun PieChart(
                         amount = walletCoins.values.elementAt(index),
                         symbol = coin[0].symbol ?: "",
                         price = coin[0].current_price ?: 0f,
-                    ) {
-
-                    }
+                        onDeleteClick = {
+                            viewModel.deleteCrypto(
+                                walletName,
+                                name
+                            )
+                            navController.navigate("wallet"){
+                                popUpTo("wallet"){
+                                    inclusive = true
+                                }
+                            }
+                        }
+                    )
                 }
             }
         }
@@ -181,7 +193,8 @@ fun DetailsPieChart(
     colors: List<Color>,
     totalSum: Float,
     currency: String,
-    walletCoins: Map<String, String>
+    walletCoins: Map<String, String>,
+    navController: NavController
 ) {
     Column(
         modifier = Modifier

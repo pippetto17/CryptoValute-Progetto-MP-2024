@@ -90,7 +90,7 @@ fun CoinItem(
                     )
                     Text(
                         text = symbol.uppercase(),
-                        fontSize = 15.sp,
+                        fontSize = 13.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     )

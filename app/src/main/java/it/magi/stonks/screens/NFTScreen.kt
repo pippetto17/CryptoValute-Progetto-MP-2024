@@ -3,7 +3,6 @@ package it.magi.stonks.screens
 import android.content.Intent
 import android.net.Uri
 import android.os.Build.VERSION.SDK_INT
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -64,9 +63,7 @@ fun NFTScreen(
     viewModel: StonksViewModel,
     nftId: String
 ) {
-    viewModel.NFTDataByIdApiRequest(apiKey, nftId) {
-        Log.d("NFTScreen", "Success $it")
-    }
+    viewModel.NFTDataByIdApiRequest(apiKey, nftId) {}
 
     val nftData = viewModel.getNFTData().observeAsState().value
 

@@ -74,7 +74,7 @@ fun TrendingScreen(
             .padding(10.dp)
     ) {
         Text(
-            text = "Hi $accountName ${randomString.value}",
+            text = stringResource(R.string.greeting) + " " + "$accountName ${randomString.value}",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 10.dp),
@@ -125,7 +125,7 @@ fun TrendingScreen(
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .padding(5.dp),
-                    text = if (expandedCoin) "See less ▲" else "See more ▼",
+                    text = if (expandedCoin) stringResource(R.string.see_less) else stringResource(R.string.see_more),
                     fontFamily = titleFont(),
                     fontSize = 12.sp
                 )
@@ -192,7 +192,7 @@ fun TrendingScreen(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(5.dp),
-                text = if (expandedNFt) "See less ▲" else "See more ▼",
+                text = if (expandedNFt) stringResource(R.string.see_less) else stringResource(R.string.see_more),
                 fontFamily = titleFont(),
                 fontSize = 12.sp
             )

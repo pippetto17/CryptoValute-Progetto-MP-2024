@@ -135,7 +135,7 @@ fun TrendingCoinItem(
             Text(
                 modifier = Modifier.width(50.dp),
                 text = Utilities().percentageFormat(priceChangePercentage24h),
-                fontSize = 15.sp,
+                fontSize = 13.sp,
                 textAlign = TextAlign.Center,
                 color = if (priceChangePercentage24h >= 0) GreenStock else RedStock
             )

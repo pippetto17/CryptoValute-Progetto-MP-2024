@@ -1,6 +1,5 @@
 package it.magi.stonks.screens
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -346,7 +345,6 @@ fun SecondRegistrationScreen(navController: NavController, viewModel: Registrati
                                 viewModel.selectedCurrency.value
                             ) == 0
                         ) {
-                            Log.d("Signup", "Apro il dialog")
                             showEmailDialog = true
                         } else {
                             println("Errore nella creazione utente firebase")

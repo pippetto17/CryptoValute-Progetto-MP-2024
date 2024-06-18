@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.navigation.NavController
 import com.google.firebase.database.FirebaseDatabase
 import it.magi.stonks.R
 import it.magi.stonks.activities.apiKey
@@ -48,7 +49,7 @@ import it.magi.stonks.utilities.Utilities
 import it.magi.stonks.viewmodels.WalletViewModel
 
 @Composable
-fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletViewModel) {
+fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletViewModel, navController: NavController) {
     val database = FirebaseDatabase.getInstance(stringResource(id = R.string.db_url))
 
     var isWalletDatasLoading by remember { mutableStateOf(true) }
@@ -204,7 +205,8 @@ fun WalletDetailsScreen(walletName: String, currency: String, viewModel: WalletV
                                 walletName = walletName,
                                 viewModel = viewModel,
                                 totalSum = totalValue,
-                                database = database
+                                database = database,
+                                navController = navController
                             )
 
 

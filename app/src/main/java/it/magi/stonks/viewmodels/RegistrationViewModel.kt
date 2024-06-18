@@ -66,27 +66,16 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         surname: String,
         currencyPreference: String
     ): Int {
-        Log.d("Signup", "registerUser email: $email")
-        Log.d("Signup", "registerUser password: $password")
-        Log.d("Signup", "registerUser confirmPassword: $confirmPassword")
-        Log.d("Signup", "registerUser name: $name")
-        Log.d("Signup", "registerUser surname: $surname")
-        Log.d("Signup", "registerUser currencyPreference: $currencyPreference")
         val auth: FirebaseAuth = Firebase.auth
         if (name.isNotEmpty() || surname.isNotEmpty()) {
             if (checkValidEmail(email) && password == confirmPassword) {
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        Log.d(
-                            "RealTimeDatabase",
-                            "Trying to register user: $email name: $name surname: $surname"
-                        )
                         try {
                             val database =
                                 FirebaseDatabase.getInstance(context.getString(R.string.db_url))
                             val myRef = database.getReference().child("users")
                                 .child(Utilities().convertDotsToCommas(email).lowercase())
-                            Log.d("RealTimeDatabase", "MyRef: $myRef")
                             myRef.child("name").setValue(
                                 Utilities().convertDotsToCommas(
                                     Utilities().capitalizeFirstChar(name)
@@ -97,10 +86,6 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
                                     Utilities().capitalizeFirstChar(surname)
                                 )
                             )
-                            Log.d(
-                                "RealTimeDatabase",
-                                "User registered successfully on RealTimeDatabase"
-                            )
                             myRef.child("currency").setValue(
                                 currencyPreference.lowercase()
                             )
@@ -108,10 +93,6 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
                                 .push()
                                 .child("walletName")
                                 .setValue("wallet1")
-                            Log.d(
-                                "RealTimeDatabase",
-                                "User registered successfully on RealTimeDatabase"
-                            )
                         } catch (e: Exception) {
                             Log.d("RealTimeDatabase", "Error: ${e.message}")
                         }

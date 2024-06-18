@@ -141,7 +141,7 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                         }
                     }
                 ) {
-                    (listOf("overview") + walletList).forEachIndexed { index, title ->
+                    (listOf(stringResource(R.string.overview)) + walletList).forEachIndexed { index, title ->
                         Tab(
                             text = { Text(text = title.uppercase()) },
                             selected = tabState == index,
@@ -266,7 +266,7 @@ fun WalletScreen(navController: NavController, viewModel: WalletViewModel) {
                         val walletIndex = tabState - 1
                         if (walletIndex in walletList.indices) {
                             val walletName = walletList[walletIndex]
-                            WalletDetailsScreen(walletName, currency, viewModel)
+                            WalletDetailsScreen(walletName, currency, viewModel, navController)
                         } else {
                             Text(text = stringResource(id = R.string.wallet_screen_invalid))
                         }

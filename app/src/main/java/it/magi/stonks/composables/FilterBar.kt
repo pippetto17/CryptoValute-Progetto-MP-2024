@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import it.magi.stonks.R
 import it.magi.stonks.ui.theme.FormContainerColor
 import it.magi.stonks.viewmodels.StonksViewModel
@@ -44,7 +45,8 @@ fun FilterBar(
         },
         singleLine = true,
         textStyle = TextStyle(
-            color = Color.White
+            color = Color.White,
+            fontSize = 13.sp
         ),
         colors = TextFieldDefaults.colors(
             focusedLabelColor = Color.White,
